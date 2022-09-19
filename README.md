@@ -109,6 +109,12 @@ Now enter [`localhost:1313`](http://localhost:1313) in the address bar of your b
   showPostsOnHomepage = false
   addFrame = true
   addDot = true
+  baseColor = "#ffffff"
+  baseOffsetColor = "#eaeaea"
+  highlightColor = "#7b16ff"
+  dotColor = "#7b16ff"
+  headingColor = "#1c1b1d"
+  textColor = "#4e5157"
 ```
 
 ### Google Analytics
