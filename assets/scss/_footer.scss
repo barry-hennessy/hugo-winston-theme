@@ -9,6 +9,11 @@
     margin-right: 10px;
     a {
       text-decoration: none;
+      img {
+        // This is a hardcoded 'gold' overlay for the svg's pulled in by the img
+        // tag
+        filter: invert(83%) sepia(86%) saturate(773%) hue-rotate(324deg) brightness(86%) contrast(93%);
+      }
       &:hover {
         text-decoration: none;
         img {
