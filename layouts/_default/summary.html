@@ -4,6 +4,8 @@
   {{ else if .Site.Params.showPostedDate }}
     <div class="summary-date">{{ dateFormat "Jan 2, 2006" .Date }}</div>
   {{ end }}
-  <h2 class="summary-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-  <p class="summary-description">{{ .Params.description }}</p>
+  <h2 class="summary-title font-bold"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+  <div class=" prose prose-invert">
+    <p>{{ .Params.description }}</p>
+  </div>
 </div>

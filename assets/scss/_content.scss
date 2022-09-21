@@ -1,4 +1,5 @@
-a {
+a,
+.prose a {
   color: var(--highlight-color);
   text-decoration: none;
   &:hover {
@@ -8,11 +9,20 @@ a {
 
 h1,
 h2,
-h3 {
+h3,
+.prose h1,
+.prose h2,
+.prose h3 {
   margin-top: 20px;
   margin-bottom: 20px;
   color: var(--heading-color);
   font-family: var(--font-family-heading);
+}
+.prose h4,
+.prose h5,
+.prose h6 {
+  color: var(--heading-color);
+
 }
 p {
   color: var(--text-color);
