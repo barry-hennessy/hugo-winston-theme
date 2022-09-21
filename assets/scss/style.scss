@@ -16,6 +16,7 @@ $breakpoints: (
   'large': 1200px,
 );
 
+@import 'tailwind';
 @import 'normalize';
 @import 'breakpoints';
 @import 'header';
