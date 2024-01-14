@@ -1,4 +1,4 @@
-<div class='header'>
+<div class='header text-pink'>
   <a class="header-logo" href="{{ .Site.Home.RelPermalink }}">{{ .Site.Title }}</a>
   <div class="menu-main">
     <ul>
@@ -6,7 +6,7 @@
       {{ range .Site.Menus.main }}
       {{ $active := or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}
       {{ $active = or $active (eq (.URL | relLangURL) ($currentPage.RelPermalink | relLangURL)) }}
-      <li class="menu-item-{{ .Name | lower }} {{ if $active }}active{{ end }}">
+      <li class="text-pink menu-item-{{ .Name | lower }} {{ if $active }}active{{ end }}">
         <a href="{{.URL}}">
           {{ .Pre }}
           <span>{{ .Name }}</span>
