@@ -33,6 +33,8 @@ p {
 
 ol,
 ul {
+  color: var(--text-color);
+  font-family: var(--font-family-paragraph);
   margin: 0;
   padding: 0;
   list-style: none;

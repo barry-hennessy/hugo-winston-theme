@@ -4,8 +4,9 @@
   <div class="intro">
     <h1>{{ partial "headline.html" . }}</h1>
     {{ if .Params.description }}<p>{{ .Params.description }}</p>{{ end }}
+    {{ if .Content }}<div class="content prose">{{ .Content }}</div>{{ end }}
   </div>
-  {{ .Content }}
+
   {{ $paginator := .Paginate (where .Pages "Type" "posts") }}
   {{ range $paginator.Pages }}
     {{ .Render "summary" }}
