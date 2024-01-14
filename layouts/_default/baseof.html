@@ -17,6 +17,10 @@
   <link rel="stylesheet" href="{{ ($style | minify | fingerprint).RelPermalink }}">
   {{ end }}
 
+  {{ block "custom_css" . }}
+    {{ partial "custom-css" . }}
+  {{ end }}
+
   {{ block "meta_tags" . }}
     {{ if .Params.description }}<meta name="description" content="{{ .Params.description }}"/>{{ end }}
     <meta property="og:title" content="{{ .Title }}"/>
