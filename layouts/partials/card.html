@@ -1,0 +1,60 @@
+{{- $title := .Title -}}
+{{- $url := .URL -}}
+{{- $summary := .Summary -}}
+{{- $meta := .Meta -}}
+{{- $details := .Details -}}
+{{- $cta := .CTA -}}
+{{- $secondaryCTA := .SecondaryCTA -}}
+{{- $variant := default "default" .Variant -}}
+{{- $align := .Align | default "" -}}
+{{- $highlight := .Highlight | default false -}}
+
+<article class="card card--primary-focus card--{{ $variant }}{{ if $align }} card--align-{{ $align }}{{ end }}{{ if $highlight }} card--highlight{{ end }}">
+  <header class="card__head">
+    <h3 class="card__title">
+      {{ if $url }}
+        <a href="{{ $url }}">{{ $title }}</a>
+      {{ else }}
+        {{ $title }}
+      {{ end }}
+    </h3>
+  </header>
+
+  {{ with $summary }}
+    <p class="card__summary">{{ . }}</p>
+  {{ end }}
+
+  {{ with $meta }}
+    <div class="card__meta">
+      {{ if reflect.IsSlice $meta }}
+        {{ range $meta }}
+          <span class="card__meta-item">{{ . }}</span>
+        {{ end }}
+      {{ else }}
+        <span class="card__meta-item">{{ $meta }}</span>
+      {{ end }}
+    </div>
+  {{ end }}
+
+  {{ with $details }}
+    <dl class="card__details">
+      {{ range $details }}
+        <div class="card__detail">
+          <dt>{{ .label }}</dt>
+          <dd>{{ .value }}</dd>
+        </div>
+      {{ end }}
+    </dl>
+  {{ end }}
+
+  {{ if or $cta $secondaryCTA }}
+    <div class="card__actions">
+      {{ with $secondaryCTA }}
+        <a class="card__secondary" href="{{ .url }}">{{ .label }}</a>
+      {{ end }}
+      {{ with $cta }}
+        <a class="button" href="{{ .url }}">{{ .label }}</a>
+      {{ end }}
+    </div>
+  {{ end }}
+</article>

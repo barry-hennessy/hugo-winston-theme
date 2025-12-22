@@ -15,7 +15,7 @@
       {{end}}
     </ul>
   </div>
-  <div id="toggle-menu-main-mobile" class="hamburger-trigger">
-    <button class="hamburger">Menu</button>
-  </div>
+  <details class="hamburger-trigger">
+    <summary class="hamburger" aria-label="Toggle navigation menu">Menu</summary>
+    {{ partial "menu-main-mobile.html" . }}
 </div>
