@@ -1,0 +1,33 @@
+{{ define "body_classes" }}page-404{{ end }}
+
+{{ define "main" }}
+<div class="intro">
+  <h1>404<span class="dot">.</span></h1>
+  <div class="content prose prose-invert">
+    <pre style="background: transparent;"><code> ____________________
+&lt; How'd I get here!? &gt;
+ --------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||</code></pre>
+
+    <p>I'm afraid that page can't be found.</p>
+    {{ if .Site.Params.email }}
+    <p>
+      Please feel free to 
+      <a href="mailto:{{ .Site.Params.email }}" class="text-pink">get in touch</a> and let's see if I can help you out.
+    </p>
+    {{ end }}
+  </div>
+</div>
+{{ end }}
+
+{{ define "footer_js" }}
+{{- if not .Site.IsServer -}}
+{{- if .Site.Params.plausible_analytics_domain -}}
+<script>document.addEventListener('DOMContentLoaded', function () { plausible('404'); });</script>
+{{- end -}}
+{{- end -}}
+{{ end }}
