@@ -25,7 +25,7 @@
 {{ end }}
 
 {{ define "footer_js" }}
-{{- if not .Site.IsServer -}}
+{{- if not hugo.IsServer -}}
 {{- if .Site.Params.plausible_analytics_domain -}}
 <script>document.addEventListener('DOMContentLoaded', function () { plausible('404'); });</script>
 {{- end -}}
