@@ -3,7 +3,7 @@
     {{ partial "author.html" . }}
   {{ else if .Site.Params.showPostedDate }}
     {{ with .Date }}
-      <div class="summary-date">{{ dateFormat "Jan 2, 2006" . }}</div>
+      <div class="summary-date">{{ .Format "January 2, 2006" }}</div>
     {{ end }}
   {{ end }}
   <h2 class="summary-title font-bold"><a href="{{ .RelPermalink }}">{{ .Title }}{{.Params.punctuation}}</a></h2>
