@@ -1,6 +1,6 @@
 <div class="footer">
   {{ if .Site.Data.social.links }}
-  <div class="grid grid-rows-1 grid-flow-col justify-center gap-4">
+  <div class="footer-social grid grid-rows-1 grid-flow-col justify-center gap-4">
     {{ range .Site.Data.social.links }}
       <span class="social-icon social-icon-{{ .name | urlize }}">
         <a href="{{ .url }}" title="{{ .name }}" target="_blank" rel="noopener">
@@ -10,4 +10,9 @@
     {{ end }}
   </div>
   {{ end }}
+  <div class="footer-legal-row">
+    <nav class="footer-legal" aria-label="Legal">
+      <a href="{{ "impressum/" | relURL }}">Impressum</a>
+    </nav>
+  </div>
 </div>

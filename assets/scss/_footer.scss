@@ -1,7 +1,30 @@
 .footer {
     margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
     @include breakpoint('small') {
       padding-top: 40px;
+    }
+  }
+
+  .footer-legal-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .footer-legal {
+    font-size: 0.875em;
+    padding-top: 1rem;
+  }
+
+  .footer-legal a {
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
     }
   }
   
