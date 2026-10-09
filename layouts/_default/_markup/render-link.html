@@ -1,0 +1,21 @@
+{{- /* A relative link to a markdown file is a link to that page: content that
+       is also read as plain files, like documentation kept in a repository,
+       links to "other.md". Every other link is left as it is written. */ -}}
+{{- $href := .Destination -}}
+{{- $url := urls.Parse .Destination -}}
+{{- $relative := and (not $url.Scheme) (not $url.Host) (not (strings.HasPrefix $url.Path "/")) -}}
+{{- if and $relative (strings.HasSuffix $url.Path ".md") -}}
+  {{- with .PageInner.File -}}
+    {{- $target := path.Join "/" .Dir $url.Path -}}
+    {{- /* The page of a directory is the directory. */ -}}
+    {{- if in (slice "index.md" "README.md" "_index.md") (path.Base $target) -}}
+      {{- $target = path.Dir $target -}}
+    {{- end -}}
+    {{- with site.GetPage $target -}}
+      {{- $href = .RelPermalink -}}
+      {{- with $url.Fragment -}}{{- $href = printf "%s#%s" $href . -}}{{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+<a href="{{ $href | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text }}</a>
+{{- /* No line break after the link. */ -}}
