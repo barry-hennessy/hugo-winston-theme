@@ -3,8 +3,9 @@
 {{ define "main" }}
 <div class="intro">
   <h1>{{ partial "headline.html" . }}</h1>
-  {{ if .Params.image }}
-  <img src="{{ .Params.image | relURL }}" />
+  {{ with .Params.image }}
+  {{/* image_alt says what the image shows; without it, it is decoration. */}}
+  <img src="{{ . | relURL }}" alt="{{ $.Params.image_alt }}" />
   {{ end }}
 </div>
 
