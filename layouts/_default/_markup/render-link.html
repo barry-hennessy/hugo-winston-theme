@@ -1,0 +1,11 @@
+{{- /* Relative links follow the file they are written in: see
+       partials/markup/destination.html. The tag is written as goldmark writes
+       it, so a link that is not rewritten renders exactly as without this
+       hook. A scheme other than these goes nowhere: javascript: and the like. */ -}}
+{{- $href := partial "markup/destination.html" (dict "page" .PageInner "destination" .Destination) -}}
+{{- if not (in (slice "" "http" "https" "mailto") (lower (urls.Parse $href).Scheme)) -}}
+  {{- $href = "#" -}}
+{{- end -}}
+{{- $title := "" -}}
+{{- with .Title -}}{{- $title = printf " title=\"%s\"" (htmlEscape .) -}}{{- end -}}
+{{- printf "<a href=\"%s\"%s>%s</a>" (htmlEscape $href) $title .Text | safeHTML -}}

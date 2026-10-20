@@ -1,0 +1,11 @@
+{{- /* Relative images follow the file they are written in: see
+       partials/markup/destination.html. The tag is written as goldmark writes
+       it, so an image that is not rewritten renders exactly as without this
+       hook. A scheme other than these shows nothing. */ -}}
+{{- $src := partial "markup/destination.html" (dict "page" .PageInner "destination" .Destination) -}}
+{{- if not (in (slice "" "http" "https") (lower (urls.Parse $src).Scheme)) -}}
+  {{- $src = "" -}}
+{{- end -}}
+{{- $title := "" -}}
+{{- with .Title -}}{{- $title = printf " title=\"%s\"" (htmlEscape .) -}}{{- end -}}
+{{- printf "<img src=\"%s\" alt=\"%s\"%s>" (htmlEscape $src) (htmlEscape .PlainText) $title | safeHTML -}}

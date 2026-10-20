@@ -1,0 +1,12 @@
+{{/* Links from a page to the documentation that names it as its parent:
+     a docs root with `docs_parent: {title, url}`. Nothing without any. */}}
+{{ $here := strings.TrimSuffix "/" .RelPermalink }}
+{{ $title := .Title }}
+{{ range where site.Pages "Type" "docs" }}
+  {{ $docs := . }}
+  {{ with .Params.docs_parent }}
+    {{ if eq (strings.TrimSuffix "/" (.url | relURL)) $here }}
+      <p class="docs-link"><a href="{{ $docs.RelPermalink }}">{{ $title }} documentation</a></p>
+    {{ end }}
+  {{ end }}
+{{ end }}

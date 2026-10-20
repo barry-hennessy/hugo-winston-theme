@@ -1,0 +1,12 @@
+{{/* The pages of a section as a nested list. Takes "section" and "current". */}}
+{{ $current := .current }}
+<ul>
+  {{ range .section.Pages }}
+  <li>
+    <a href="{{ .RelPermalink }}"{{ if eq . $current }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a>
+    {{ if and .IsSection .Pages }}
+      {{ partial "docs/nav-list.html" (dict "section" . "current" $current) }}
+    {{ end }}
+  </li>
+  {{ end }}
+</ul>

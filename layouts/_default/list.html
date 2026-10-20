@@ -6,6 +6,7 @@
 	<div class="content prose prose-invert">
       {{ .Content }}
     </div>
+    {{ partial "docs/parent-link.html" . }}
     {{ partial "page-badges" . }}
   </div>
   {{ range .Pages }}
