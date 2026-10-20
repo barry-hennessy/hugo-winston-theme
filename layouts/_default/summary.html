@@ -1,7 +1,7 @@
 <div class="summary">
   {{ if .Site.Params.showAuthorOnPosts }}
     {{ partial "author.html" . }}
-  {{ else if .Site.Params.showPostedDate }}
+  {{ else if cond (isset .Params "showposteddate") .Params.showPostedDate .Site.Params.showPostedDate }}
     {{ with .Date }}
       <div class="summary-date">{{ .Format "January 2, 2006" }}</div>
     {{ end }}

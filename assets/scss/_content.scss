@@ -155,7 +155,12 @@ ul {
   pre {
     font-family: var(--font-family-monospace);
   }
+  :not(pre) > code {
+    color: var(--highlight-color);
+  }
   .highlight {
+    // The pre draws the box: a background here shows at its rounded corners.
+    background: none;
     pre {
       border-radius: 3px;
       font-size: 14px;
