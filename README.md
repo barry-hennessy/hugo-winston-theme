@@ -99,6 +99,15 @@ Now enter [`localhost:1313`](http://localhost:1313) in the address bar of your b
   textColor = "#4e5157"
 ```
 
+A page's `showPostedDate` overrides the site's for that page's summary.
+To hide the dates of all the pages of a section, set it in the section's `cascade`:
+
+```yaml
+# content/projects/_index.md
+cascade:
+  showPostedDate: false
+```
+
 ### Google Analytics
 
 Add your google analytics ID to the `config.toml`
