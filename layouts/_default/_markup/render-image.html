@@ -1,8 +1,16 @@
-{{- /* Relative images follow the file they are written in: see
-       partials/markup/destination.html. The tag is written as goldmark writes
-       it, so an image that is not rewritten renders exactly as without this
-       hook. A scheme other than these shows nothing. */ -}}
-{{- $src := partial "markup/destination.html" (dict "page" .PageInner "destination" .Destination) -}}
+{{- /* A relative image is read as it is in a repository, from the file it is
+       written in: that file among the global resources, mounted into assets/
+       by the site. Anything else is left as written.
+
+       The tag is written as goldmark writes it. A scheme other than these
+       shows nothing. */ -}}
+{{- $src := .Destination -}}
+{{- $u := urls.Parse .Destination -}}
+{{- if and $u.Path (not $u.IsAbs) (not (hasPrefix $u.Path "/")) .PageInner.File -}}
+  {{- with resources.Get (path.Join .PageInner.File.Dir $u.Path) -}}
+    {{- $src = .RelPermalink -}}
+  {{- end -}}
+{{- end -}}
 {{- if not (in (slice "" "http" "https") (lower (urls.Parse $src).Scheme)) -}}
   {{- $src = "" -}}
 {{- end -}}

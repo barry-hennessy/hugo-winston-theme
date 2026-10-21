@@ -1,8 +1,24 @@
-{{- /* Relative links follow the file they are written in: see
-       partials/markup/destination.html. The tag is written as goldmark writes
-       it, so a link that is not rewritten renders exactly as without this
-       hook. A scheme other than these goes nowhere: javascript: and the like. */ -}}
-{{- $href := partial "markup/destination.html" (dict "page" .PageInner "destination" .Destination) -}}
+{{- /* A relative link is read as it is in a repository, from the file it is
+       written in: to a markdown file, it goes to that page (Page.GetPage);
+       to another file, to that file among the global resources, mounted
+       into assets/ by the site. Anything else is left as written.
+
+       The tag is written as goldmark writes it. A scheme other than these
+       goes nowhere: javascript: and the like. */ -}}
+{{- $href := .Destination -}}
+{{- $u := urls.Parse .Destination -}}
+{{- if and $u.Path (not $u.IsAbs) (not (hasPrefix $u.Path "/")) .PageInner.File -}}
+  {{- $target := false -}}
+  {{- if hasSuffix $u.Path ".md" -}}
+    {{- $target = .PageInner.GetPage $u.Path -}}
+  {{- else -}}
+    {{- $target = resources.Get (path.Join .PageInner.File.Dir $u.Path) -}}
+  {{- end -}}
+  {{- with $target -}}
+    {{- $href = .RelPermalink -}}
+    {{- with $u.Fragment -}}{{- $href = printf "%s#%s" $href . -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
 {{- if not (in (slice "" "http" "https" "mailto") (lower (urls.Parse $href).Scheme)) -}}
   {{- $href = "#" -}}
 {{- end -}}
