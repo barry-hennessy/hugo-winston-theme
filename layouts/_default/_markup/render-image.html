@@ -1,19 +1,12 @@
-{{- /* A relative image is read as it is in a repository, from the file it is
-       written in: that file among the global resources, mounted into assets/
-       by the site. Anything else is left as written.
-
-       The tag is written as goldmark writes it. A scheme other than these
-       shows nothing. */ -}}
+{{- /* A relative image is read from the file it is written in, as in a
+       repository: a global resource (assets/). */ -}}
 {{- $src := .Destination -}}
 {{- $u := urls.Parse .Destination -}}
-{{- if and $u.Path (not $u.IsAbs) (not (hasPrefix $u.Path "/")) .PageInner.File -}}
-  {{- with resources.Get (path.Join .PageInner.File.Dir $u.Path) -}}
-    {{- $src = .RelPermalink -}}
-  {{- end -}}
+{{- if and $u.Path (not $u.IsAbs) -}}
+  {{- with resources.Get (path.Join .PageInner.File.Dir $u.Path) }}{{ $src = .RelPermalink }}{{ end -}}
 {{- end -}}
-{{- if not (in (slice "" "http" "https") (lower (urls.Parse $src).Scheme)) -}}
-  {{- $src = "" -}}
-{{- end -}}
-{{- $title := "" -}}
-{{- with .Title -}}{{- $title = printf " title=\"%s\"" (htmlEscape .) -}}{{- end -}}
-{{- printf "<img src=\"%s\" alt=\"%s\"%s>" (htmlEscape $src) (htmlEscape .PlainText) $title | safeHTML -}}
+<img src="{{ $src | safeURL }}"
+  {{- with .PlainText }} alt="{{ . }}"{{ end -}}
+  {{- with .Title }} title="{{ . }}"{{ end -}}
+>
+{{- /* chomp trailing newline */ -}}
