@@ -1,6 +1,6 @@
-{{/* Where a documentation page is, from the top of the site down. The page
-     itself is a dot: its title is the heading next to it. Takes "page" and
-     "root". */}}
+{{/* Where a documentation page is, from the top of the site down. It ends
+     in the page's title, shown as a dot beside the page, where the heading
+     says it. Takes "page" and "root". */}}
 {{ $page := .page }}
 {{ $root := .root }}
 {{ $above := slice }}
@@ -25,6 +25,6 @@
     {{ range $page.Ancestors.Reverse }}
       {{ if or (eq . $root) (.IsDescendant $root) }}<li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>{{ end }}
     {{ end }}
-    <li><span aria-current="page"><span class="docs-breadcrumb-here" aria-hidden="true">•</span><span class="visually-hidden">{{ $page.LinkTitle }}</span></span></li>
+    <li><span aria-current="page"><span class="docs-breadcrumb-here" aria-hidden="true">•</span><span class="docs-breadcrumb-title">{{ $page.LinkTitle }}</span></span></li>
   </ol>
 </nav>

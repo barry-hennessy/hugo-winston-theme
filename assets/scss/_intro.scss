@@ -1,6 +1,9 @@
 .intro {
   margin-bottom: 60px;
   h1 {
+    // A word wider than a phone breaks rather than running off the page.
+    overflow-wrap: break-word;
+    hyphens: auto;
     font-weight: bold;
     font-size: 48px;
     line-height: 56px;

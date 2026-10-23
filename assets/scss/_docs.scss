@@ -15,15 +15,6 @@
     align-items: start;
   }
 
-  .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
   .docs-rail {
     margin-bottom: 40px;
     padding-bottom: 20px;
@@ -59,12 +50,36 @@
       margin: 0 8px;
       color: var(--text-color);
     }
+    [aria-current='page'] {
+      color: var(--text-color);
+    }
     .docs-breadcrumb-here {
+      display: none;
       color: var(--dot-color);
+      @include breakpoint('medium') {
+        display: inline;
+      }
+    }
+    // Beside the page its heading says it: the dot stands in.
+    .docs-breadcrumb-title {
+      @include breakpoint('medium') {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
     }
   }
 
+  // A phone shows only the breadcrumb above the page: the previous and next
+  // links below it lead through the rest.
   .docs-nav {
+    display: none;
+    @include breakpoint('medium') {
+      display: block;
+    }
     li {
       margin-bottom: 10px;
     }
