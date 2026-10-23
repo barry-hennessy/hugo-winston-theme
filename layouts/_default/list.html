@@ -14,6 +14,9 @@
        its param, one without a param all the others, and one with
        docs: true is the documentation (first, when none is):
        [{title: Writing}, {docs: true}, {title: Releases, param: release}].
+       A section with highlight lists only its pages where that param is
+       true, and one with more ends in a link to this term in that
+       taxonomy, which should list all of them (more: tags).
        The others list their pages as summaries. */}}
   {{ $sections := .Params.pages_sections | default (slice (dict "title" "Writing")) }}
   {{ if or $docs .Params.pages_sections }}
@@ -27,9 +30,24 @@
       {{ if .docs }}
         {{ $docs | safeHTML }}
       {{ else }}
-        {{ $pages := $rest }}
-        {{ with .param }}{{ $pages = where $.Pages (printf "Params.%s" .) "!=" nil }}{{ end }}
-        {{ partial "listing.html" (dict "title" .title "pages" $pages) }}
+        {{ $members := $rest }}
+        {{ with .param }}{{ $members = where $.Pages (printf "Params.%s" .) "!=" nil }}{{ end }}
+        {{ $pages := $members }}
+        {{ with .highlight }}{{ $pages = where $members (printf "Params.%s" .) true }}{{ end }}
+        {{ $more := false }}
+        {{ if and .more $members }}
+          {{ $taxonomy := .more }}
+          {{ with site.GetPage (printf "/%s/%s" $taxonomy $.Data.Term) }}
+            {{ $all := . }}
+            {{ $more = dict "url" .RelPermalink "text" (printf "All posts about %s" $.Title) }}
+            {{ range $members }}
+              {{ if not (in $all.Pages .) }}{{ warnf "%s names %s in %s but not in %s, so %s does not list it" .File.Path $.Data.Term $.Data.Plural $taxonomy $all.RelPermalink }}{{ end }}
+            {{ end }}
+          {{ else }}
+            {{ warnf "%s: no %s page for %s, so its %s section links to no list of all of them" $.File.Path $taxonomy $.Data.Term .title }}
+          {{ end }}
+        {{ end }}
+        {{ partial "listing.html" (dict "title" .title "pages" $pages "more" $more) }}
       {{ end }}
     {{ end }}
   {{ else }}
