@@ -12,40 +12,27 @@
 {{ end }}
 
 <div class="docs">
-  <nav class="docs-breadcrumb" aria-label="Breadcrumb">
-    <ol>
-      {{/* Documentation of something with a page elsewhere says so on its
-           root: docs_parent: {title, url}. */}}
-      {{ with $root.Params.docs_parent }}
-        <li><a href="{{ .url | relURL }}">{{ .title }}</a></li>
-      {{ else }}
-        {{ with $root.Parent }}<li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>{{ end }}
-      {{ end }}
-      {{ range .Ancestors.Reverse }}
-        {{ if or (eq . $root) (.IsDescendant $root) }}<li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>{{ end }}
-      {{ end }}
-      <li><a href="{{ .RelPermalink }}" aria-current="page">{{ .LinkTitle }}</a></li>
-    </ol>
-  </nav>
-
-  <div class="docs-columns">
-    <nav class="docs-nav" aria-label="{{ $root.LinkTitle }}">
-      <a class="docs-nav-root" href="{{ $root.RelPermalink }}"{{ if eq $root . }} aria-current="page"{{ end }}>{{ $root.LinkTitle }}</a>
-      {{ partial "docs/nav-list.html" (dict "section" $root "current" .) }}
+  {{/* The rail comes first, so a phone shows where the page is before it;
+       wider screens put it on the right, keeping the page where every other
+       page's body is. */}}
+  <div class="docs-rail">
+    {{ partial "docs/breadcrumb.html" (dict "page" . "root" $root) }}
+    <nav class="docs-nav" aria-label="{{ $root.Title }}">
+      {{ partial "docs/nav-list.html" (dict "section" $root "current" . "overview" true) }}
     </nav>
-
-    <article class="docs-page">
-      <h1>{{ .Title }}</h1>
-      <div class="content prose prose-invert">
-        {{ .Content }}
-      </div>
-
-      {{ if or $previous $next }}
-      <nav class="docs-pager" aria-label="Previous and next page">
-        {{ with $previous }}<a class="docs-pager-previous" href="{{ .RelPermalink }}" rel="prev"><span>Previous</span> {{ .LinkTitle }}</a>{{ end }}
-        {{ with $next }}<a class="docs-pager-next" href="{{ .RelPermalink }}" rel="next"><span>Next</span> {{ .LinkTitle }}</a>{{ end }}
-      </nav>
-      {{ end }}
-    </article>
   </div>
+
+  <article class="docs-page">
+    <h1>{{ .Title }}</h1>
+    <div class="content prose prose-invert">
+      {{ .Content }}
+    </div>
+
+    {{ if or $previous $next }}
+    <nav class="docs-pager" aria-label="Previous and next page">
+      {{ with $previous }}<a class="docs-pager-previous" href="{{ .RelPermalink }}" rel="prev"><span>Previous</span> {{ .LinkTitle }}</a>{{ end }}
+      {{ with $next }}<a class="docs-pager-next" href="{{ .RelPermalink }}" rel="next"><span>Next</span> {{ .LinkTitle }}</a>{{ end }}
+    </nav>
+    {{ end }}
+  </article>
 </div>

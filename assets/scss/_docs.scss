@@ -6,9 +6,50 @@
 .docs {
   margin-bottom: 60px;
 
-  .docs-breadcrumb {
-    margin-bottom: 30px;
+  // The page keeps the place and width of every other page's body; the
+  // rail sits in the space to its right.
+  @include breakpoint('medium') {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .docs-rail {
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--highlight-color);
     font-size: 16px;
+    line-height: 22px;
+    @include breakpoint('medium') {
+      grid-column: 2;
+      grid-row: 1;
+      position: sticky;
+      top: 20px;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+      // Scrolling clips, so the current page's hanging dot needs room.
+      margin-left: -14px;
+      padding-left: 14px;
+      margin-bottom: 0;
+      padding-top: 14px;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+  }
+
+  .docs-breadcrumb {
+    margin-bottom: 20px;
+    font-size: 15px;
     ol {
       display: flex;
       flex-wrap: wrap;
@@ -18,53 +59,56 @@
       margin: 0 8px;
       color: var(--text-color);
     }
-    a[aria-current='page'] {
-      color: var(--text-color);
-    }
-  }
-
-  .docs-columns {
-    @include breakpoint('medium') {
-      display: grid;
-      grid-template-columns: 220px minmax(0, 1fr);
-      gap: 50px;
-      align-items: start;
+    .docs-breadcrumb-here {
+      color: var(--dot-color);
     }
   }
 
   .docs-nav {
-    margin-bottom: 40px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid var(--highlight-color);
-    font-size: 16px;
-    line-height: 22px;
-    @include breakpoint('medium') {
-      position: sticky;
-      top: 20px;
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
-    }
-    .docs-nav-root {
-      display: block;
-      margin-bottom: 12px;
-      font-family: var(--font-family-heading);
-      font-weight: bold;
-      color: var(--heading-color);
-    }
     li {
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
     ul ul {
-      margin: 8px 0 0 14px;
+      margin: 10px 0 0 14px;
     }
     a[aria-current='page'] {
       font-weight: bold;
       color: var(--heading-color);
+      // The dot hangs in the margin, so the titles line up with the trail.
+      &::before {
+        content: '•';
+        margin-left: -14px;
+        width: 14px;
+        display: inline-block;
+        color: var(--dot-color);
+      }
+    }
+  }
+
+  // The current page's headings: a phone shows the page right below them,
+  // so they are only in the rail beside it.
+  .docs-headings {
+    display: none;
+    margin: 10px 0 4px 14px;
+    font-size: 14px;
+    line-height: 20px;
+    @include breakpoint('medium') {
+      display: block;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+    a {
+      color: var(--text-color);
+      &:hover {
+        color: var(--highlight-color);
+      }
     }
   }
 
   .docs-page {
+    grid-column: 1;
+    grid-row: 1;
     min-width: 0;
     > h1 {
       margin-top: 0;
