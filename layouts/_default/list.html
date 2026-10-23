@@ -10,19 +10,27 @@
   </div>
   {{ $docs := partial "docs/listing.html" . | strings.TrimSpace }}
   {{/* A page with sections lists its own pages in sections too, as
-       pages_sections says: each takes the pages that have its param, or
-       all those left when it names none, in order:
-       [{title: Releases, param: release}, {title: Writing}]. The others
-       list their pages as summaries. */}}
+       pages_sections says, in its order: each takes the pages that have
+       its param, one without a param all the others, and one with
+       docs: true is the documentation (first, when none is):
+       [{title: Writing}, {docs: true}, {title: Releases, param: release}].
+       The others list their pages as summaries. */}}
   {{ $sections := .Params.pages_sections | default (slice (dict "title" "Writing")) }}
   {{ if or $docs .Params.pages_sections }}
-    {{ $docs | safeHTML }}
-    {{ $left := .Pages }}
+    {{ $taken := slice }}
     {{ range $sections }}
-      {{ $in := $left }}
-      {{ with .param }}{{ $in = where $left (printf "Params.%s" .) "!=" nil }}{{ end }}
-      {{ $left = complement $in $left }}
-      {{ partial "listing.html" (dict "title" .title "pages" $in) }}
+      {{ with .param }}{{ $taken = $taken | append (where $.Pages (printf "Params.%s" .) "!=" nil) }}{{ end }}
+    {{ end }}
+    {{ $rest := complement $taken .Pages }}
+    {{ if not (where $sections "docs" true) }}{{ $docs | safeHTML }}{{ end }}
+    {{ range $sections }}
+      {{ if .docs }}
+        {{ $docs | safeHTML }}
+      {{ else }}
+        {{ $pages := $rest }}
+        {{ with .param }}{{ $pages = where $.Pages (printf "Params.%s" .) "!=" nil }}{{ end }}
+        {{ partial "listing.html" (dict "title" .title "pages" $pages) }}
+      {{ end }}
     {{ end }}
   {{ else }}
     {{ range .Pages }}
