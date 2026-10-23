@@ -28,6 +28,14 @@
     </div>
     <div class="content prose prose-invert">
       {{ .Content }}
+      {{/* A directory's page that says nothing of its own lists what is in it. */}}
+      {{ if and .IsSection (not .Content) }}
+      <ul class="docs-section-pages">
+        {{ range .Pages }}
+        <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ with .Description }}: {{ . }}{{ end }}</li>
+        {{ end }}
+      </ul>
+      {{ end }}
     </div>
 
     {{ if or $previous $next }}
