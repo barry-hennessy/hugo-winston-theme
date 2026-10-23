@@ -6,10 +6,17 @@
 	<div class="content prose prose-invert">
       {{ .Content }}
     </div>
-    {{ partial "docs/parent-link.html" . }}
     {{ partial "page-badges" . }}
   </div>
-  {{ range .Pages }}
-    {{ .Render "summary" }}
+  {{ $docs := partial "docs/listing.html" . | strings.TrimSpace }}
+  {{/* A page with sections lists its own pages as one too, titled by
+       pages_title; the others list them as summaries. */}}
+  {{ if or $docs .Params.pages_title }}
+    {{ $docs | safeHTML }}
+    {{ partial "listing.html" (dict "title" (.Params.pages_title | default "Writing") "pages" .Pages) }}
+  {{ else }}
+    {{ range .Pages }}
+      {{ .Render "summary" }}
+    {{ end }}
   {{ end }}
 {{ end }}

@@ -1,0 +1,16 @@
+{{/* The documentation of a page, as a section of it: the documentation
+     whose root names the page as its parent (docs_parent: {title, url}),
+     its pages in reading order. Nothing without any. */}}
+{{ $here := strings.TrimSuffix "/" .RelPermalink }}
+{{ range where site.Pages "Type" "docs" }}
+  {{ $root := . }}
+  {{ with .Params.docs_parent }}
+    {{ if eq (strings.TrimSuffix "/" (.url | relURL)) $here }}
+      {{ $pages := slice }}
+      {{ range partial "docs/pages.html" $root }}
+        {{ if not .IsSection }}{{ $pages = $pages | append . }}{{ end }}
+      {{ end }}
+      {{ partial "listing.html" (dict "title" "Documentation" "pages" $pages "more" (dict "url" $root.RelPermalink "text" "All of the documentation")) }}
+    {{ end }}
+  {{ end }}
+{{ end }}

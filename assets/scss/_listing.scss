@@ -1,0 +1,72 @@
+// A section of a page that lists other pages, under the page's own intro:
+// its title is the size of a summary's, its entries smaller.
+.listing {
+  margin-bottom: 64px;
+  @include breakpoint('small') {
+    margin-bottom: 100px;
+  }
+  .listing-title {
+    margin: 0 0 24px;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 42px;
+    @include breakpoint('small') {
+      margin-bottom: 36px;
+      font-size: 52px;
+      line-height: 58px;
+    }
+  }
+  .listing-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 720px;
+    @include breakpoint('small') {
+      gap: 30px;
+    }
+    h3 {
+      margin: 0 0 4px;
+      font-weight: bold;
+      font-size: 21px;
+      line-height: 27px;
+      @include breakpoint('small') {
+        font-size: 26px;
+        line-height: 32px;
+      }
+      a {
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+          text-underline-offset: 5px;
+        }
+      }
+    }
+    p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 24px;
+      @include breakpoint('small') {
+        font-size: 18px;
+        line-height: 28px;
+      }
+    }
+  }
+  .listing-date {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: bold;
+    color: var(--heading-color);
+  }
+  .listing-more {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-top: 18px;
+    font-weight: bold;
+    color: var(--heading-color);
+    &::after {
+      content: '→';
+      margin-left: 8px;
+    }
+  }
+}
