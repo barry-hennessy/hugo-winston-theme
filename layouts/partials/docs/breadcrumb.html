@@ -1,0 +1,30 @@
+{{/* Where a documentation page is, from the top of the site down. It ends
+     in the page's title, shown as a dot beside the page, where the heading
+     says it. Takes "page" and "root". */}}
+{{ $page := .page }}
+{{ $root := .root }}
+{{ $above := slice }}
+{{/* Documentation of something with a page elsewhere says so on its root:
+     docs_parent: {title, url}. It hangs below that page, or links to it
+     when it is not one of this site's pages. */}}
+{{ $parent := false }}
+{{ with $root.Params.docs_parent }}{{ $parent = site.GetPage .url }}{{ end }}
+{{ if $parent }}
+  {{ $above = $parent.Ancestors.Reverse | append $parent }}
+{{ else if not $root.Params.docs_parent }}
+  {{ $above = $root.Ancestors.Reverse }}
+{{ end }}
+<nav class="docs-breadcrumb" aria-label="Breadcrumb">
+  <ol>
+    {{ range $above }}
+      {{ if not .IsHome }}<li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>{{ end }}
+    {{ end }}
+    {{ if and $root.Params.docs_parent (not $parent) }}
+      {{ with $root.Params.docs_parent }}<li><a href="{{ .url | relURL }}">{{ .title }}</a></li>{{ end }}
+    {{ end }}
+    {{ range $page.Ancestors.Reverse }}
+      {{ if or (eq . $root) (.IsDescendant $root) }}<li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>{{ end }}
+    {{ end }}
+    <li><span aria-current="page"><span class="docs-breadcrumb-here" aria-hidden="true">•</span><span class="docs-breadcrumb-title">{{ $page.LinkTitle }}</span></span></li>
+  </ol>
+</nav>

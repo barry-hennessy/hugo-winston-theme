@@ -1,0 +1,10 @@
+{{/* A section and every page below it, in reading order. */}}
+{{ $pages := slice . }}
+{{ range .Pages }}
+  {{ if .IsSection }}
+    {{ $pages = $pages | append (partial "docs/pages.html" .) }}
+  {{ else }}
+    {{ $pages = $pages | append . }}
+  {{ end }}
+{{ end }}
+{{ return $pages }}

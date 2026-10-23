@@ -1,0 +1,48 @@
+{{/* One page of a documentation tree: any section whose pages are of the
+     docs type, e.g. through `cascade: {type: docs}` on its _index.md. */}}
+{{ $root := partial "docs/root.html" . }}
+{{ $pages := partial "docs/pages.html" $root }}
+{{ $previous := false }}
+{{ $next := false }}
+{{ range $index, $page := $pages }}
+  {{ if eq $page $ }}
+    {{ if gt $index 0 }}{{ $previous = index $pages (sub $index 1) }}{{ end }}
+    {{ if lt (add $index 1) (len $pages) }}{{ $next = index $pages (add $index 1) }}{{ end }}
+  {{ end }}
+{{ end }}
+
+<div class="docs">
+  {{/* The rail comes first, so a phone shows where the page is before it;
+       wider screens put it on the right, keeping the page where every other
+       page's body is. */}}
+  <div class="docs-rail">
+    {{ partial "docs/breadcrumb.html" (dict "page" . "root" $root) }}
+    <nav class="docs-nav" aria-label="{{ $root.Title }}">
+      {{ partial "docs/nav-list.html" (dict "section" $root "current" . "overview" true) }}
+    </nav>
+  </div>
+
+  <article class="docs-page">
+    <div class="intro">
+      <h1>{{ partial "headline.html" . }}</h1>
+    </div>
+    <div class="content prose prose-invert">
+      {{ .Content }}
+      {{/* A directory's page that says nothing of its own lists what is in it. */}}
+      {{ if and .IsSection (not .Content) }}
+      <ul class="docs-section-pages">
+        {{ range .Pages }}
+        <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ with .Description }}: {{ . }}{{ end }}</li>
+        {{ end }}
+      </ul>
+      {{ end }}
+    </div>
+
+    {{ if or $previous $next }}
+    <nav class="docs-pager" aria-label="Previous and next page">
+      {{ with $previous }}<a class="docs-pager-previous" href="{{ .RelPermalink }}" rel="prev"><span>Previous</span> {{ .LinkTitle }}</a>{{ end }}
+      {{ with $next }}<a class="docs-pager-next" href="{{ .RelPermalink }}" rel="next"><span>Next</span> {{ .LinkTitle }}</a>{{ end }}
+    </nav>
+    {{ end }}
+  </article>
+</div>

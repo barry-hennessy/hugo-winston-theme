@@ -1,0 +1,14 @@
+{{/* The headings of one level in a tree of them, in page order. Takes
+     "headings" and "level". */}}
+{{ $level := .level }}
+{{ $found := slice }}
+{{ range .headings }}
+  {{ if eq .Level $level }}
+    {{ $found = $found | append . }}
+  {{ else if lt .Level $level }}
+    {{ range partial "docs/headings-at.html" (dict "headings" .Headings "level" $level) }}
+      {{ $found = $found | append . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ return $found }}

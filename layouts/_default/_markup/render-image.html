@@ -1,0 +1,12 @@
+{{- /* A relative image is read from the file it is written in, as in a
+       repository: a global resource (assets/). */ -}}
+{{- $src := .Destination -}}
+{{- $u := urls.Parse .Destination -}}
+{{- if and $u.Path (not $u.IsAbs) -}}
+  {{- with resources.Get (path.Join .PageInner.File.Dir $u.Path) }}{{ $src = .RelPermalink }}{{ end -}}
+{{- end -}}
+<img src="{{ $src | safeURL }}"
+  {{- with .PlainText }} alt="{{ . }}"{{ end -}}
+  {{- with .Title }} title="{{ . }}"{{ end -}}
+>
+{{- /* chomp trailing newline */ -}}

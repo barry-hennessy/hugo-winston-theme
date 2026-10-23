@@ -1,0 +1,21 @@
+{{/* The pages of a section as a nested list, the current page with its
+     headings. Takes "section" and "current", and "overview": true for the
+     section itself first. */}}
+{{ $current := .current }}
+<ul>
+  {{ if .overview }}
+  <li>
+    <a href="{{ .section.RelPermalink }}"{{ if eq .section $current }} aria-current="page"{{ end }}>Overview</a>
+    {{ if eq .section $current }}{{ partial "docs/headings.html" $current }}{{ end }}
+  </li>
+  {{ end }}
+  {{ range .section.Pages }}
+  <li>
+    <a href="{{ .RelPermalink }}"{{ if eq . $current }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a>
+    {{ if eq . $current }}{{ partial "docs/headings.html" $current }}{{ end }}
+    {{ if and .IsSection .Pages }}
+      {{ partial "docs/nav-list.html" (dict "section" . "current" $current) }}
+    {{ end }}
+  </li>
+  {{ end }}
+</ul>

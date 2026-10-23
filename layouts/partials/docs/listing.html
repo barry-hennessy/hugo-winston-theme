@@ -1,0 +1,29 @@
+{{/* The documentation of a page, as a section of it: the documentation
+     whose root names the page as its parent (docs_parent: {title, url}).
+     The page chooses which of its pages are listed, by their paths in it
+     (docs_listed: [guides/start.md]); without that, all of them in reading
+     order. Nothing without any documentation. */}}
+{{ $page := . }}
+{{ $here := strings.TrimSuffix "/" .RelPermalink }}
+{{ range where site.Pages "Type" "docs" }}
+  {{ $root := . }}
+  {{ with .Params.docs_parent }}
+    {{ if eq (strings.TrimSuffix "/" (.url | relURL)) $here }}
+      {{ $pages := slice }}
+      {{ with $page.Params.docs_listed }}
+        {{ range . }}
+          {{ with $root.GetPage . }}
+            {{ $pages = $pages | append . }}
+          {{ else }}
+            {{ errorf "%s: docs_listed names %q, which is not a page of %s" $page.File.Path . $root.RelPermalink }}
+          {{ end }}
+        {{ end }}
+      {{ else }}
+        {{ range partial "docs/pages.html" $root }}
+          {{ if not .IsSection }}{{ $pages = $pages | append . }}{{ end }}
+        {{ end }}
+      {{ end }}
+      {{ partial "listing.html" (dict "title" "Documentation" "pages" $pages "more" (dict "url" $root.RelPermalink "text" "All of the documentation")) }}
+    {{ end }}
+  {{ end }}
+{{ end }}

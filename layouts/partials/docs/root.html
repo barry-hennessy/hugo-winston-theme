@@ -1,0 +1,8 @@
+{{/* The top of the documentation a page belongs to: the outermost section
+     above it that is still of the docs type. */}}
+{{ $root := .CurrentSection }}
+{{ range .Ancestors }}
+  {{ if ne .Type "docs" }}{{ break }}{{ end }}
+  {{ $root = . }}
+{{ end }}
+{{ return $root }}

@@ -1,0 +1,9 @@
+{{/* The second-level headings of a page, as links into it. Nothing without
+     any. */}}
+{{ with partial "docs/headings-at.html" (dict "headings" .Fragments.Headings "level" 2) }}
+<ul class="docs-headings" aria-label="On this page">
+  {{ range . }}
+  <li><a href="#{{ .ID }}">{{ .Title | safeHTML }}</a></li>
+  {{ end }}
+</ul>
+{{ end }}

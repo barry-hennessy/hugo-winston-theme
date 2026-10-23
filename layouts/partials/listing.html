@@ -1,0 +1,22 @@
+{{/* A titled section of pages, each with its title, date and description,
+     and a link to more. Takes "title", "pages", and optionally "more":
+     {url, text}. Nothing without pages or more. */}}
+{{ if or .pages .more }}
+<section class="listing" aria-labelledby="listing-{{ $.title | urlize }}">
+  <h2 id="listing-{{ $.title | urlize }}" class="listing-title">{{ $.title }}{{ if site.Params.addDot }}<span class="dot">.</span>{{ end }}</h2>
+  {{ with .pages }}
+  <ul class="listing-entries">
+    {{ range . }}
+    <li>
+      {{ if and (not .Date.IsZero) (cond (isset .Params "showposteddate") .Params.showPostedDate site.Params.showPostedDate) }}
+      <time class="listing-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+      {{ end }}
+      <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      {{ with .Description }}<p>{{ . }}</p>{{ end }}
+    </li>
+    {{ end }}
+  </ul>
+  {{ end }}
+  {{ with $.more }}<a class="listing-more" href="{{ .url }}">{{ .text }}</a>{{ end }}
+</section>
+{{ end }}

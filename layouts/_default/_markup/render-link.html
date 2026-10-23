@@ -1,0 +1,12 @@
+{{- /* A relative link is read from the file it is written in, as in a
+       repository: to a page, or to a global resource (assets/). */ -}}
+{{- $href := .Destination -}}
+{{- $u := urls.Parse .Destination -}}
+{{- if and $u.Path (not $u.IsAbs) -}}
+  {{- with or (.PageInner.GetPage $u.Path) (resources.Get (path.Join .PageInner.File.Dir $u.Path)) -}}
+    {{- $href = .RelPermalink -}}
+    {{- with $u.Fragment }}{{ $href = printf "%s#%s" $href . }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+<a href="{{ $href | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text }}</a>
+{{- /* chomp trailing newline */ -}}
