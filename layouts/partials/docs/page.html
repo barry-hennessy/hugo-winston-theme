@@ -23,7 +23,9 @@
   </div>
 
   <article class="docs-page">
-    <h1>{{ .Title }}</h1>
+    <div class="intro">
+      <h1>{{ partial "headline.html" . }}</h1>
+    </div>
     <div class="content prose prose-invert">
       {{ .Content }}
     </div>
