@@ -1,0 +1,11 @@
+{{- /* A video (the partial video). src is read from the file it is written
+       in, as in a repository: a global resource (assets/), and the build
+       fails without it.
+       label: what the video shows, said in its place. */ -}}
+{{- $src := .Get "src" -}}
+{{- with resources.Get (path.Join .Page.File.Dir $src) -}}
+  {{- partial "video.html" (dict "src" .RelPermalink "type" .MediaType.Type "label" ($.Get "label")) -}}
+{{- else -}}
+  {{- errorf "%s: video %q is not found" .Position $src -}}
+{{- end -}}
+{{- /* chomp trailing newline */ -}}
