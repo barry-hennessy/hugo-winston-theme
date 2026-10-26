@@ -1,0 +1,12 @@
+{{- /* A video (mp4 or webm), played muted and looping like a recording of a
+       screen, with controls to pause it. Links to it where video is not
+       played.
+       src: its URL. type: its media type, e.g. "video/mp4".
+       label: what the video shows, said in its place. */ -}}
+<video controls autoplay muted loop playsinline preload="metadata"
+  {{- with .label }} aria-label="{{ . }}"{{ end -}}
+>
+  <source src="{{ .src | safeURL }}"{{ with .type }} type="{{ . }}"{{ end }}>
+  <a href="{{ .src | safeURL }}">{{ or .label "The video" }}</a>
+</video>
+{{- /* chomp trailing newline */ -}}

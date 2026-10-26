@@ -1,22 +1,11 @@
-{{- /* A video, played muted and looping like a recording of a screen.
-       A relative src is read from the file it is written in, as in a
-       repository: a global resource (assets/), and the build fails without it.
-       label: what the video shows, said in its place.
-       autoplay: "true" starts it as the page loads; its controls pause it. */ -}}
+{{- /* A video (the partial video). src is read from the file it is written
+       in, as in a repository: a global resource (assets/), and the build
+       fails without it.
+       label: what the video shows, said in its place. */ -}}
 {{- $src := .Get "src" -}}
-{{- $u := urls.Parse $src -}}
-{{- if and $u.Path (not $u.IsAbs) -}}
-  {{- with resources.Get (path.Join .Page.File.Dir $u.Path) -}}
-    {{- $src = .RelPermalink -}}
-  {{- else -}}
-    {{- errorf "%s: video %q is not found" .Position $src -}}
-  {{- end -}}
+{{- with resources.Get (path.Join .Page.File.Dir $src) -}}
+  {{- partial "video.html" (dict "src" .RelPermalink "type" .MediaType.Type "label" ($.Get "label")) -}}
+{{- else -}}
+  {{- errorf "%s: video %q is not found" .Position $src -}}
 {{- end -}}
-{{- $label := .Get "label" -}}
-<video src="{{ $src | safeURL }}" controls muted loop playsinline preload="metadata"
-  {{- if eq (.Get "autoplay") "true" }} autoplay{{ end -}}
-  {{- with $label }} aria-label="{{ . }}"{{ end -}}
->
-  <a href="{{ $src | safeURL }}">{{ or $label "The video" }}</a>
-</video>
 {{- /* chomp trailing newline */ -}}

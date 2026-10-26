@@ -1,12 +1,25 @@
 {{- /* A relative link is read from the file it is written in, as in a
-       repository: to a page, or to a global resource (assets/). */ -}}
+       repository: to a page, or to a global resource (assets/).
+       A link to a video whose text is only an image, as a repository shows a
+       recording (an animated image that links to it), is the video itself
+       (the partial video), said as the image's text. */ -}}
 {{- $href := .Destination -}}
+{{- $video := false -}}
 {{- $u := urls.Parse .Destination -}}
 {{- if and $u.Path (not $u.IsAbs) -}}
   {{- with or (.PageInner.GetPage $u.Path) (resources.Get (path.Join .PageInner.File.Dir $u.Path)) -}}
     {{- $href = .RelPermalink -}}
     {{- with $u.Fragment }}{{ $href = printf "%s#%s" $href . }}{{ end -}}
+    {{- if and (eq .ResourceType "video") (strings.HasPrefix (trim $.Text " \n") "<img") -}}
+      {{- $video = . -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
+{{- with $video -}}
+  {{- $label := "" -}}
+  {{- with findRESubmatch `alt="([^"]*)"` $.Text 1 }}{{ $label = index . 0 1 | htmlUnescape }}{{ end -}}
+  {{- partial "video.html" (dict "src" .RelPermalink "type" .MediaType.Type "label" $label) -}}
+{{- else -}}
 <a href="{{ $href | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text }}</a>
+{{- end -}}
 {{- /* chomp trailing newline */ -}}
