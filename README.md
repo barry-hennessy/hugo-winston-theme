@@ -190,6 +190,37 @@ A layout chooses bands by defining the `page_layout` block:
 with its own `baseof.html` adds the block to its `body` the same way; until
 it does, every page stays framed.
 
+### Sections
+
+The parts a page of bands is built from. Each is a partial called with a
+dict of its content and options, and holds no copy of its own; the
+comment at the top of each partial lists its arguments. Text arguments
+marked Markdown are rendered inline.
+
+**Section** (`section.html`): a band the full width of the window, with
+the shared padding (`--section-padding`) and its content at the content's
+width. `background` is `default`, `deep` (`--deep-color`) or `highlight`
+(`--highlight-color`, with the text in the ground's colour). It can open
+with an eyebrow, a heading (with its closing mark) and a lead paragraph,
+and is then labelled by the heading. Its `content` is HTML, usually
+another partial's output:
+
+```go-html-template
+{{ partial "section.html" (dict
+     "id" "steps" "background" "deep" "heading" "How it works"
+     "content" (partial "rule-list.html" (dict "items" .Params.steps "numbered" true "grid" "steps"))) }}
+```
+
+`narrow` holds the content to `--narrow-width`; the class
+`section--flush-top` drops the padding above, for a section that follows
+one on the same ground. The colour schemes are classes too:
+`scheme-highlight` for text on the highlight colour, `scheme-default` for
+a box on such a band that keeps the page's colours.
+
+**Eyebrow** (`eyebrow.html`): a small label above a heading, in capitals
+in the accent, or `mono` for monospace as written; `muted` for the muted
+colour.
+
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:
 

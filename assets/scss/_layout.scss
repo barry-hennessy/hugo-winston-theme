@@ -9,6 +9,11 @@
   padding-inline: var(--gutter);
 }
 
+// A narrower content, for a section of questions and answers.
+.page-width--narrow {
+  max-width: var(--narrow-width);
+}
+
 // The column an article is read in, centred, with a gutter either side.
 .reading-width {
   box-sizing: border-box;

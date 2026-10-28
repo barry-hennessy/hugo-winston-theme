@@ -1,0 +1,19 @@
+{{- /*
+An eyebrow: a small label above a heading, such as a section's name or a
+step's number. Set in capitals in the heading font and the accent colour,
+or in monospace as written.
+
+Arguments (a dict):
+  text   the label
+  mono   true for monospace (optional)
+  muted  true for the muted colour instead of the accent (optional)
+  class  classes added to the paragraph's (optional)
+
+Nothing is rendered without text.
+*/ -}}
+{{- with .text -}}
+<p class="eyebrow
+  {{- if $.mono }} eyebrow--mono{{ end -}}
+  {{- if $.muted }} eyebrow--muted{{ end -}}
+  {{- with $.class }} {{ . }}{{ end }}">{{ . }}</p>
+{{- end -}}

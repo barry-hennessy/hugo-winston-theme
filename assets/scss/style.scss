@@ -3,8 +3,14 @@
   --font-family-heading: 'Poppins', sans-serif;
   --font-family-paragraph: Helvetica, sans-serif;
   --font-family-monospace: monospace;
+}
 
-  // Colours, from the site's params.
+// Colours, from the site's params. A band in another colour scheme sets
+// some of them again for what is inside it (.scheme-highlight, below);
+// .scheme-default sets them back, for a box on such a band that keeps the
+// page's own colours.
+:root,
+.scheme-default {
   // The ground of the page, its links and its text.
   --base-color: {{ $p.baseColor | default "#ffffff" }};
   --base-offset-color: {{ $p.baseOffsetColor | default "#eaeaea" }};
@@ -22,7 +28,9 @@
   // Rules and borders: a quiet one and a stronger one.
   --rule-color: {{ $p.ruleColor | default "#d9d9de" }};
   --rule-strong-color: {{ $p.ruleStrongColor | default "#b9bcc4" }};
+}
 
+:root {
   // Type scale: a page's headline, a section's heading, a card's title.
   --font-size-headline: clamp(40px, 6.2vw, 88px);
   --font-size-section: clamp(28px, 4vw, 56px);
@@ -41,6 +49,8 @@
   --measure: 62ch;
   --measure-narrow: 60ch;
   --reading-width: 720px;
+  // A narrower section's content: questions and answers, a short form.
+  --narrow-width: 880px;
 
   // Radii.
   --radius-button: 8px;
@@ -66,6 +76,7 @@ $breakpoints: (
 @import 'content';
 @import 'button';
 @import 'breadcrumb';
+@import 'section';
 @import 'intro';
 @import 'summary';
 @import 'card';

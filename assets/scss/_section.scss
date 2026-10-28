@@ -1,0 +1,88 @@
+// A section of a page of bands (partials/section.html): a band the full
+// width of the window, with the shared padding above and below and its
+// content at the content's width (.page-width inside it).
+//
+//   <section class="section">                      on the page's ground
+//   <section class="section section--deep">        on the deep colour
+//   <section class="section section--highlight">   on the highlight colour,
+//                                                  in .scheme-highlight
+//
+// and, with any of them, section--flush-top: no padding above.
+
+.section {
+  padding-block: var(--section-padding);
+}
+
+// No padding above, for a section that continues the one before it on the
+// same ground, whose padding below already sets it off.
+.section--flush-top {
+  padding-top: 0;
+}
+
+.section--deep {
+  background: var(--deep-color);
+}
+
+.section--highlight {
+  background: var(--highlight-color);
+}
+
+// The section's heading, with an eyebrow above it and a lead paragraph
+// below it, all optional.
+.section-head {
+  margin-bottom: 32px;
+}
+
+.section-title {
+  max-width: 24ch;
+}
+
+.section-lead {
+  max-width: var(--measure);
+  margin: 12px 0 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+// Colour schemes.
+//
+// .scheme-highlight: text in the ground's colour on the highlight colour,
+// for a band or a box in it. Everything inside that takes its colours from
+// the custom properties follows; links take the text's colour, and the
+// accent of a heading's closing mark, which would not show, does too.
+// A primary button keeps the accent; use button--on-pink for the
+// ground's colour.
+//
+// .scheme-default: the page's own colours again (the custom properties are
+// set back in style.scss), for a box on a band of another scheme.
+
+.scheme-highlight {
+  --heading-color: var(--base-color);
+  --text-color: var(--base-color);
+  --emphasis-color: var(--base-color);
+  --muted-color: var(--base-color);
+  --rule-color: var(--base-color);
+  --rule-strong-color: var(--base-color);
+  color: var(--text-color);
+  a:not(.button) {
+    color: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+  .dot {
+    color: inherit;
+  }
+}
+
+.scheme-default {
+  color: var(--text-color);
+  a:not(.button) {
+    color: var(--highlight-color);
+    font-weight: inherit;
+    text-decoration: none;
+  }
+  .dot {
+    color: var(--dot-color);
+  }
+}

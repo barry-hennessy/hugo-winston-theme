@@ -47,3 +47,32 @@
 .mono-label--accent {
   color: var(--dot-color);
 }
+
+// An eyebrow: a small label above a heading (partials/eyebrow.html), in
+// capitals in the heading font, or in monospace as written.
+.eyebrow {
+  margin: 0 0 16px;
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-label);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dot-color);
+}
+
+.eyebrow--mono {
+  font-family: var(--font-family-monospace);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.eyebrow--muted {
+  color: var(--muted-color);
+}
+
+// The accent would not show on the highlight colour.
+.scheme-highlight .eyebrow {
+  color: inherit;
+}

@@ -1,0 +1,56 @@
+{{- /*
+A section of a page of bands: a band the full width of the window, with the
+shared padding above and below, its content at the content's width, and
+optionally a heading over it (an eyebrow, the heading with its closing mark,
+a lead paragraph).
+
+Arguments (a dict):
+  content     the section's content: HTML, such as a partial's output
+  background  "default", "deep" or "highlight" (optional; "default"). On
+              "highlight" the text takes the ground's colour.
+  id          the section's id, e.g. for a link to it (optional)
+  heading     the section's heading (optional)
+  level       the heading's level (optional; 2)
+  punctuation the heading's closing mark, instead of the full stop (optional)
+  eyebrow     a label above the heading (optional)
+  eyebrow_mono  true to set the eyebrow in monospace (optional)
+  lead        a paragraph under the heading, in Markdown (optional)
+  labelledby  the id of the element that names the section, when it is not
+              the heading given here (optional)
+  narrow      true to hold the content to the narrower width (optional)
+  class       classes added to the section's (optional)
+
+With a heading, the section is labelled by it: the heading's id is the
+section's id with "-title", or made from the heading's text.
+*/ -}}
+{{- $background := .background | default "default" -}}
+{{- $headingID := "" -}}
+{{- with .heading -}}
+  {{- $headingID = printf "%s-title" ($.id | default (anchorize .)) -}}
+{{- end -}}
+{{- $labelledby := .labelledby | default $headingID -}}
+{{- $level := .level | default 2 -}}
+<section class="section
+  {{- if ne $background "default" }} section--{{ $background }}{{ end -}}
+  {{- if eq $background "highlight" }} scheme-highlight{{ end -}}
+  {{- with .class }} {{ . }}{{ end }}"
+  {{- with .id }} id="{{ . }}"{{ end -}}
+  {{- with $labelledby }} aria-labelledby="{{ . }}"{{ end }}>
+  <div class="page-width{{ if .narrow }} page-width--narrow{{ end }}">
+    {{- if or .heading .eyebrow .lead }}
+    <div class="section-head">
+      {{- partial "eyebrow.html" (dict "text" .eyebrow "mono" .eyebrow_mono) }}
+      {{- with .heading }}
+      <h{{ $level }} class="heading-section section-title" id="{{ $headingID }}">
+        {{- partial "punctuated.html" (dict "text" . "punctuation" $.punctuation) -}}
+      </h{{ $level }}>
+      {{- end }}
+      {{- with .lead }}
+      <p class="section-lead">{{ . | markdownify }}</p>
+      {{- end }}
+    </div>
+    {{- end }}
+    {{ .content }}
+  </div>
+</section>
+{{- /* chomp trailing newline */ -}}
