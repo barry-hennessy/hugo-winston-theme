@@ -8,6 +8,9 @@ Arguments (a dict):
            url    where it leads
            style  "primary", "on-pink" or "outline" for a button, "link"
                   for a text link (cta-link) (optional; the style below)
+           new_tab  true to open it in a new tab, as for a page on
+                    another site; say so in the label or a note
+                    (optional)
   style  the style of an item that sets none (optional; "primary")
   note   a short line beside them, in Markdown (optional)
   class  classes added to the row's (optional)
@@ -25,9 +28,9 @@ a URL is left out.
       {{- $url := .url }}
       {{- if not (strings.HasPrefix $url "#") }}{{ $url = $url | relLangURL }}{{ end }}
       {{- if eq $style "link" }}
-  <a class="cta-link" href="{{ $url }}">{{ .label }}</a>
+  <a class="cta-link" href="{{ $url }}"{{ if .new_tab }} target="_blank" rel="noopener"{{ end }}>{{ .label }}</a>
       {{- else }}
-  <a class="button{{ if ne $style "primary" }} button--{{ $style }}{{ end }}" href="{{ $url }}">{{ .label }}</a>
+  <a class="button{{ if ne $style "primary" }} button--{{ $style }}{{ end }}" href="{{ $url }}"{{ if .new_tab }} target="_blank" rel="noopener"{{ end }}>{{ .label }}</a>
       {{- end }}
     {{- end }}
   {{- end }}

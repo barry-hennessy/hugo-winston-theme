@@ -248,7 +248,9 @@ a URL is used as given, with the `width` and `height` passed. With no
 
 **Actions** (`actions.html`): a row of calls to action, each `label`,
 `url` and `style` (`primary`, `on-pink`, `outline`, or `link` for a
-`cta-link`), with an optional `note` beside them.
+`cta-link`), with an optional `note` beside them. `new_tab` opens an
+item in a new tab (`rel="noopener"`), for a page on another site; say so
+in its label or the note.
 
 **Hero** (`hero.html`): the top of a page of bands: an eyebrow, the h1
 with its closing mark, a lead paragraph, an optional fact strip and the
