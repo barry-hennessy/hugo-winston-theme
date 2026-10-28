@@ -1,15 +1,90 @@
+{{- /*
+The list of posts, a page of bands: the section's headline and lead, chips
+for a few topics, the latest post featured, the others as cards in a grid,
+then the subscribe box. Later pages of the list have no featured post.
+
+From the section's front matter (content/<section>/_index.md):
+
+  lead: "What the posts are about."   # in Markdown; or the description
+  topics:                             # optional
+    taxonomy: tags                    # whose terms they are; "tags"
+    all: "All"                        # the chip for the whole list; this
+    items:
+      - label: "Decision making"
+        term: "decision-making"       # a term of the taxonomy, or
+      - label: "Elsewhere"
+        url: "/somewhere/"            # any page
+  featured:                           # optional
+    label: "Latest"                   # before the featured post's date
+    action: "Read it →"               # at its foot
+*/ -}}
+{{ define "page_layout" }}bands{{ end }}
 {{ define "body_classes" }}page-blog-list{{ end }}
 
 {{ define "main" }}
-  <div class="intro">
-    <h1>{{ partial "headline.html" . }}</h1>
-    {{ if .Params.description }}<p>{{ .Params.description }}</p>{{ end }}
-    {{ if .Content }}<div class="content prose prose-invert">{{ .Content }}</div>{{ end }}
-  </div>
+{{- $paginator := .Paginate (where .Pages "Type" "posts") }}
+{{- $first := eq $paginator.PageNumber 1 }}
+<main id="main">
+  <div class="section post-list">
+    <div class="page-width">
+      <header class="post-list-head">
+        <div class="post-list-intro">
+          <h1 class="heading-headline post-list-title">{{ partial "headline.html" . }}</h1>
+          {{- with .Params.lead | default .Description }}
+          <p class="post-list-lead">{{ . | markdownify }}</p>
+          {{- end }}
+        </div>
+        {{- with .Params.topics }}
+        {{- $taxonomy := .taxonomy | default "tags" }}
+        {{- $items := slice (dict "label" (.all | default "All") "url" $.RelPermalink "current" (cond $first "page" "true")) }}
+        {{- range .items }}
+          {{- $url := .url }}
+          {{- with .term }}
+            {{- with site.GetPage (printf "/%s/%s" $taxonomy (urlize .)) }}
+              {{- $url = .RelPermalink }}
+            {{- else }}
+              {{- warnf "%s: topic %q has no %s page, so it is left out" $.File.Path . $taxonomy }}
+            {{- end }}
+          {{- end }}
+          {{- $items = $items | append (dict "label" .label "url" $url) }}
+        {{- end }}
+        {{ partial "topic-chips.html" (dict "items" $items "class" "post-list-topics") }}
+        {{- end }}
+      </header>
 
-  {{ $paginator := .Paginate (where .Pages "Type" "posts") }}
-  {{ range $paginator.Pages }}
-    {{ .Render "summary" }}
-  {{ end }}
-  {{ partial "paginator" . }}
+      {{- with .Content }}
+      <div class="content post-list-content">{{ . }}</div>
+      {{- end }}
+
+      {{- $pages := $paginator.Pages }}
+      {{- if and $first $pages }}
+      {{- $featured := .Params.featured | default dict }}
+      {{ partial "post-card.html" (dict
+        "page" (index $pages 0)
+        "featured" true
+        "label" ($featured.label | default "Latest")
+        "action" ($featured.action | default "Read it →")
+        "eager" true
+      ) }}
+      {{- $pages = after 1 $pages }}
+      {{- end }}
+
+      {{- with $pages }}
+      <div class="post-grid">
+        {{- range . }}
+        {{ .Render "summary" }}
+        {{- end }}
+      </div>
+      {{- end }}
+
+      {{ partial "paginator.html" . }}
+
+      {{- with partial "subscribe.html" (dict) | strings.TrimSpace }}
+      <div class="post-list-subscribe">
+        {{ . | safeHTML }}
+      </div>
+      {{- end }}
+    </div>
+  </div>
+</main>
 {{ end }}

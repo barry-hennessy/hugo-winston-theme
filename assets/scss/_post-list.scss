@@ -1,0 +1,56 @@
+// The list of posts (posts/list.html): the headline and lead with the
+// topic chips beside them, level with their foot, when there is room;
+// then the featured post, the grid of the others, the pages and the
+// subscribe box.
+
+.post-list {
+  padding-top: var(--hero-padding-top);
+  padding-bottom: var(--hero-padding-bottom);
+}
+
+.post-list-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 64px;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.post-list-intro {
+  flex: 1 1 480px;
+  min-width: 0;
+}
+
+.post-list-title {
+  font-size: clamp(40px, 6vw, 80px);
+}
+
+.post-list-lead {
+  max-width: var(--measure-narrow);
+  margin: 16px 0 0;
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--text-color);
+  a {
+    color: var(--highlight-color);
+    text-decoration: underline;
+  }
+}
+
+.post-list-content {
+  max-width: var(--measure);
+  margin-bottom: 40px;
+}
+
+.post-list .post-card--featured {
+  margin-bottom: 56px;
+}
+
+.post-list .pagination {
+  margin-top: 56px;
+}
+
+.post-list-subscribe {
+  margin-top: clamp(48px, 6vw, 80px);
+}
