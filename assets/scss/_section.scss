@@ -45,6 +45,19 @@
   color: var(--text-color);
 }
 
+// The lead beside the heading, level with its foot, when there is room
+// for both; under it otherwise.
+.section-head--split {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 48px;
+  align-items: flex-end;
+  justify-content: space-between;
+  .section-lead {
+    margin: 0;
+  }
+}
+
 // Colour schemes.
 //
 // .scheme-highlight: text in the ground's colour on the highlight colour,

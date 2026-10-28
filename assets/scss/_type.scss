@@ -4,6 +4,7 @@
 
 .heading-headline,
 .heading-section,
+.heading-subsection,
 .heading-card {
   margin: 0;
   font-family: var(--font-family-heading);
@@ -25,6 +26,14 @@
   font-size: var(--font-size-section);
   line-height: 1.05;
   letter-spacing: -0.03em;
+}
+
+// A smaller heading: one of a pair of sections side by side, or a part of
+// a section with a heading of its own.
+.heading-subsection {
+  font-size: var(--font-size-subsection);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 // The title of a card or an item in a grid.

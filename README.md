@@ -211,6 +211,9 @@ another partial's output:
      "content" (partial "rule-list.html" (dict "items" .Params.steps "numbered" true "grid" "steps"))) }}
 ```
 
+`lead_beside` sets the lead beside the heading, level with its foot,
+when there is room; `size` `small` sets a smaller heading
+(`heading-subsection`), for a section that is one of a pair.
 `narrow` holds the content to `--narrow-width`; the class
 `section--flush-top` drops the padding above, for a section that follows
 one on the same ground. The colour schemes are classes too:

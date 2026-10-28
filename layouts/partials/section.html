@@ -15,6 +15,11 @@ Arguments (a dict):
   eyebrow     a label above the heading (optional)
   eyebrow_mono  true to set the eyebrow in monospace (optional)
   lead        a paragraph under the heading, in Markdown (optional)
+  lead_beside true to set the lead beside the heading, level with its
+              foot, from the medium breakpoint up (optional)
+  size        "small" for a smaller heading (heading-subsection), for a
+              section that is one of a pair, or part of a larger one
+              (optional)
   labelledby  the id of the element that names the section, when it is not
               the heading given here (optional)
   narrow      true to hold the content to the narrower width (optional)
@@ -38,12 +43,18 @@ section's id with "-title", or made from the heading's text.
   {{- with $labelledby }} aria-labelledby="{{ . }}"{{ end }}>
   <div class="page-width{{ if .narrow }} page-width--narrow{{ end }}">
     {{- if or .heading .eyebrow .lead }}
-    <div class="section-head">
+    <div class="section-head{{ if .lead_beside }} section-head--split{{ end }}">
+      {{- if .lead_beside }}
+      <div class="section-head-main">
+      {{- end }}
       {{- partial "eyebrow.html" (dict "text" .eyebrow "mono" .eyebrow_mono) }}
       {{- with .heading }}
-      <h{{ $level }} class="heading-section section-title" id="{{ $headingID }}">
+      <h{{ $level }} class="{{ if eq $.size "small" }}heading-subsection{{ else }}heading-section{{ end }} section-title" id="{{ $headingID }}">
         {{- partial "punctuated.html" (dict "text" . "punctuation" $.punctuation) -}}
       </h{{ $level }}>
+      {{- end }}
+      {{- if .lead_beside }}
+      </div>
       {{- end }}
       {{- with .lead }}
       <p class="section-lead">{{ . | markdownify }}</p>
