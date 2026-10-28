@@ -1,0 +1,38 @@
+{{- /*
+A row of calls to action: buttons and text links, wrapping onto lines of
+their own when there is no room, with an optional note beside them.
+
+Arguments (a dict):
+  items  a list of dicts, each:
+           label  the text
+           url    where it leads
+           style  "primary", "on-pink" or "outline" for a button, "link"
+                  for a text link (cta-link) (optional; the style below)
+  style  the style of an item that sets none (optional; "primary")
+  note   a short line beside them, in Markdown (optional)
+  class  classes added to the row's (optional)
+
+Nothing is rendered without items or a note. An item without a label or
+a URL is left out.
+*/ -}}
+{{- $default := .style | default "primary" -}}
+{{- if or .items .note }}
+<div class="actions{{ with .class }} {{ . }}{{ end }}">
+  {{- range .items }}
+    {{- if and .label .url }}
+      {{- $style := .style | default $default }}
+      {{- /* A link to a place on the page is left as it is. */}}
+      {{- $url := .url }}
+      {{- if not (strings.HasPrefix $url "#") }}{{ $url = $url | relLangURL }}{{ end }}
+      {{- if eq $style "link" }}
+  <a class="cta-link" href="{{ $url }}">{{ .label }}</a>
+      {{- else }}
+  <a class="button{{ if ne $style "primary" }} button--{{ $style }}{{ end }}" href="{{ $url }}">{{ .label }}</a>
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- with .note }}
+  <p class="actions-note">{{ . | markdownify }}</p>
+  {{- end }}
+</div>
+{{- end -}}

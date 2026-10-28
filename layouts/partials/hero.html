@@ -1,0 +1,73 @@
+{{- /*
+The top of a page of bands: its headline and what to do next, with a
+picture beside them. From the small breakpoint (767px) up to the large one
+(1200px) the picture takes about a third of the width beside the text;
+from the large one up the two share it; below the small one the picture
+runs the full width under the text, as the phone image when there is one.
+
+Arguments (a dict):
+  title         the headline, the page's h1, with its closing mark
+  punctuation   the headline's closing mark, instead of the full stop
+                (optional)
+  eyebrow       a label above the headline (optional)
+  eyebrow_mono  true to set it in monospace (optional)
+  lead          a paragraph under the headline, in Markdown (optional)
+  facts         a fact strip under it: a list of dicts of label, value
+                and highlight, as fact-strip.html takes (optional)
+  actions       calls to action: a list of dicts of label, url and style,
+                as actions.html takes (optional)
+  note          a short line beside them, in Markdown (optional)
+  page          the page: its resources hold the images, and with
+                breadcrumb, where it is (optional)
+  breadcrumb    true to show where the page is above the headline
+                (breadcrumb.html; optional)
+  image         the picture (optional)
+  image_wide    the picture for phones, in its own shape (optional)
+  image_alt     what the picture shows; leave it out for decoration
+  image_width, image_height, image_wide_width, image_wide_height
+                the pictures' sizes, when they cannot be read from them,
+                as for an SVG or a file in static/ (optional)
+  art_size      "small" to keep the picture at most 420px wide (optional)
+  id            the hero's id (optional)
+
+A page's front matter can hold them, e.g.:
+
+  {{ partial "hero.html" (dict "page" . "title" .Title
+       "lead" .Params.lead "image" .Params.image
+       "image_wide" .Params.image_wide "image_alt" .Params.image_alt) }}
+*/ -}}
+<header class="hero page-width"{{ with .id }} id="{{ . }}"{{ end }}>
+  {{- if and .breadcrumb .page }}
+  {{ partial "breadcrumb.html" (dict "page" .page) }}
+  {{- end }}
+  <div class="hero-body">
+    <div class="hero-copy">
+      {{- partial "eyebrow.html" (dict "text" .eyebrow "mono" .eyebrow_mono) }}
+      <h1 class="heading-headline hero-title">{{ partial "punctuated.html" (dict "text" .title "punctuation" .punctuation) }}</h1>
+      {{- with .lead }}
+      <p class="hero-lead">{{ . | markdownify }}</p>
+      {{- end }}
+      {{- with .facts }}
+      {{ partial "fact-strip.html" (dict "items" . "class" "hero-facts") }}
+      {{- end }}
+      {{ partial "actions.html" (dict "items" .actions "note" .note "class" "hero-actions") }}
+    </div>
+    {{- with .image }}
+    <div class="hero-art{{ if eq $.art_size "small" }} hero-art--small{{ end }}">
+      {{- partial "picture.html" (dict
+        "src" .
+        "wide" $.image_wide
+        "alt" $.image_alt
+        "page" $.page
+        "width" $.image_width
+        "height" $.image_height
+        "wide_width" $.image_wide_width
+        "wide_height" $.image_wide_height
+        "sizes" "(min-width: 1200px) 560px, (min-width: 767px) 34vw, 100vw"
+        "eager" true
+      ) }}
+    </div>
+    {{- end }}
+  </div>
+</header>
+{{- /* chomp trailing newline */ -}}

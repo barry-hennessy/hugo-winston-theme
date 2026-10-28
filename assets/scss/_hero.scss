@@ -1,0 +1,77 @@
+// The top of a page of bands (partials/hero.html): the headline and what to
+// do next, with a picture beside them.
+//
+// Below the small breakpoint the picture runs the full width under the
+// text. From the small breakpoint to the large one it takes a little over
+// a third of the width beside the text, which never wraps under it. From
+// the large one up the two share the width.
+
+.hero {
+  padding-top: var(--hero-padding-top);
+  padding-bottom: var(--hero-padding-bottom);
+}
+
+.hero-body {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  @include breakpoint('small') {
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+  }
+  @include breakpoint('large') {
+    gap: 64px;
+  }
+}
+
+.hero-copy {
+  min-width: 0;
+  @include breakpoint('small') {
+    flex: 1 1 0;
+  }
+  @include breakpoint('large') {
+    flex: 1 1 480px;
+  }
+}
+
+.hero-art {
+  min-width: 0;
+  @include breakpoint('small') {
+    flex: 0 0 34%;
+  }
+  @include breakpoint('large') {
+    flex: 1 1 440px;
+  }
+  // The picture keeps its own shape: on phones, the phone image's.
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-card);
+    background: var(--surface-color);
+  }
+}
+
+// A smaller picture, beside a longer text.
+.hero-art--small {
+  @include breakpoint('small') {
+    max-width: 420px;
+  }
+}
+
+.hero-lead {
+  max-width: var(--measure-narrow);
+  margin: 28px 0 0;
+  font-size: 21px;
+  line-height: 1.5;
+  color: var(--text-color);
+}
+
+.hero-facts {
+  margin-top: 32px;
+}
+
+.hero-actions {
+  margin-top: 36px;
+}

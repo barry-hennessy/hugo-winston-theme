@@ -243,6 +243,25 @@ own size and a `srcset` of smaller copies. An SVG, a file in `static/` or
 a URL is used as given, with the `width` and `height` passed. With no
 `alt` the image is decoration (`alt=""`).
 
+**Actions** (`actions.html`): a row of calls to action, each `label`,
+`url` and `style` (`primary`, `on-pink`, `outline`, or `link` for a
+`cta-link`), with an optional `note` beside them.
+
+**Hero** (`hero.html`): the top of a page of bands: an eyebrow, the h1
+with its closing mark, a lead paragraph, an optional fact strip and the
+calls to action, with a picture beside them. From 767px to 1199px the
+picture takes about a third of the width beside the text, without
+wrapping; from 1200px the two share the width; below 767px the picture
+runs the full width under the text, as the phone image (`image_wide`)
+when there is one. `breadcrumb` shows where the page is above it.
+
+```go-html-template
+{{ partial "hero.html" (dict "page" . "title" .Title "lead" .Params.lead
+     "image" .Params.image "image_wide" .Params.image_wide "image_alt" .Params.image_alt
+     "actions" (slice (dict "label" "Book a call" "url" "/call-me/")
+                      (dict "label" "Prices →" "url" "#prices" "style" "link"))) }}
+```
+
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:
 

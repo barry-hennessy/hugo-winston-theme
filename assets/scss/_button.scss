@@ -90,10 +90,31 @@ $button-padding-x: 28px;
 
 .cta-link {
   display: inline-block;
+  // A 44px target, though the text is smaller.
+  padding-block: 11px;
   padding-left: $button-padding-x;
   font-family: var(--font-family-heading);
+  font-size: 17px;
   font-weight: 600;
+  line-height: 22px;
+  color: var(--highlight-color);
   @include breakpoint('small') {
     padding-left: 0;
   }
+}
+
+// A row of calls to action (partials/actions.html): buttons and text
+// links, wrapping onto lines of their own, with an optional note.
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+}
+
+.actions-note {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-color);
 }
