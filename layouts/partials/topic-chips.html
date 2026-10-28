@@ -1,0 +1,28 @@
+{{- /*
+Topic chips: a row of rounded links to the lists of a few topics, such as
+a taxonomy's terms, wrapping onto more rows. The one for the page being
+shown is filled in the highlight colour and marked aria-current.
+
+Arguments (a dict):
+  items  a list of dicts, each:
+           label    the text
+           url      where it leads
+           current  "page" for the page being shown, "true" for one the
+                    page is part of, as its list's later pages (optional)
+  label  what the row is, for screen readers (optional; "Topics")
+  class  classes added to the row's (optional)
+
+Nothing is rendered without items. An item without a label or a URL is
+left out.
+*/ -}}
+{{- with .items }}
+<nav class="topic-chips{{ with $.class }} {{ . }}{{ end }}" aria-label="{{ $.label | default "Topics" }}">
+  <ul class="topic-chips-list">
+    {{- range . }}
+      {{- if and .label .url }}
+    <li><a class="topic-chip" href="{{ .url }}"{{ with .current }} aria-current="{{ . }}"{{ end }}>{{ .label }}</a></li>
+      {{- end }}
+    {{- end }}
+  </ul>
+</nav>
+{{- end -}}

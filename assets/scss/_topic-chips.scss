@@ -1,0 +1,44 @@
+// Topic chips (partials/topic-chips.html): rounded links in a row,
+// wrapping; the current one filled in the highlight colour.
+
+.topic-chips-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  > li {
+    list-style: none;
+  }
+}
+
+.topic-chip {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  // A 44px target.
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--rule-strong-color);
+  border-radius: 999px;
+  font-size: 15px;
+  line-height: 1.3;
+  color: var(--text-color);
+  text-decoration: none;
+  &:hover {
+    border-color: var(--highlight-color);
+    color: var(--emphasis-color);
+    text-decoration: none;
+  }
+  &:focus-visible {
+    outline: 3px solid var(--highlight-color);
+    outline-offset: 2px;
+  }
+  &[aria-current] {
+    border-color: var(--highlight-color);
+    background: var(--highlight-color);
+    color: var(--base-color);
+    font-weight: 700;
+  }
+}
