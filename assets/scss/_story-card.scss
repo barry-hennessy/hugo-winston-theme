@@ -1,0 +1,80 @@
+// A story card (partials/story-card.html): a picture over a title and a
+// line. From the small breakpoint to the medium one, where its row is one
+// column, the picture sits on the left, two fifths of the width, and the
+// text on the right.
+
+.story-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.story-card-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-image);
+  background: var(--surface-color);
+}
+
+.story-card-title {
+  margin: 0;
+  font-family: var(--font-family-heading);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--emphasis-color);
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.story-card-text {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+// A card that is a link: the title's link covers the whole card.
+.story-card--link {
+  .story-card-title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  &:hover .story-card-title a {
+    text-decoration: underline;
+  }
+  .story-card-title a:focus-visible {
+    outline: none;
+  }
+  // The focus is drawn round the card the link covers.
+  &:has(.story-card-title a:focus-visible) {
+    outline: 3px solid var(--emphasis-color);
+    outline-offset: 6px;
+    border-radius: var(--radius-image);
+  }
+}
+
+.story-card--image {
+  @include breakpoint-between('small', 'medium') {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    grid-template-rows: auto auto;
+    column-gap: 28px;
+    row-gap: 8px;
+    .story-card-image {
+      grid-row: 1 / 3;
+    }
+    .story-card-title {
+      align-self: end;
+    }
+    .story-card-text {
+      align-self: start;
+    }
+  }
+}

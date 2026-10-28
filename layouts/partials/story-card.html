@@ -1,0 +1,40 @@
+{{- /*
+A story card: a picture, a title and a line, one of a row (in a trio). From
+the small breakpoint to the medium one, where the row is one column, the
+picture sits on the left of the text. With a URL the whole card is a link,
+through its title.
+
+Arguments (a dict):
+  title          the card's title
+  text           a line under it, in Markdown (optional)
+  url            where the card leads (optional)
+  image          the picture (optional)
+  image_alt      what the picture shows; leave it out for decoration
+  image_width, image_height
+                 its size, when it cannot be read from it (optional)
+  page           the page whose resources hold the picture (optional)
+  level          the title's heading level (optional; 3)
+  class          classes added to the card's (optional)
+*/ -}}
+{{- $level := .level | default 3 -}}
+<article class="story-card{{ if .image }} story-card--image{{ end }}{{ if .url }} story-card--link{{ end }}{{ with .class }} {{ . }}{{ end }}">
+  {{- with .image }}
+  <div class="story-card-image">
+    {{- partial "picture.html" (dict
+      "src" .
+      "alt" $.image_alt
+      "page" $.page
+      "width" $.image_width
+      "height" $.image_height
+      "sizes" "(min-width: 992px) 400px, (min-width: 767px) 40vw, 100vw"
+    ) }}
+  </div>
+  {{- end }}
+  <h{{ $level }} class="story-card-title">
+    {{- with .url }}<a href="{{ . | relLangURL }}">{{ $.title }}</a>{{ else }}{{ .title }}{{ end -}}
+  </h{{ $level }}>
+  {{- with .text }}
+  <p class="story-card-text">{{ . | markdownify }}</p>
+  {{- end }}
+</article>
+{{- /* chomp trailing newline */ -}}

@@ -262,6 +262,11 @@ when there is one. `breadcrumb` shows where the page is above it.
                       (dict "label" "Prices →" "url" "#prices" "style" "link"))) }}
 ```
 
+**Story card** (`story-card.html`): a picture, a title and a line, one of
+a `trio`. From 767px to 991px, where the trio is one column, the picture
+sits on the left of the text. With a `url` the whole card is a link
+through its title.
+
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:
 
