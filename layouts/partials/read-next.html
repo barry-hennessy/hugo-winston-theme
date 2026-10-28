@@ -1,0 +1,36 @@
+{{- /*
+Read next: a few other posts of the page's section, as cards side by side
+under a heading. They are the ones related to the page, as the site's
+`related` configuration finds them (Hugo's .Related), and, when there are
+not enough of those, the latest others.
+
+Arguments (a dict):
+  page     the page
+  count    how many (optional; 2)
+  heading  the heading (optional; "Read next")
+  id       the section's id (optional; "read-next")
+
+Nothing is rendered when the section has no other pages.
+*/ -}}
+{{- $page := .page -}}
+{{- $count := .count | default 2 -}}
+{{- $id := .id | default "read-next" -}}
+{{- $others := where (where site.RegularPages "Section" $page.Section) "Permalink" "!=" $page.Permalink -}}
+{{- $pages := first $count ($others.Related $page) -}}
+{{- if lt (len $pages) $count -}}
+  {{- $pages = first $count ($pages | append (complement $pages $others.ByDate.Reverse)) -}}
+{{- end -}}
+{{- with $pages -}}
+{{- $cards := slice -}}
+{{- range . -}}
+  {{- $cards = $cards | append (partial "post-card.html" (dict "page" . "level" 3 "date" false
+        "sizes" "(min-width: 1040px) 480px, (min-width: 767px) 45vw, 100vw")) -}}
+{{- end -}}
+{{ partial "section.html" (dict
+  "id" $id
+  "heading" ($.heading | default "Read next")
+  "size" "small"
+  "class" "read-next"
+  "content" (printf "<div class=\"read-next-grid\">%s</div>" (delimit $cards "\n") | safeHTML)
+) }}
+{{- end -}}

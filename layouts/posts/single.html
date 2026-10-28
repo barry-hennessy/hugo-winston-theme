@@ -1,19 +1,31 @@
+{{- /*
+A post, a page of bands: its header (facts, headline, standfirst and
+header image), its text in the reading column, then the site's hook for
+what follows a post (post-cta.html, e.g. an author box with a call to
+action), the subscribe box, and two posts to read next.
+*/ -}}
+{{ define "page_layout" }}bands{{ end }}
 {{ define "body_classes" }}page-blog-single{{ end }}
 
 {{ define "main" }}
-  <div class="blog">
-    {{ if .Site.Params.showAuthorOnPosts }}
-      {{ partial "author.html" . }}
-    {{ end }}
-    <div class="intro">
-      <h1>{{ partial "headline.html" . }}</h1>
-      {{ with .Params.image }}
-      {{/* image_alt says what the image shows; without it, it is decoration. */}}
-      <img src="{{ . | relURL }}" alt="{{ $.Params.image_alt }}" />
-      {{ end }}
-    </div>
-    <div class="content prose prose-invert">
+<main id="main">
+  <article class="post">
+    {{ partial "post-header.html" (dict "page" .) }}
+    <div class="post-body content">
       {{ .Content }}
     </div>
+  </article>
+
+  {{- $end := slice }}
+  {{- range slice (partial "post-cta.html" (dict "page" .)) (partial "subscribe.html" (dict)) }}
+    {{- with strings.TrimSpace . }}{{ $end = $end | append . }}{{ end }}
+  {{- end }}
+  {{- with $end }}
+  <div class="post-end">
+    {{ delimit . "\n" | safeHTML }}
   </div>
+  {{- end }}
+
+  {{ partial "read-next.html" (dict "page" .) }}
+</main>
 {{ end }}

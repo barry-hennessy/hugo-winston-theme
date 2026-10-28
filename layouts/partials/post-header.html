@@ -1,0 +1,60 @@
+{{- /*
+A post's header: a line of facts about it (a link to its section, its
+date, how long it takes to read and its first topic), its headline with
+the closing mark, its description as a standfirst, and its header image,
+16:9 and rounded, the width of the header.
+
+Arguments (a dict):
+  page      the post
+  taxonomy  the taxonomy whose first term is the post's topic (optional;
+            "tags")
+  eager     false to load the image only when it comes into view
+            (optional; it is the first thing on the page, so it loads at
+            once)
+
+The image is the post's `image`, with `image_alt`, `image_width` and
+`image_height`; the date is shown when the post's `showPostedDate`, or
+the site's, says so.
+*/ -}}
+{{- $page := .page -}}
+{{- $showDate := and (not $page.Date.IsZero)
+      (cond (isset $page.Params "showposteddate") $page.Params.showPostedDate site.Params.showPostedDate) -}}
+{{- $facts := slice -}}
+{{- if $showDate -}}
+  {{- $facts = $facts | append (printf "<time datetime=\"%s\">%s</time>" ($page.Date.Format "2006-01-02") ($page.Date | time.Format ":date_long")) -}}
+{{- end -}}
+{{- with $page.ReadingTime -}}
+  {{- $facts = $facts | append (printf "%d min read" .) -}}
+{{- end -}}
+{{- with $page.GetTerms (.taxonomy | default "tags") -}}
+  {{- $facts = $facts | append ((index . 0).LinkTitle | htmlEscape) -}}
+{{- end -}}
+<header class="post-header">
+  <div class="post-header-copy">
+    {{- if site.Params.showAuthorOnPosts }}
+    {{ partial "author.html" $page }}
+    {{- end }}
+    <p class="post-meta mono-label">
+      {{- with $page.CurrentSection }}{{ if ne . $page }}<a class="post-meta-section" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ if $facts }} · {{ end }}{{ end }}{{ end -}}
+      {{- delimit $facts " · " | safeHTML -}}
+    </p>
+    <h1 class="heading-headline post-title">{{ partial "headline.html" $page }}</h1>
+    {{- with $page.Description }}
+    <p class="post-standfirst">{{ . }}</p>
+    {{- end }}
+  </div>
+  {{- with $page.Params.image }}
+  <div class="post-image">
+    {{- partial "picture.html" (dict
+      "src" .
+      "alt" $page.Params.image_alt
+      "page" $page
+      "width" $page.Params.image_width
+      "height" $page.Params.image_height
+      "sizes" "(min-width: 1040px) 992px, 100vw"
+      "eager" (ne $.eager false)
+    ) }}
+  </div>
+  {{- end }}
+</header>
+{{- /* chomp trailing newline */ -}}

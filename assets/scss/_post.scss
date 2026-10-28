@@ -1,0 +1,269 @@
+// A post (posts/single.html): the header and its image at the article's
+// width, the text in the reading column, then what follows it (the
+// site's call to action and the subscribe box) in the same column, and
+// the posts to read next at the article's width again.
+
+// The header: a line of facts, the headline, the standfirst
+// (partials/post-header.html), and the header image under them.
+.post-header {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--article-width);
+  margin-inline: auto;
+  padding: 48px var(--gutter) 0;
+}
+
+.post-meta {
+  margin-bottom: 16px;
+  a {
+    color: var(--highlight-color);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.post-title {
+  font-size: clamp(38px, 6vw, 76px);
+  line-height: 1.02;
+}
+
+.post-standfirst {
+  max-width: var(--measure);
+  margin: 16px 0 0;
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--emphasis-color);
+}
+
+.post-image {
+  margin-top: 32px;
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius-card);
+    background: var(--surface-color);
+  }
+}
+
+// The text, in the reading column, with the prose styles of a long read:
+// a larger size and line, lists, quotations, code and footnotes.
+.post-body {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--reading-width);
+  margin: 48px auto 0;
+  padding-inline: var(--gutter);
+  font-size: 19px;
+  line-height: 1.7;
+  color: var(--reading-color);
+  overflow-wrap: break-word;
+
+  p,
+  li {
+    font-size: 19px;
+    line-height: 1.7;
+    color: var(--reading-color);
+  }
+
+  p {
+    margin: 0 0 20px;
+  }
+
+  h2,
+  h3,
+  h4 {
+    margin: 40px 0 16px;
+    color: var(--heading-color);
+    font-family: var(--font-family-heading);
+    line-height: 1.25;
+  }
+
+  h2 {
+    font-size: clamp(26px, 3vw, 32px);
+  }
+
+  h3 {
+    font-size: 23px;
+  }
+
+  h4 {
+    font-size: 19px;
+  }
+
+  strong {
+    color: var(--emphasis-color);
+  }
+
+  a {
+    color: var(--highlight-color);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  ul,
+  ol {
+    margin: 0 0 20px;
+    padding-left: 24px;
+    li {
+      margin: 0 0 8px;
+      padding-left: 4px;
+    }
+    ul,
+    ol {
+      margin: 8px 0 0;
+    }
+  }
+
+  ul > li {
+    list-style: disc;
+  }
+
+  ol > li {
+    list-style: decimal;
+  }
+
+  li::marker {
+    color: var(--muted-color);
+  }
+
+  blockquote {
+    margin: 0 0 24px;
+    padding: 20px 24px;
+    border: 0;
+    border-radius: var(--radius-image);
+    background: var(--surface-color);
+    font-family: var(--font-family-heading);
+    p,
+    li {
+      display: block;
+      font-family: var(--font-family-heading);
+      font-size: 20px;
+      font-style: normal;
+      line-height: 1.5;
+      color: var(--emphasis-color);
+    }
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  hr {
+    margin: 40px 0;
+    border: 0;
+    border-top: 1px solid var(--rule-color);
+  }
+
+  img,
+  video {
+    margin: 32px 0;
+    border-radius: var(--radius-image);
+  }
+
+  :not(pre) > code {
+    padding: 0.1em 0.3em;
+    border-radius: 4px;
+    background: var(--surface-color);
+    font-size: 0.88em;
+    color: var(--emphasis-color);
+  }
+
+  .highlight,
+  > pre {
+    margin: 0 0 24px;
+  }
+
+  pre {
+    margin: 0;
+    padding: 20px 24px;
+    overflow-x: auto;
+    border-radius: var(--radius-image);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+    margin: 0 0 24px;
+    border-collapse: collapse;
+    font-size: 17px;
+    th,
+    td {
+      padding: 8px 12px 8px 0;
+      border-bottom: 1px solid var(--rule-color);
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      color: var(--emphasis-color);
+    }
+  }
+
+  // Footnotes, as Markdown writes them: a reference in the text, and the
+  // notes at the end, under a rule, smaller and quieter.
+  .footnote-ref {
+    padding-inline: 2px;
+    text-decoration: none;
+  }
+
+  .footnotes {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule-color);
+    hr {
+      display: none;
+    }
+    ol {
+      margin: 0;
+    }
+    li,
+    p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--muted-color);
+    }
+    p {
+      margin: 0 0 8px;
+    }
+  }
+
+  .footnote-backref {
+    text-decoration: none;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+// What follows the text: the site's call to action and the subscribe
+// box, in the reading column.
+.post-end {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: var(--reading-width);
+  margin: 56px auto 0;
+  padding-inline: var(--gutter);
+}
+
+// Posts to read next (partials/read-next.html), at the article's width.
+.read-next .page-width {
+  max-width: var(--article-width);
+}
+
+.read-next-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px 28px;
+  @include breakpoint('small') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .post-card-title {
+    font-size: 21px;
+  }
+}

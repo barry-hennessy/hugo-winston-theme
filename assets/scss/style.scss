@@ -17,6 +17,9 @@
   --highlight-color: {{ $p.highlightColor | default "#7b16ff" }};
   --heading-color: {{ $p.headingColor | default "#1c1b1d" }};
   --text-color: {{ $p.textColor | default "#4e5157" }};
+  // The text of a long read, such as a post's: the text's colour, or one
+  // a little stronger for a long column of it.
+  --reading-color: {{ or $p.readingColor $p.textColor "#4e5157" }};
   // The accent: a headline's full stop, primary buttons.
   --dot-color: {{ $p.dotColor | default "#7b16ff" }};
   // A panel or card raised off the ground, and a band set deeper than it.
@@ -50,6 +53,8 @@
   --measure: 62ch;
   --measure-narrow: 60ch;
   --reading-width: 720px;
+  // An article's header and image, around its reading column.
+  --article-width: 1040px;
   // A narrower section's content: questions and answers, a short form.
   --narrow-width: 880px;
 
@@ -97,6 +102,7 @@ $breakpoints: (
 @import 'post-card';
 @import 'topic-chips';
 @import 'post-list';
+@import 'post';
 @import 'author-box';
 @import 'grid';
 @import 'intro';
