@@ -5,6 +5,11 @@
 //                                              of the highlight colour
 //   <a class="button button--outline" ...>     an outline in the accent
 //
+// and, with any of them:
+//
+//   button--small    smaller, for a header or a menu
+//   button--edged    an edge in the ground's colour, on the highlight colour
+//
 // A text link set beside a button takes `cta-link`: on a phone, where the
 // two wrap onto lines of their own, its text lines up with the button's.
 //
@@ -68,6 +73,19 @@ $button-padding-x: 28px;
 .button--outline {
   --button-background: transparent;
   --button-color: var(--dot-color);
+}
+
+// A smaller button, for a header or a menu.
+.button--small {
+  padding: 12px 20px;
+  font-size: 16px;
+}
+
+// An edge in the ground's colour, so the button stands off a band of the
+// highlight colour, as on the open mobile menu.
+.button--edged {
+  --button-border: var(--base-color);
+  --button-focus-color: var(--base-color);
 }
 
 .cta-link {
