@@ -26,6 +26,24 @@
   border-top-color: var(--dot-color);
 }
 
+// Boxed: each item in a box on the surface colour, without a rule; the
+// highlighted one edged in the accent, and its title too.
+.rule-list--boxed {
+  gap: 20px;
+  .rule-list-item {
+    padding: 28px;
+    border: 2px solid transparent;
+    border-radius: var(--radius-card);
+    background: var(--surface-color);
+  }
+  .rule-list-item--highlight {
+    border-color: var(--dot-color);
+    .rule-list-title {
+      color: var(--dot-color);
+    }
+  }
+}
+
 .rule-list-label {
   margin: 0 0 6px;
   font-family: var(--font-family-monospace);

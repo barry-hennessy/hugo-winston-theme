@@ -15,6 +15,9 @@ Arguments (a dict):
   ordered   true for an ordered list without numbers shown (optional)
   rule      "solid" or "dashed", for the items not highlighted (optional;
             "solid")
+  boxed     true to set each item in a box on the surface colour instead
+            of under a rule; the highlighted one is edged in the accent,
+            its title too (optional)
   grid      a grid class to lay it out with, e.g. "steps" or "trio"
             (optional; one under the other)
   level     the titles' heading level (optional; 3)
@@ -28,6 +31,7 @@ Nothing is rendered without items.
 {{- $level := $.level | default 3 -}}
 {{- $class := slice "rule-list" -}}
 {{- if eq $.rule "dashed" }}{{ $class = $class | append "rule-list--dashed" }}{{ end -}}
+{{- if $.boxed }}{{ $class = $class | append "rule-list--boxed" }}{{ end -}}
 {{- with $.grid }}{{ $class = $class | append . }}{{ end -}}
 {{- with $.class }}{{ $class = $class | append . }}{{ end -}}
 {{- if $ordered }}

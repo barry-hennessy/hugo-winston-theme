@@ -275,7 +275,9 @@ with a small label, a title and a line: method steps, what happens next,
 sizes, ways to go. The `highlight`ed item's rule is solid in the accent;
 the others' are quiet, `rule` `solid` or `dashed`. `numbered` numbers
 them (`true`: 1, 2; `"padded"`: 01, 02); `grid` lays them out with a grid
-class (`steps`, `trio`, `quad`).
+class (`steps`, `trio`, `quad`). `boxed` sets each item in a box on the
+surface colour instead, the highlighted one edged in the accent: what
+you get, as four boxes.
 
 **Panel** (`panel.html`): two cells side by side from 767px, such as
 goals and non-goals, or a good fit and not a fit. Each has a label (a
