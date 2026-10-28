@@ -1,0 +1,23 @@
+{{- /*
+Where a page is: the sections it is in, from the top of the site down,
+each a link, then the page itself, marked as the current page. For a
+section's page, e.g. "Services / Decision Sprint". The home page is left
+out: the site's name in the header leads there.
+
+Arguments (a dict):
+  page  the page being rendered
+
+Documentation, whose trail can lead out of its own tree, has its own:
+docs/breadcrumb.html.
+*/ -}}
+{{- $page := .page -}}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <ol>
+    {{- range $page.Ancestors.Reverse }}
+      {{- if not .IsHome }}
+    <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a><span class="breadcrumb-separator" aria-hidden="true">/</span></li>
+      {{- end }}
+    {{- end }}
+    <li><span aria-current="page">{{ $page.LinkTitle }}</span></li>
+  </ol>
+</nav>

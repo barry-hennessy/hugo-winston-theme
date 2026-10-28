@@ -1,0 +1,28 @@
+// Where a page is (partials/breadcrumb.html): its sections, linked, then
+// the page, in a small monospace line, separated by slashes.
+.breadcrumb {
+  margin-bottom: 32px;
+  font-family: var(--font-family-monospace);
+  font-size: var(--font-size-label);
+  line-height: 1.4;
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    font-family: inherit;
+  }
+  // The slash is hidden from screen readers: the list says the order.
+  .breadcrumb-separator {
+    margin: 0 8px;
+    color: var(--muted-color);
+  }
+  a {
+    // A 24px target at least, though the line is smaller.
+    display: inline-block;
+    padding: 2px 0;
+    color: var(--highlight-color);
+  }
+  [aria-current='page'] {
+    color: var(--emphasis-color);
+  }
+}
