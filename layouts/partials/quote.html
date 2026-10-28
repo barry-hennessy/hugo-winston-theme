@@ -1,0 +1,27 @@
+{{- /*
+A quote set on its own, with who said it: a figure holding the quotation
+and, under it, its attribution.
+
+Arguments (a dict):
+  text   the quotation, one paragraph in Markdown, with its quotation
+         marks
+  name   who said it (optional)
+  role   what they do, and where (optional)
+  cite   the URL of the quotation's source (optional)
+  class  classes added to the figure's (optional)
+
+The attribution reads "— Name, Role". Nothing is rendered without text.
+*/ -}}
+{{- with .text }}
+<figure class="quote{{ with $.class }} {{ . }}{{ end }}">
+  <blockquote{{ with $.cite }} cite="{{ . }}"{{ end }}>
+    <p>{{ . | markdownify }}</p>
+  </blockquote>
+  {{- $by := slice }}
+  {{- with $.name }}{{ $by = $by | append . }}{{ end }}
+  {{- with $.role }}{{ $by = $by | append . }}{{ end }}
+  {{- with $by }}
+  <figcaption>— {{ delimit . ", " }}</figcaption>
+  {{- end }}
+</figure>
+{{- end -}}

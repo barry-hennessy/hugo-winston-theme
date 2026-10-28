@@ -286,6 +286,10 @@ colour and buttons in the ground's colour (`on-pink`), side by side and
 wrapping. An `aside` (e.g. the subscribe box) takes the buttons' place
 beside the text, and the buttons go under the text.
 
+**Quote** (`quote.html`): a quotation set on its own, with who said it:
+a `figure` holding a `blockquote` and a `figcaption` ("— Name, Role").
+The quotation marks are the text's own.
+
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:
 

@@ -1,0 +1,34 @@
+// A quote set on its own (partials/quote.html): the quotation in the
+// heading font in a box on the surface colour, who said it under it.
+
+.quote {
+  margin: 0;
+  padding: 24px 28px;
+  border-radius: var(--radius-image);
+  background: var(--surface-color);
+  blockquote {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  blockquote p {
+    display: block;
+    margin: 0;
+    font-family: var(--font-family-heading);
+    font-size: 22px;
+    font-style: normal;
+    line-height: 1.4;
+    color: var(--emphasis-color);
+    // The quotation marks are the text's own.
+    &::before,
+    &::after {
+      content: none;
+    }
+  }
+  figcaption {
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted-color);
+  }
+}
