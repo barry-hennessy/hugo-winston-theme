@@ -86,3 +86,13 @@
     color: var(--dot-color);
   }
 }
+
+// Links in the text of the components: in the highlight colour and
+// underlined, whatever a site's reset of links says. On the highlight
+// colour they take the text's colour (.scheme-highlight, above).
+:is(.section-lead, .hero-lead, .panel-list, .panel-text, .rule-list-text,
+  .faq-answer, .facts-list-item dd, .story-card-text, .actions-note,
+  .subscribe-text, .cta-band-text) a {
+  color: var(--highlight-color);
+  text-decoration: underline;
+}
