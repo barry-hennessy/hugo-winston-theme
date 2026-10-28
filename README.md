@@ -290,6 +290,9 @@ beside the text, and the buttons go under the text.
 a `figure` holding a `blockquote` and a `figcaption` ("— Name, Role").
 The quotation marks are the text's own.
 
+**FAQ** (`faq.html`): questions and answers as `details` and `summary`,
+without JavaScript; `open_first` shows the first answer.
+
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:
 

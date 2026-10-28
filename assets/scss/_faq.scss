@@ -1,0 +1,66 @@
+// Questions and answers (partials/faq.html): each question a summary under
+// a rule, with a plus that turns into a minus when it is open.
+
+.faq {
+  border-bottom: 1px solid var(--rule-color);
+}
+
+.faq-item {
+  border-top: 1px solid var(--rule-color);
+}
+
+.faq-question {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 20px 0;
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--font-family-heading);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--emphasis-color);
+  &::-webkit-details-marker {
+    display: none;
+  }
+  &::after {
+    // Drawn, not read: the summary says whether it is open.
+    content: '+' / '';
+    flex: none;
+    font-size: 24px;
+    line-height: 1;
+    color: var(--dot-color);
+  }
+  .faq-item[open] > &::after {
+    content: '\2212' / '';
+  }
+  .faq-item[open] > & {
+    padding-bottom: 12px;
+  }
+  &:hover {
+    color: var(--highlight-color);
+  }
+  &:focus-visible {
+    outline: 3px solid var(--highlight-color);
+    outline-offset: 4px;
+  }
+}
+
+.faq-answer {
+  max-width: var(--measure);
+  padding-bottom: 20px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-color);
+  p {
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
+  }
+  p + p {
+    margin-top: 12px;
+  }
+}

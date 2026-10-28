@@ -1,0 +1,23 @@
+{{- /*
+Questions and answers, each answer shown when its question is opened (a
+details element, without JavaScript).
+
+Arguments (a dict):
+  items       a list of dicts, each:
+                question  the question
+                answer    the answer, in Markdown
+  open_first  true to show the first answer open (optional)
+  class       classes added to the list's (optional)
+
+Nothing is rendered without items.
+*/ -}}
+{{- with .items }}
+<div class="faq{{ with $.class }} {{ . }}{{ end }}">
+  {{- range $i, $item := . }}
+  <details class="faq-item"{{ if and $.open_first (eq $i 0) }} open{{ end }}>
+    <summary class="faq-question">{{ .question }}</summary>
+    <div class="faq-answer">{{ .answer | markdownify }}</div>
+  </details>
+  {{- end }}
+</div>
+{{- end -}}
