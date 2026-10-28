@@ -202,7 +202,8 @@ the shared padding (`--section-padding`) and its content at the content's
 width. `background` is `default`, `deep` (`--deep-color`) or `highlight`
 (`--highlight-color`, with the text in the ground's colour). It can open
 with an eyebrow, a heading (with its closing mark) and a lead paragraph,
-and is then labelled by the heading. Its `content` is HTML, usually
+and is then labelled by the heading; with no heading and no
+`labelledby` it is a `div`, as nothing names it. Its `content` is HTML, usually
 another partial's output:
 
 ```go-html-template

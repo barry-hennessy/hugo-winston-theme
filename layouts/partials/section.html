@@ -26,7 +26,9 @@ Arguments (a dict):
   class       classes added to the section's (optional)
 
 With a heading, the section is labelled by it: the heading's id is the
-section's id with "-title", or made from the heading's text.
+section's id with "-title", or made from the heading's text. With neither
+a heading nor labelledby, nothing names it, so it is a div, not a
+section: a band that only continues the page.
 */ -}}
 {{- $background := .background | default "default" -}}
 {{- $headingID := "" -}}
@@ -35,7 +37,8 @@ section's id with "-title", or made from the heading's text.
 {{- end -}}
 {{- $labelledby := .labelledby | default $headingID -}}
 {{- $level := .level | default 2 -}}
-<section class="section
+{{- /* Literal tags: html/template escapes a tag name made by an action. */ -}}
+{{ if $labelledby }}<section{{ else }}<div{{ end }} class="section
   {{- if ne $background "default" }} section--{{ $background }}{{ end -}}
   {{- if eq $background "highlight" }} scheme-highlight{{ end -}}
   {{- with .class }} {{ . }}{{ end }}"
@@ -63,5 +66,5 @@ section's id with "-title", or made from the heading's text.
     {{- end }}
     {{ .content }}
   </div>
-</section>
+{{ if $labelledby }}</section>{{ else }}</div>{{ end }}
 {{- /* chomp trailing newline */ -}}
