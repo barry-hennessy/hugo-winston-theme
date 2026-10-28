@@ -299,7 +299,9 @@ you get, as four boxes.
 `paths` (a dashed rule list), the `highlight`ed one ruled in the accent,
 with a line in the accent dropping from it to the `group` it leads to:
 a heading ruled in the accent (`label`, `heading`, `text`) over the
-`content`, e.g. a row of offer cards. Below 992px there is no line, no
+`content`, e.g. a row of offer cards, and an optional `note` in
+monospace under it all. Set after a panel in the same section, it keeps
+its distance. Below 992px there is no line, no
 highlighted path and no labels; the other paths sit side by side from
 767px and one under the other on phones, and the group keeps its rule.
 

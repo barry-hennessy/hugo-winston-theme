@@ -128,3 +128,16 @@
   line-height: 1.5;
   color: var(--text-color);
 }
+
+// Set off from what comes before it in its section, such as a panel.
+* + .fork {
+  margin-top: 48px;
+}
+
+.fork-note {
+  margin-top: 28px;
+  a {
+    color: var(--highlight-color);
+    text-decoration: underline;
+  }
+}

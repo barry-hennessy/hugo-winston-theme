@@ -21,7 +21,9 @@ Arguments (a dict):
                heading when there is room (optional)
   content      what the highlighted path leads to, under the group's
                heading: HTML, such as a row of offer cards (optional)
-  level        the heading level of the fork's and the group's headings;
+  note         a line under it all, in monospace, in Markdown, e.g. where
+               the decision stands (optional)
+  level       the heading level of the fork's and the group's headings;
                the paths' titles are one below (optional; 3)
   id           the fork's id (optional)
   class        classes added to the fork's (optional)
@@ -64,6 +66,9 @@ Nothing is rendered without paths.
     {{- end }}
     {{ $.content }}
   </div>
+  {{- end }}
+  {{- with $.note }}
+  <p class="mono-label fork-note">{{ . | markdownify }}</p>
   {{- end }}
 </div>
 {{- end -}}
