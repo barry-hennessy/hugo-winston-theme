@@ -68,7 +68,9 @@
   color: var(--text-color);
 }
 
-.hero-facts {
+// Both classes, so the fact strip's own margin (_facts.scss, later) does
+// not undo it.
+.hero-facts.fact-strip {
   margin-top: 32px;
 }
 
