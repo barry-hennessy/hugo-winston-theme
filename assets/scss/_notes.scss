@@ -1,0 +1,22 @@
+// Notes (partials/notes.html): a few short lines side by side, wrapping.
+
+.notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 48px;
+}
+
+.notes-item {
+  max-width: var(--measure);
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-color);
+  strong {
+    color: var(--emphasis-color);
+  }
+}
+
+.notes-item--muted {
+  color: var(--muted-color);
+}

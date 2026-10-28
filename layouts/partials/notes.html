@@ -1,0 +1,22 @@
+{{- /*
+Notes: a few short lines, side by side and wrapping onto lines of their
+own when there is no room, such as other ways to get in touch at the foot
+of a page. A line can open with a few words in bold, which stand out.
+
+Arguments (a dict):
+  items  a list of dicts, each:
+           text   the line, in Markdown
+           muted  true to set it in the muted colour (optional)
+  class  classes added to the notes' (optional)
+
+Nothing is rendered without items.
+*/ -}}
+{{- with .items }}
+<div class="notes{{ with $.class }} {{ . }}{{ end }}">
+  {{- range . }}
+  {{- if .text }}
+  <p class="notes-item{{ if .muted }} notes-item--muted{{ end }}">{{ .text | markdownify }}</p>
+  {{- end }}
+  {{- end }}
+</div>
+{{- end -}}

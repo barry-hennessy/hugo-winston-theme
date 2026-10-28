@@ -361,6 +361,11 @@ hero, and above it on phones. Pass its title's `id` as the section's
 mark over a few paragraphs or a list, in Markdown: one of a pair in a
 `duo`.
 
+**Notes** (`notes.html`): a few short lines side by side, wrapping, such
+as other ways to get in touch at the foot of a page: `items` of a `text`
+in Markdown, its words in bold standing out, and `muted` for a quieter
+one.
+
 **Quote** (`quote.html`): a quotation set on its own, with who said it:
 a `figure` holding a `blockquote` and a `figcaption` ("— Name, Role").
 The quotation marks are the text's own.
