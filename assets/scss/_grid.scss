@@ -1,7 +1,8 @@
 // Grids: classes for a list or a div whose children are laid out in equal
 // columns, one column on phones.
 //
-//   trio     3 across from the medium breakpoint, one column below
+//   trio     3 across from the medium breakpoint, one column below;
+//            with trio--from-small, from the small one, for short items
 //   quartet  4 across from the medium breakpoint, one column below
 //   quad     4 across from the medium breakpoint, 2 × 2 from the small one
 //   steps    5 across from the medium breakpoint, a list below
@@ -32,6 +33,15 @@
   @include breakpoint('medium') {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 32px;
+  }
+}
+
+// Short items, a line or two each, are three across from the small
+// breakpoint already.
+.trio--from-small {
+  @include breakpoint('small') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
   }
 }
 

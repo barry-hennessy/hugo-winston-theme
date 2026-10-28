@@ -226,7 +226,8 @@ colour.
 
 **Grids**: classes for a list or a `div` whose children are laid out in
 equal columns, one column on phones. `trio`: 3 across from the medium
-breakpoint. `quartet`: 4 from the medium breakpoint. `quad`: 4 from the
+breakpoint, or from the small one with `trio--from-small`, for short
+items. `quartet`: 4 from the medium breakpoint. `quad`: 4 from the
 medium breakpoint, 2 × 2 from the small one. `steps`: 5 from the medium
 breakpoint. `duo`: 2 from the small breakpoint. `facts`: 3 from the
 medium breakpoint, 2 from the small one. A group of three never wraps to
