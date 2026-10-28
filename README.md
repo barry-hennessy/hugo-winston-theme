@@ -270,6 +270,15 @@ a `trio`. From 767px to 991px, where the trio is one column, the picture
 sits on the left of the text. With a `url` the whole card is a link
 through its title.
 
+**Offer card** (`offer-card.html`): one way to work together, one of a
+`trio`: a numbered label, the title, a price with its terms set smaller
+("from €4.5k · fixed price"), a line and a call to action. The
+`highlight`ed card (usually the first) is edged in the accent on the
+surface colour, with a button; the others are outlined quietly, with a
+text link. The calls to action of a row line up along the bottom. From
+767px to 991px, where the trio is one column, the label, title and price
+sit on the left of the line.
+
 **Rule list** (`rule-list.html`): items each under a rule along the top,
 with a small label, a title and a line: method steps, what happens next,
 sizes, ways to go. The `highlight`ed item's rule is solid in the accent;

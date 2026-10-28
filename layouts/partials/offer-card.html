@@ -1,0 +1,58 @@
+{{- /*
+An offer card: one way to work together, one of a row (in a trio). A
+numbered label, the offer's title, its price, a line about it and what to
+do next. The highlighted card, usually the first, is edged in the accent
+on the surface colour, its price in the accent and its call to action a
+button; the others are outlined quietly, with a text link. From the small
+breakpoint to the medium one, where the row is one column, the label,
+title and price sit on the left of the line and the call to action.
+
+Arguments (a dict):
+  title        the offer's name
+  number       its number in the row, before the label (optional)
+  label        a short label, e.g. "Start here" (optional)
+  price        the price, e.g. "from €4.5k" (optional)
+  price_terms  what the price is for, set smaller after it, e.g. "fixed
+               price" (optional)
+  text         a line about it, in Markdown (optional)
+  action       what to do next: a dict of label, url and style ("primary",
+               "outline" for a button, "link" for a text link; a button
+               on the highlighted card, a link on the others) (optional)
+  highlight    true for the highlighted card (optional)
+  level        the title's heading level (optional; 3)
+  class        classes added to the card's (optional)
+
+  {{ partial "offer-card.html" (dict "number" 1 "label" "Start here"
+       "title" "First conversation" "price" "Free" "price_terms" "30 minutes"
+       "text" "Bring what's stuck." "highlight" true
+       "action" (dict "label" "Book the free call" "url" "/call-me/")) }}
+*/ -}}
+{{- $level := .level | default 3 -}}
+{{- $label := slice -}}
+{{- with .number }}{{ $label = $label | append (string .) }}{{ end -}}
+{{- with .label }}{{ $label = $label | append . }}{{ end -}}
+<article class="offer-card{{ if .highlight }} offer-card--highlight{{ end }}{{ with .class }} {{ . }}{{ end }}">
+  {{- with $label }}
+  <p class="offer-card-label">{{ delimit . " · " }}</p>
+  {{- end }}
+  <h{{ $level }} class="offer-card-title">{{ .title }}</h{{ $level }}>
+  {{- with .price }}
+  <p class="offer-card-price">{{ . }}{{ with $.price_terms }} <span class="offer-card-terms">· {{ . }}</span>{{ end }}</p>
+  {{- end }}
+  {{- with .text }}
+  <p class="offer-card-text">{{ . | markdownify }}</p>
+  {{- end }}
+  {{- with .action }}
+    {{- if and .label .url }}
+      {{- $style := .style | default (cond (eq $.highlight true) "primary" "link") }}
+      {{- $url := .url }}
+      {{- if not (strings.HasPrefix $url "#") }}{{ $url = $url | relLangURL }}{{ end }}
+      {{- if eq $style "link" }}
+  <a class="offer-card-link" href="{{ $url }}">{{ .label }}</a>
+      {{- else }}
+  <a class="button button--small offer-card-button{{ if ne $style "primary" }} button--{{ $style }}{{ end }}" href="{{ $url }}">{{ .label }}</a>
+      {{- end }}
+    {{- end }}
+  {{- end }}
+</article>
+{{- /* chomp trailing newline */ -}}
