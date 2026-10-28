@@ -280,6 +280,12 @@ heading) over a list of `items` or a `text`; the `highlight`ed cell (the
 first, unless one is marked) has a rule in the accent along its top, the
 other a quiet one.
 
+**Call-to-action band** (`cta-band.html`): a rounded box in the highlight
+colour at the content's width, with a heading and a line in the ground's
+colour and buttons in the ground's colour (`on-pink`), side by side and
+wrapping. An `aside` (e.g. the subscribe box) takes the buttons' place
+beside the text, and the buttons go under the text.
+
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:
 

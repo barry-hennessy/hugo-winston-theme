@@ -1,0 +1,44 @@
+{{- /*
+A call-to-action band: a box in the highlight colour, with its corners
+rounded, at the content's width, holding a heading and a line in the
+ground's colour and buttons in the ground's colour on it. The text and the
+buttons sit side by side and wrap when there is no room. Anything set
+aside (e.g. subscribe.html) takes the buttons' place, and the buttons go
+under the text.
+
+Arguments (a dict):
+  heading  the heading
+  text     a line under it, in Markdown (optional)
+  actions  calls to action: a list of dicts of label, url and style, as
+           actions.html takes; buttons are "on-pink" unless they say
+           otherwise (optional)
+  aside    HTML set beside the text, such as a partial's output (optional)
+  id       the band's id; its heading's is the id with "-title" (optional)
+  level    the heading's level (optional; 2)
+  class    classes added to the section's (optional)
+*/ -}}
+{{- $level := .level | default 2 -}}
+{{- $headingID := printf "%s-title" (.id | default (anchorize .heading)) -}}
+{{- $actions := partial "actions.html" (dict "items" .actions "style" "on-pink" "class" "cta-band-actions") -}}
+<section class="section cta-band-section{{ with .class }} {{ . }}{{ end }}"
+  {{- with .id }} id="{{ . }}"{{ end }} aria-labelledby="{{ $headingID }}">
+  <div class="page-width">
+    <div class="cta-band scheme-highlight{{ if .aside }} cta-band--aside{{ end }}">
+      <div class="cta-band-copy">
+        <h{{ $level }} class="cta-band-title" id="{{ $headingID }}">{{ .heading }}</h{{ $level }}>
+        {{- with .text }}
+        <p class="cta-band-text">{{ . | markdownify }}</p>
+        {{- end }}
+        {{- if .aside }}
+        {{ $actions }}
+        {{- end }}
+      </div>
+      {{- with .aside }}
+      <div class="cta-band-aside">{{ . }}</div>
+      {{- else }}
+      {{ $actions }}
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{- /* chomp trailing newline */ -}}
