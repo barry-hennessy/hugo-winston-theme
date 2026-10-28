@@ -48,3 +48,11 @@
     @content;
   }
 }
+
+// Below a breakpoint, not including it: what a component leaves out
+// until there is room for it.
+@mixin breakpoint-below($to) {
+  @media (max-width: map-get($breakpoints, $to) - 0.02px) {
+    @content;
+  }
+}

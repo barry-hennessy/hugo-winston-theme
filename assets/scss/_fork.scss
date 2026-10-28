@@ -1,0 +1,130 @@
+// The fork (partials/fork.html): paths side by side under dashed rules, the
+// highlighted one under a rule in the accent, a line in the accent from it
+// down to the group it leads to, ruled in the accent too.
+//
+// From the medium breakpoint the paths share the width equally, however
+// many there are, and the line drops from the middle of the highlighted
+// one. Below it there is no line, no highlighted path and no labels: the
+// other paths sit side by side from the small breakpoint, one under the
+// other on phones, and the group's rule stays.
+
+.fork-head {
+  margin-bottom: 32px;
+}
+
+.fork-title {
+  max-width: 28ch;
+}
+
+.fork-lead {
+  max-width: var(--measure-narrow);
+  margin: 8px 0 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+.fork-paths {
+  gap: 16px;
+  @include breakpoint('small') {
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    gap: 24px;
+  }
+  @include breakpoint('medium') {
+    gap: 32px;
+  }
+  .rule-list-item {
+    padding-top: 10px;
+    border-top-width: 2px;
+    @include breakpoint('small') {
+      padding-top: 14px;
+      border-top-width: 3px;
+    }
+  }
+  .rule-list-title {
+    margin-bottom: 4px;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+  .rule-list-text {
+    font-size: 15px;
+    color: var(--muted-color);
+  }
+  .rule-list-item--highlight {
+    .rule-list-title {
+      font-weight: 700;
+      color: var(--emphasis-color);
+    }
+    .rule-list-text {
+      color: var(--text-color);
+    }
+  }
+  // The labels and the highlighted path only show where the line joins
+  // them to the group.
+  @include breakpoint-below('medium') {
+    .rule-list-label,
+    .rule-list-item--highlight {
+      display: none;
+    }
+  }
+}
+
+.fork-line {
+  display: none;
+  @include breakpoint('medium') {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    gap: 32px;
+    height: 48px;
+  }
+}
+
+.fork-line-stem {
+  justify-self: center;
+  width: 3px;
+  height: 100%;
+  background: var(--dot-color);
+}
+
+.fork-group {
+  margin-top: 16px;
+  padding-top: 10px;
+  border-top: 2px solid var(--dot-color);
+  @include breakpoint('small') {
+    margin-top: 28px;
+    padding-top: 14px;
+    border-top-width: 3px;
+  }
+  @include breakpoint('medium') {
+    margin-top: 0;
+    padding-top: 28px;
+  }
+}
+
+.fork-group-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 48px;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.fork-group-label {
+  margin: 0 0 6px;
+  font-family: var(--font-family-monospace);
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--dot-color);
+}
+
+.fork-group-text {
+  max-width: var(--measure);
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-color);
+}

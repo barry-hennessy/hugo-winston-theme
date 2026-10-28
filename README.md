@@ -295,6 +295,20 @@ class (`steps`, `trio`, `quad`). `boxed` sets each item in a box on the
 surface colour instead, the highlighted one edged in the accent: what
 you get, as four boxes.
 
+**The fork** (`fork.html`): the ways out of a decision, side by side as
+`paths` (a dashed rule list), the `highlight`ed one ruled in the accent,
+with a line in the accent dropping from it to the `group` it leads to:
+a heading ruled in the accent (`label`, `heading`, `text`) over the
+`content`, e.g. a row of offer cards. Below 992px there is no line, no
+highlighted path and no labels; the other paths sit side by side from
+767px and one under the other on phones, and the group keeps its rule.
+
+```go-html-template
+{{ partial "fork.html" (dict "heading" "Three ways out" "paths" .Params.paths
+     "group" (dict "label" "With me" "heading" "Three ways to work together")
+     "content" $offers) }}
+```
+
 **Panel** (`panel.html`): two cells side by side from 767px, such as
 goals and non-goals, or a good fit and not a fit. Each has a label (a
 heading) over a list of `items` or a `text`; the `highlight`ed cell (the

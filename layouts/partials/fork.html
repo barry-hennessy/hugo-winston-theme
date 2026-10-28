@@ -1,0 +1,69 @@
+{{- /*
+The fork: the ways out of a decision, side by side, as paths under a rule
+each, and the one they lead to opened out below them. The highlighted path
+(the way the page offers) is ruled solid in the accent, and a line in the
+accent drops from it to the group it leads to, whose heading is ruled in
+the accent too; the other paths are ruled dashed and quiet.
+
+From the medium breakpoint (992px) up the paths are side by side with
+their labels, and the line joins the highlighted one to the group. Below
+it there is no line, the highlighted path and the labels are left out
+(the group's heading says the same), and the other paths sit side by side
+from the small breakpoint and one under the other on phones.
+
+Arguments (a dict):
+  heading      the fork's heading, with its closing mark (optional)
+  lead         a paragraph under it, in Markdown (optional)
+  paths        the ways out: a list of dicts as rule-list.html takes
+               (label, title, text, highlight); one highlighted
+  group        the heading of where the highlighted path leads: a dict of
+               label, heading and text (Markdown), the text set beside the
+               heading when there is room (optional)
+  content      what the highlighted path leads to, under the group's
+               heading: HTML, such as a row of offer cards (optional)
+  level        the heading level of the fork's and the group's headings;
+               the paths' titles are one below (optional; 3)
+  id           the fork's id (optional)
+  class        classes added to the fork's (optional)
+
+Nothing is rendered without paths.
+*/ -}}
+{{- with .paths }}
+{{- $level := $.level | default 3 -}}
+<div class="fork{{ with $.class }} {{ . }}{{ end }}"{{ with $.id }} id="{{ . }}"{{ end }}>
+  {{- if or $.heading $.lead }}
+  <div class="fork-head">
+    {{- with $.heading }}
+    <h{{ $level }} class="heading-subsection fork-title">{{ partial "punctuated.html" (dict "text" .) }}</h{{ $level }}>
+    {{- end }}
+    {{- with $.lead }}
+    <p class="fork-lead">{{ . | markdownify }}</p>
+    {{- end }}
+  </div>
+  {{- end }}
+  {{ partial "rule-list.html" (dict "items" . "rule" "dashed" "level" (add $level 1) "class" "fork-paths") }}
+  <div class="fork-line" aria-hidden="true">
+    {{- range . }}<span{{ if .highlight }} class="fork-line-stem"{{ end }}></span>{{ end -}}
+  </div>
+  {{- if or $.group $.content }}
+  <div class="fork-group">
+    {{- with $.group }}
+    <div class="fork-group-head">
+      <div class="fork-group-name">
+        {{- with .label }}
+        <p class="fork-group-label">{{ . }}</p>
+        {{- end }}
+        {{- with .heading }}
+        <h{{ $level }} class="heading-card fork-group-title">{{ . }}</h{{ $level }}>
+        {{- end }}
+      </div>
+      {{- with .text }}
+      <p class="fork-group-text">{{ . | markdownify }}</p>
+      {{- end }}
+    </div>
+    {{- end }}
+    {{ $.content }}
+  </div>
+  {{- end }}
+</div>
+{{- end -}}
