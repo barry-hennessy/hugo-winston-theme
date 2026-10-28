@@ -1,0 +1,29 @@
+// Widths: the content of a page, an article's column and a paragraph's line.
+
+// The content's width, centred, with a gutter either side.
+.page-width {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+// The column an article is read in, centred, with a gutter either side.
+.reading-width {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--reading-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+// A comfortable line for a paragraph, and a slightly shorter one for the
+// larger text of a lead paragraph.
+.measure {
+  max-width: var(--measure);
+}
+
+.measure-narrow {
+  max-width: var(--measure-narrow);
+}

@@ -1,0 +1,49 @@
+// The type scale: fluid headings, set in the heading font, and a small
+// monospace label. Each class sets size and colour only; the component that
+// uses it sets the spacing around it.
+
+.heading-headline,
+.heading-section,
+.heading-card {
+  margin: 0;
+  font-family: var(--font-family-heading);
+  font-weight: 700;
+  color: var(--heading-color);
+  // A word wider than a phone breaks rather than running off the page.
+  overflow-wrap: break-word;
+}
+
+// A page's headline: its h1.
+.heading-headline {
+  font-size: var(--font-size-headline);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+// A section's heading.
+.heading-section {
+  font-size: var(--font-size-section);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+// The title of a card or an item in a grid.
+.heading-card {
+  font-size: var(--font-size-card);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--emphasis-color);
+}
+
+// A small label in monospace: a number, a date, a price, a kicker.
+.mono-label {
+  margin: 0;
+  font-family: var(--font-family-monospace);
+  font-size: var(--font-size-label);
+  line-height: 1.4;
+  color: var(--muted-color);
+}
+
+.mono-label--accent {
+  color: var(--dot-color);
+}

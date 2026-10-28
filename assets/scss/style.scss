@@ -59,6 +59,8 @@ $breakpoints: (
 @import 'tailwind';
 @import 'normalize';
 @import 'breakpoints';
+@import 'type';
+@import 'layout';
 @import 'header';
 @import 'footer';
 @import 'content';
