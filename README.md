@@ -328,6 +328,10 @@ the whole story (`action`). The picture sits beside the text as in the
 hero, and above it on phones. Pass its title's `id` as the section's
 `labelledby`.
 
+**Text block** (`text-block.html`): a smaller heading with its closing
+mark over a few paragraphs or a list, in Markdown: one of a pair in a
+`duo`.
+
 **Quote** (`quote.html`): a quotation set on its own, with who said it:
 a `figure` holding a `blockquote` and a `figcaption` ("— Name, Role").
 The quotation marks are the text's own.

@@ -1,0 +1,25 @@
+{{- /*
+A text block: a heading with its closing mark over a few paragraphs or a
+list, one of a pair side by side (in a duo), such as where you are most
+useful and your background.
+
+Arguments (a dict):
+  heading      the heading
+  punctuation  its closing mark, instead of the full stop (optional)
+  text         the text, in Markdown: paragraphs, a list
+  level        the heading's level (optional; 2)
+  id           the heading's id (optional; made from the heading)
+  class        classes added to the block's (optional)
+*/ -}}
+{{- $level := .level | default 2 -}}
+<div class="text-block{{ with .class }} {{ . }}{{ end }}">
+  {{- with .heading }}
+  <h{{ $level }} class="heading-subsection text-block-title" id="{{ $.id | default (anchorize .) }}">
+    {{- partial "punctuated.html" (dict "text" . "punctuation" $.punctuation) -}}
+  </h{{ $level }}>
+  {{- end }}
+  {{- with .text }}
+  <div class="text-block-text">{{ . | markdownify }}</div>
+  {{- end }}
+</div>
+{{- /* chomp trailing newline */ -}}
