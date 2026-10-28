@@ -1,0 +1,25 @@
+{{- /*
+A link to a menu entry. The page the entry is for is marked as the current
+page (aria-current="page"); an entry for a section the page is in, as the
+current section (aria-current="true"). For an entry in the site's
+configuration to know its page, give it a `pageRef`, not a `url`.
+
+Arguments (a dict):
+  page   the page being rendered
+  entry  the menu entry
+*/ -}}
+{{- $page := .page -}}
+{{- $entry := .entry -}}
+{{- $current := "" -}}
+{{- if $page.IsMenuCurrent $entry.Menu $entry -}}
+  {{- $current = "page" -}}
+{{- else if $page.HasMenuCurrent $entry.Menu $entry -}}
+  {{- $current = "true" -}}
+{{- else if and $entry.Page (not $entry.Page.IsHome) ($page.IsDescendant $entry.Page) -}}
+  {{- /* HasMenuCurrent covers a section's pages, but not, for example, a
+         term below its taxonomy's page. */ -}}
+  {{- $current = "true" -}}
+{{- end -}}
+<a href="{{ $entry.URL }}"
+  {{- with $current }} aria-current="{{ . }}"{{ end }}>{{ $entry.Pre }}{{ $entry.Name }}{{ $entry.Post }}</a>
+{{- /**/ -}}

@@ -1,0 +1,23 @@
+{{- /*
+The site's call to action as a button, from the site's params:
+
+  [params.cta]
+    label = "Book a call"
+    url = "/call-me/"
+
+Nothing is rendered unless both are set. On the page it leads to, the
+button is marked as the current page.
+
+Arguments (a dict):
+  page   the page being rendered
+  class  classes added to the button's (optional)
+*/ -}}
+{{- $page := .page -}}
+{{- $class := .class -}}
+{{- with site.Params.cta -}}
+  {{- if and .label .url -}}
+    {{- $url := .url | relLangURL -}}
+    <a class="button{{ with $class }} {{ . }}{{ end }}" href="{{ $url }}"
+      {{- if eq $url $page.RelPermalink }} aria-current="page"{{ end }}>{{ .label }}</a>
+  {{- end -}}
+{{- end -}}

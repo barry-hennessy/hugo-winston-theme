@@ -1,0 +1,12 @@
+{{- /*
+The main menu, `menu.main`, as a row of links: from the medium breakpoint
+up, where the header has room for it.
+*/ -}}
+{{- $page := . -}}
+{{- with site.Menus.main }}
+<ul class="menu-main">
+  {{- range . }}
+  <li>{{ partial "menu-link.html" (dict "page" $page "entry" .) }}</li>
+  {{- end }}
+</ul>
+{{- end -}}

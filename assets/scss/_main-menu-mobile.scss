@@ -1,22 +1,107 @@
+// The main menu below the medium breakpoint (partials/menu-main-mobile.html):
+// a hamburger, a details element's summary, that opens the menu over the
+// whole screen in the highlight colour and turns into a cross to close it.
+// No JavaScript.
+
+.hamburger-trigger {
+  display: flex;
+  align-items: center;
+  @include breakpoint('medium') {
+    display: none;
+  }
+}
+
+// The summary: a 44px target around the bars.
+.hamburger {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  // The bars line up with the edge of the header.
+  margin-right: -7px;
+  list-style: none;
+  cursor: pointer;
+  color: var(--highlight-color);
+  &::-webkit-details-marker {
+    display: none;
+  }
+  &:hover {
+    opacity: 0.7;
+  }
+  &:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+.hamburger-bars {
+  position: relative;
+  display: block;
+  width: 30px;
+  height: 20px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-color: currentColor;
+  transition: border-color 0.25s ease-in-out;
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+    transform: translateY(-50%);
+    transition: transform 0.25s ease-in-out;
+  }
+}
+
+// Open: the bars cross, in the colour of the page's ground, on the menu.
+.hamburger-trigger[open] {
+  .hamburger {
+    color: var(--base-color);
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .hamburger-bars {
+    border-color: transparent;
+    &::before {
+      transform: translateY(-50%) rotate(45deg);
+    }
+    &::after {
+      transform: translateY(-50%) rotate(-45deg);
+    }
+  }
+}
+
+// The site's name stays on the open menu, in the ground's colour.
+.header:has(.hamburger-trigger[open]) .header-logo {
+  position: relative;
+  z-index: 11;
+  color: var(--base-color);
+  .dot {
+    color: inherit;
+  }
+}
+
 .menu-main-mobile {
   position: fixed;
-  background: var(--highlight-color);
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.35s, visibility 0.35s, height 0.35s;
-  overflow: hidden;
+  inset: 0;
+  z-index: 10;
   display: none;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  padding: 80px 24px 40px;
+  overflow-y: auto;
+  background: var(--highlight-color);
   .hamburger-trigger[open] & {
-    opacity: 1;
-    visibility: visible;
-    height: 100%;
-    z-index: 10;
     display: flex;
     li {
       animation: fadeInTop 0.5s ease forwards;
@@ -39,75 +124,48 @@
     }
   }
   ul {
-    font-size: 2rem;
-    font-family: var(--font-family-heading);
-    text-align: center;
-    list-style: none;
     margin: 0;
-    flex: 0;
+    font-family: var(--font-family-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
     li {
-      display: block;
       position: relative;
+      display: block;
       opacity: 0;
       a {
         display: block;
         position: relative;
+        padding: 6px 0;
         color: var(--base-color);
         text-decoration: none;
         &:hover {
           opacity: 0.7;
+          text-decoration: none;
+        }
+        &[aria-current] {
+          text-decoration: underline;
+          text-decoration-thickness: 3px;
+          text-underline-offset: 6px;
         }
       }
-      ul.sub-menu {
-        font-size: 1.2rem;
-        li {
-          a {
-
-          }
-        }
-      }
+    }
+    ul.sub-menu {
+      font-size: 1.2rem;
     }
   }
 }
 
-.hamburger-trigger {
-  height: 30px;
-  display: flex;
-  align-items: center;
-  @include breakpoint('medium') {
-    display: none;
+@media (prefers-reduced-motion: reduce) {
+  .hamburger-bars,
+  .hamburger-bars::before,
+  .hamburger-bars::after {
+    transition: none;
   }
-}
-
-.hamburger {
-  border: none;
-  cursor: pointer;
-  outline: none;
-  position: relative;
-  display: block;
-  width: 30px;
-  height: 20px;
-  background: transparent;
-  border-top: 2px solid;
-  border-bottom: 2px solid;
-  font-size: 0;
-  transition: all 0.25s ease-in-out;
-  color: var(--highlight-color);
-  &:before,
-  &:after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 2px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    background: currentColor;
-    transform: translate(-50%, -50%);
-    transition: transform 0.25s ease-in-out;
-  }
-  &:hover {
-    opacity: 0.7;
+  .hamburger-trigger[open] .menu-main-mobile li {
+    animation: none;
+    opacity: 1;
   }
 }
 
@@ -119,19 +177,5 @@
   100% {
     opacity: 1;
     top: 0;
-  }
-}
-
-// CSS-only hamburger menu toggle using details/summary
-.hamburger-trigger[open] .hamburger {
-  border-color: transparent;
-  z-index: 100;
-  color: var(--base-color);
-
-  &:before {
-    transform: translate(-50%, -50%) rotate(45deg);
-  }
-  &:after {
-    transform: translate(-50%, -50%) rotate(-45deg);
   }
 }

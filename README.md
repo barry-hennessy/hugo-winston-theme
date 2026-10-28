@@ -110,6 +110,27 @@ Every colour is a CSS custom property on `:root` (`--base-color`,
 `--surface-color`, `--dot-color`, ...), next to the type scale, spacing,
 reading measure and radii tokens: see the top of `assets/scss/style.scss`.
 
+### Header and menu
+
+The header shows the site's title, the `main` menu and, when the site sets
+one, a call to action as a button. Below 992px the menu and the button are
+behind a hamburger that opens them over the whole screen.
+
+```toml
+# config.toml
+[[menus.main]]
+  name = "Services"
+  pageRef = "/services"   # not url: the menu then knows the entry's page
+  weight = 10
+
+[params.cta]
+  label = "Book a call"
+  url = "/call-me/"
+```
+
+The link to the page being shown is marked `aria-current="page"`, and the
+link to the section it is in `aria-current="true"`; both are underlined.
+
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:
 

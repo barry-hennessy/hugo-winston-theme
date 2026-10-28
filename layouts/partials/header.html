@@ -1,21 +1,13 @@
-<div class='header text-pink'>
-  <a class="header-logo" href="{{ .Site.Home.RelPermalink }}">{{ .Site.Title }}</a>
-  <div class="menu-main">
-    <ul>
-      {{ $currentPage := . }}
-      {{ range .Site.Menus.main }}
-      {{ $active := or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}
-      {{ $active = or $active (eq (.URL | relLangURL) ($currentPage.RelPermalink | relLangURL)) }}
-      <li class="text-pink menu-item-{{ .Name | lower }} {{ if $active }}active{{ end }}">
-        <a href="{{.URL}}">
-          {{ .Pre }}
-          <span>{{ .Name }}</span>
-        </a>
-      </li>
-      {{end}}
-    </ul>
-  </div>
-  <details class="hamburger-trigger">
-    <summary class="hamburger" aria-label="Toggle navigation menu">Menu</summary>
+{{- /*
+The site's header: its name, the main menu and the site's call to action
+(partials/cta-button.html). Below the medium breakpoint the menu and the
+call to action are behind the hamburger.
+*/ -}}
+<header class="header">
+  <a class="header-logo" href="{{ site.Home.RelPermalink }}">{{ partial "punctuated.html" (dict "text" site.Title) }}</a>
+  <nav class="header-nav" aria-label="Main">
+    {{- partial "menu-main.html" . }}
     {{ partial "menu-main-mobile.html" . }}
-</div>
+    {{ partial "cta-button.html" (dict "page" . "class" "button--small header-cta") }}
+  </nav>
+</header>

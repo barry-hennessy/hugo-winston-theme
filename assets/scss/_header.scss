@@ -1,72 +1,48 @@
+// The site's header (partials/header.html): its name on the left; the main
+// menu and the call to action on the right, from the medium breakpoint up,
+// or the hamburger below it (_main-menu-mobile.scss).
 .header {
   display: flex;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
   margin-bottom: 30px;
-  font-size: 16px;
+  padding-bottom: 16px;
+  border-bottom: 3px solid var(--highlight-color);
   @include breakpoint('small') {
-    padding-bottom: 5px;
     margin-bottom: 40px;
-  }
-  a.header-logo {
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-right: 30px;
+    padding-bottom: 20px;
   }
 }
 
-
-.hamburger-trigger {
-  height: 30px;
-  display: flex;
-  align-items: center;
-  @include breakpoint('medium') {
-    display: none;
-  }
-}
-
-.hamburger {
-  border: none;
-  cursor: pointer;
-  outline: none;
-  position: relative;
-  display: block;
-  width: 30px;
-  height: 20px;
-  background: transparent;
-  border-top: 2px solid;
-  border-bottom: 2px solid;
-  font-size: 0;
-  transition: all 0.25s ease-in-out;
+.header-logo,
+.header-logo:hover {
+  font-family: var(--font-family-heading);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--highlight-color);
-  &:before,
-  &:after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 2px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    background: currentColor;
-    transform: translate(-50%, -50%);
-    transition: transform 0.25s ease-in-out;
+  text-decoration: none;
+  @include breakpoint('small') {
+    font-size: 26px;
   }
-  &:hover {
-    opacity: 0.7;
-  }
-  &.is-active {
-    border-color: transparent;
-    z-index: 100;
-    color: var(--base-color);
-    &:hover {
-      opacity: 1;
-    }
-    &:before {
-      transform: translate(-50%, -50%) rotate(45deg);
-    }
-    &:after {
-      transform: translate(-50%, -50%) rotate(-45deg);
-    }
+}
+
+.header-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  align-items: center;
+  font-family: var(--font-family-heading);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+// Below the medium breakpoint the call to action is in the mobile menu.
+.header-nav .header-cta {
+  display: none;
+  @include breakpoint('medium') {
+    display: inline-flex;
   }
 }
