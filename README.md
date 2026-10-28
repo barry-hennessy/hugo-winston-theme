@@ -97,7 +97,18 @@ Now enter [`localhost:1313`](http://localhost:1313) in the address bar of your b
   dotColor = "#7b16ff"
   headingColor = "#1c1b1d"
   textColor = "#4e5157"
+  # Optional: the rest of the palette (these are the defaults).
+  surfaceColor = "#eaeaea"     # cards and panels; defaults to baseOffsetColor
+  deepColor = "#f4f4f6"        # a band set deeper than the page
+  mutedColor = "#6b6f76"       # secondary text: dates, labels
+  emphasisColor = "#1c1b1d"    # text that must stand out; defaults to headingColor
+  ruleColor = "#d9d9de"        # quiet rules and borders
+  ruleStrongColor = "#b9bcc4"  # stronger rules and borders
 ```
+
+Every colour is a CSS custom property on `:root` (`--base-color`,
+`--surface-color`, `--dot-color`, ...), next to the type scale, spacing,
+reading measure and radii tokens: see the top of `assets/scss/style.scss`.
 
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:

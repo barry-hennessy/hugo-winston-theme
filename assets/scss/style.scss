@@ -1,13 +1,53 @@
+{{- $p := site.Params }}
 :root {
   --font-family-heading: 'Poppins', sans-serif;
   --font-family-paragraph: Helvetica, sans-serif;
   --font-family-monospace: monospace;
-  --base-color: {{ .Site.Params.baseColor | default "#ffffff" }};
-  --base-offset-color: {{ .Site.Params.baseOffsetColor | default "#eaeaea" }};
-  --highlight-color: {{ .Site.Params.highlightColor | default "#7b16ff" }};
-  --heading-color: {{ .Site.Params.headingColor | default "#1c1b1d" }};
-  --text-color: {{ .Site.Params.textColor | default "#4e5157" }};
-  --dot-color: {{ .Site.Params.dotColor | default "#7b16ff" }};
+
+  // Colours, from the site's params.
+  // The ground of the page, its links and its text.
+  --base-color: {{ $p.baseColor | default "#ffffff" }};
+  --base-offset-color: {{ $p.baseOffsetColor | default "#eaeaea" }};
+  --highlight-color: {{ $p.highlightColor | default "#7b16ff" }};
+  --heading-color: {{ $p.headingColor | default "#1c1b1d" }};
+  --text-color: {{ $p.textColor | default "#4e5157" }};
+  // The accent: a headline's full stop, primary buttons.
+  --dot-color: {{ $p.dotColor | default "#7b16ff" }};
+  // A panel or card raised off the ground, and a band set deeper than it.
+  --surface-color: {{ or $p.surfaceColor $p.baseOffsetColor "#eaeaea" }};
+  --deep-color: {{ $p.deepColor | default "#f4f4f6" }};
+  // Secondary text (dates, labels), and text that must stand out.
+  --muted-color: {{ $p.mutedColor | default "#6b6f76" }};
+  --emphasis-color: {{ or $p.emphasisColor $p.headingColor "#1c1b1d" }};
+  // Rules and borders: a quiet one and a stronger one.
+  --rule-color: {{ $p.ruleColor | default "#d9d9de" }};
+  --rule-strong-color: {{ $p.ruleStrongColor | default "#b9bcc4" }};
+
+  // Type scale: a page's headline, a section's heading, a card's title.
+  --font-size-headline: clamp(40px, 6.2vw, 88px);
+  --font-size-section: clamp(28px, 4vw, 56px);
+  --font-size-card: clamp(20px, 2.4vw, 28px);
+  --font-size-label: 15px;
+
+  // Spacing: the padding of a section and of a page's hero, the width of
+  // the content and the gutters either side of it.
+  --section-padding: clamp(40px, 5vw, 72px);
+  --hero-padding-top: clamp(40px, 5vw, 64px);
+  --hero-padding-bottom: clamp(48px, 6vw, 80px);
+  --content-width: 1240px;
+  --gutter: 24px;
+
+  // Reading measure: a paragraph's line, and the column of an article.
+  --measure: 62ch;
+  --measure-narrow: 60ch;
+  --reading-width: 720px;
+
+  // Radii.
+  --radius-button: 8px;
+  --radius-image: 12px;
+  --radius-card: 16px;
+  --radius-box: 20px;
+  --radius-band: 24px;
 }
 
 $breakpoints: (
