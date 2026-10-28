@@ -70,3 +70,9 @@
   line-height: 1.5;
   color: var(--text-color);
 }
+
+// A text that opens with a few words in bold, in place of a title
+// ("**We talk.** You describe it..."): they stand out as a title would.
+.rule-list-text strong {
+  color: var(--emphasis-color);
+}
