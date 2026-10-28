@@ -235,6 +235,14 @@ label over a value (price, size, where), wrapping onto more rows; a
 `highlight`ed value is in the accent. **Facts list** (`facts-list.html`):
 terms and what they are, as a `dl` in the `facts` grid.
 
+**Picture** (`picture.html`): an image with its `width` and `height`, and
+optionally a second image for phones (`wide`, below 767px) in its own
+shape, never a crop. An image is looked for as a resource of the `page`,
+then as a global resource (`assets/`); a raster image found so gives its
+own size and a `srcset` of smaller copies. An SVG, a file in `static/` or
+a URL is used as given, with the `width` and `height` passed. With no
+`alt` the image is decoration (`alt=""`).
+
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:
 

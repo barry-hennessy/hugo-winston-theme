@@ -1,0 +1,44 @@
+{{- /*
+An image, sized by its width and height so the page does not move as it
+loads, with an optional second image for phones (below the small
+breakpoint, 767px): another picture of the same thing, in its own shape,
+never a crop of the first. Images are found as image-source.html says.
+
+Arguments (a dict):
+  src          the image
+  wide         the image for phones (optional)
+  alt          what the image shows; leave it out for decoration
+  page         the page whose resources to look in (optional)
+  width        the image's width, when it cannot be read from it (optional)
+  height       the image's height, likewise (optional)
+  wide_width   the phone image's width, likewise (optional)
+  wide_height  the phone image's height, likewise (optional)
+  sizes        how wide the image is shown, for the srcset (optional;
+               "100vw")
+  eager        true to load it at once, as for the first image on a page
+               (optional; otherwise it loads when it comes into view)
+  class        classes for the img (optional)
+
+Nothing is rendered without src.
+*/ -}}
+{{- with .src -}}
+{{- $img := partial "image-source.html" (dict "src" . "page" $.page "width" $.width "height" $.height) -}}
+{{- $sizes := $.sizes | default "100vw" -}}
+{{- with $.wide }}
+<picture>
+  {{- $wide := partial "image-source.html" (dict "src" . "page" $.page "width" $.wide_width "height" $.wide_height) }}
+  <source media="(max-width: 766px)" srcset="{{ $wide.srcset | default $wide.url }}"
+    {{- if $wide.srcset }} sizes="100vw"{{ end -}}
+    {{- with $wide.width }} width="{{ . }}"{{ end -}}
+    {{- with $wide.height }} height="{{ . }}"{{ end }}>
+{{- end }}
+<img src="{{ $img.url }}" alt="{{ $.alt }}"
+  {{- with $img.srcset }} srcset="{{ . }}" sizes="{{ $sizes }}"{{ end -}}
+  {{- with $img.width }} width="{{ . }}"{{ end -}}
+  {{- with $img.height }} height="{{ . }}"{{ end -}}
+  {{- if $.eager }} fetchpriority="high"{{ else }} loading="lazy"{{ end }} decoding="async"
+  {{- with $.class }} class="{{ . }}"{{ end }}>
+{{- if $.wide }}
+</picture>
+{{- end -}}
+{{- end -}}

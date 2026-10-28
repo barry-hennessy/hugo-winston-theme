@@ -1,0 +1,45 @@
+{{- /*
+Where an image is, and how big: for picture.html. Returns a dict of url,
+width, height and srcset.
+
+The image is looked for as a resource of the page, then as a global
+resource (assets/); a raster image found either way gives its own width
+and height, and a srcset of smaller copies (480, 800, 1200 and 1600 pixels
+wide, those narrower than it). Anything else (an SVG, a file in static/, a
+URL) is used as given, with the width and height given.
+
+Arguments (a dict):
+  src     the image: a path or a URL
+  page    the page whose resources to look in (optional)
+  width   the width, when it cannot be read from the image (optional)
+  height  the height, when it cannot be read from the image (optional)
+*/ -}}
+{{- $src := .src -}}
+{{- $url := $src | relURL -}}
+{{- $width := .width -}}
+{{- $height := .height -}}
+{{- $srcset := "" -}}
+{{- $r := "" -}}
+{{- if not (urls.Parse $src).IsAbs -}}
+  {{- with .page }}{{ $r = .Resources.Get $src }}{{ end -}}
+  {{- if not $r }}{{ $r = resources.Get (strings.TrimPrefix "/" $src) }}{{ end -}}
+{{- end -}}
+{{- with $r -}}
+  {{- $url = .RelPermalink -}}
+  {{- if reflect.IsImageResourceWithMeta . -}}
+    {{- $width = .Width -}}
+    {{- $height = .Height -}}
+  {{- end -}}
+  {{- if reflect.IsImageResourceProcessable . -}}
+    {{- $set := slice -}}
+    {{- range $w := slice 480 800 1200 1600 -}}
+      {{- if lt $w $width -}}
+        {{- $set = $set | append (printf "%s %dw" ($r.Resize (printf "%dx" $w)).RelPermalink $w) -}}
+      {{- end -}}
+    {{- end -}}
+    {{- with $set -}}
+      {{- $srcset = delimit (. | append (printf "%s %dw" $url $width)) ", " -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return dict "url" $url "width" $width "height" $height "srcset" $srcset -}}
