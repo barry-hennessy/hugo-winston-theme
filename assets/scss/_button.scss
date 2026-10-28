@@ -1,0 +1,81 @@
+// A button: a link or a <button> that starts an action.
+//
+//   <a class="button" href="...">              the accent on the page's ground
+//   <a class="button button--on-pink" ...>     the ground's colour, on a band
+//                                              of the highlight colour
+//   <a class="button button--outline" ...>     an outline in the accent
+//
+// A text link set beside a button takes `cta-link`: on a phone, where the
+// two wrap onto lines of their own, its text lines up with the button's.
+//
+// A variant sets only the custom properties. The colours are applied with
+// the selector repeated inside prose too, where the link styles of the
+// content would otherwise win.
+
+$button-padding-x: 28px;
+
+.button {
+  --button-background: var(--dot-color);
+  --button-border: var(--dot-color);
+  --button-color: var(--base-color);
+  // The outline of a focused button: it must show on the ground around it.
+  --button-focus-color: var(--highlight-color);
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 16px $button-padding-x;
+  border: 2px solid var(--button-border);
+  border-radius: var(--radius-button);
+  background: var(--button-background);
+  font-family: var(--font-family-heading);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  transition: opacity 0.12s ease, transform 0.08s ease;
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+  &:active {
+    transform: none;
+  }
+  &:focus-visible {
+    outline: 3px solid var(--button-focus-color);
+    outline-offset: 3px;
+  }
+}
+
+.button,
+.button:hover,
+:is(.content, .prose) .button,
+:is(.content, .prose) .button:hover {
+  color: var(--button-color);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.button--on-pink {
+  --button-background: var(--base-color);
+  --button-border: var(--base-color);
+  --button-color: var(--highlight-color);
+  --button-focus-color: var(--base-color);
+}
+
+.button--outline {
+  --button-background: transparent;
+  --button-color: var(--dot-color);
+}
+
+.cta-link {
+  display: inline-block;
+  padding-left: $button-padding-x;
+  font-family: var(--font-family-heading);
+  font-weight: 600;
+  @include breakpoint('small') {
+    padding-left: 0;
+  }
+}
