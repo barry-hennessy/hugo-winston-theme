@@ -230,6 +230,11 @@ medium breakpoint, 2 from the small one. A group of three never wraps to
 two and one: a `quad` or `facts` grid of exactly three goes from three
 across to one column.
 
+**Fact strip** (`fact-strip.html`): short facts in a row of cells, each a
+label over a value (price, size, where), wrapping onto more rows; a
+`highlight`ed value is in the accent. **Facts list** (`facts-list.html`):
+terms and what they are, as a `dl` in the `facts` grid.
+
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:
 

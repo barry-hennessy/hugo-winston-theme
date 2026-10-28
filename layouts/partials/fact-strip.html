@@ -1,0 +1,23 @@
+{{- /*
+A fact strip: a row of short facts, each a label over a value (a price, a
+size, where), in cells that wrap onto more rows when there is no room.
+
+Arguments (a dict):
+  items  a list of dicts, each:
+           label      what the fact is
+           value      the fact
+           highlight  true to set the value in the accent (optional)
+  class  classes added to the list's (optional)
+
+Nothing is rendered without items.
+*/ -}}
+{{- with .items }}
+<dl class="fact-strip{{ with $.class }} {{ . }}{{ end }}">
+  {{- range . }}
+  <div class="fact-strip-item{{ if .highlight }} fact-strip-item--highlight{{ end }}">
+    <dt>{{ .label }}</dt>
+    <dd>{{ .value }}</dd>
+  </div>
+  {{- end }}
+</dl>
+{{- end -}}

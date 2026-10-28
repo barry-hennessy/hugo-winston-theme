@@ -1,0 +1,23 @@
+{{- /*
+A list of facts, each a term and what it is, in the facts grid: three
+across from the medium breakpoint, two from the small one, one below.
+Three facts stay three across or one under the other.
+
+Arguments (a dict):
+  items  a list of dicts, each:
+           label  the term, e.g. "Pricing"
+           value  what it is, in Markdown
+  class  classes added to the list's (optional)
+
+Nothing is rendered without items.
+*/ -}}
+{{- with .items }}
+<dl class="facts facts-list{{ with $.class }} {{ . }}{{ end }}">
+  {{- range . }}
+  <div class="facts-list-item">
+    <dt>{{ .label }}</dt>
+    <dd>{{ .value | markdownify }}</dd>
+  </div>
+  {{- end }}
+</dl>
+{{- end -}}
