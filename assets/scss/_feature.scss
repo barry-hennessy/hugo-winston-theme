@@ -1,0 +1,93 @@
+// A feature (partials/feature.html): a picture on the left of a short
+// story. As the hero: on phones the picture runs the full width above the
+// text; from the small breakpoint to the large one it takes a little over
+// a third of the width; from the large one the two share it.
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  @include breakpoint('small') {
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+  }
+  @include breakpoint('large') {
+    gap: 64px;
+  }
+}
+
+.feature-art {
+  min-width: 0;
+  @include breakpoint('small') {
+    flex: 0 0 34%;
+  }
+  @include breakpoint('large') {
+    flex: 1 1 440px;
+  }
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-card);
+    background: var(--surface-color);
+  }
+}
+
+.feature-copy {
+  min-width: 0;
+  @include breakpoint('small') {
+    flex: 1 1 0;
+  }
+  @include breakpoint('large') {
+    flex: 1 1 480px;
+  }
+}
+
+.feature-title {
+  margin: 0 0 20px;
+  font-family: var(--font-family-heading);
+  font-size: clamp(30px, 3.6vw, 48px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--heading-color);
+  overflow-wrap: break-word;
+}
+
+// One paragraph comes without its p, a few each in theirs.
+.feature-text {
+  max-width: var(--measure);
+  margin-bottom: 16px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-color);
+  p {
+    margin: 0 0 16px;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  a {
+    color: var(--highlight-color);
+    text-decoration: underline;
+  }
+}
+
+.feature-quote {
+  margin: 8px 0 24px;
+}
+
+.feature-link {
+  display: inline-block;
+  // A 44px target, though the text is smaller.
+  padding-block: 11px;
+  font-family: var(--font-family-heading);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  color: var(--highlight-color);
+}

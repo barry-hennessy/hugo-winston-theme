@@ -321,6 +321,13 @@ colour and buttons in the ground's colour (`on-pink`), side by side and
 wrapping. An `aside` (e.g. the subscribe box) takes the buttons' place
 beside the text, and the buttons go under the text.
 
+**Feature** (`feature.html`): one story told short, such as a case
+study: a picture on the left of an eyebrow, the title with its closing
+mark, a few paragraphs, a `quote` (as `quote.html` takes) and a link to
+the whole story (`action`). The picture sits beside the text as in the
+hero, and above it on phones. Pass its title's `id` as the section's
+`labelledby`.
+
 **Quote** (`quote.html`): a quotation set on its own, with who said it:
 a `figure` holding a `blockquote` and a `figcaption` ("— Name, Role").
 The quotation marks are the text's own.

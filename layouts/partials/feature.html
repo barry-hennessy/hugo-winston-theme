@@ -1,0 +1,60 @@
+{{- /*
+A feature: one story told short, such as a case study, with a picture
+beside it. The picture is on the left and the story on the right: an
+eyebrow, the title with its closing mark, a few paragraphs, a quote and a
+link to the whole story. From the small breakpoint up to the large one the
+picture takes about a third of the width; from the large one the two
+share it; on phones the picture is above the text.
+
+Arguments (a dict):
+  title        the title
+  punctuation  the title's closing mark, instead of the full stop
+               (optional)
+  eyebrow      a label above it, e.g. "Case study · Client" (optional)
+  text         the story, in Markdown: a paragraph or a few (optional)
+  quote        a quote from it: a dict of text, name and role, as
+               quote.html takes (optional)
+  action       a link to the whole story: a dict of label and url
+               (optional)
+  image        the picture (optional)
+  image_alt    what it shows; leave it out for decoration
+  image_width, image_height
+               its size, when it cannot be read from it (optional)
+  page         the page whose resources hold the picture (optional)
+  id           the title's id, e.g. to label a section by it (optional;
+               made from the title)
+  level        the title's heading level (optional; 2)
+  class        classes added to the feature's (optional)
+*/ -}}
+{{- $level := .level | default 2 -}}
+{{- $id := .id | default (printf "%s-title" (anchorize .title)) -}}
+<div class="feature{{ with .class }} {{ . }}{{ end }}">
+  {{- with .image }}
+  <div class="feature-art">
+    {{- partial "picture.html" (dict
+      "src" .
+      "alt" $.image_alt
+      "page" $.page
+      "width" $.image_width
+      "height" $.image_height
+      "sizes" "(min-width: 1200px) 560px, (min-width: 767px) 34vw, 100vw"
+    ) }}
+  </div>
+  {{- end }}
+  <div class="feature-copy">
+    {{- partial "eyebrow.html" (dict "text" .eyebrow) }}
+    <h{{ $level }} class="feature-title" id="{{ $id }}">{{ partial "punctuated.html" (dict "text" .title "punctuation" .punctuation) }}</h{{ $level }}>
+    {{- with .text }}
+    <div class="feature-text">{{ . | markdownify }}</div>
+    {{- end }}
+    {{- with .quote }}
+    {{ partial "quote.html" (merge . (dict "class" "feature-quote")) }}
+    {{- end }}
+    {{- with .action }}
+      {{- if and .label .url }}
+    <a class="feature-link" href="{{ .url | relLangURL }}">{{ .label }}</a>
+      {{- end }}
+    {{- end }}
+  </div>
+</div>
+{{- /* chomp trailing newline */ -}}
