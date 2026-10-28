@@ -1,0 +1,23 @@
+{{- /*
+A heading's text with its closing mark set in the accent colour: a full
+stop, or the mark given, when the site sets `addDot`. A question mark that
+ends the text becomes that mark, so it is not followed by a full stop, and
+sits a little apart from the text.
+
+Arguments (a dict):
+  text         the heading's text
+  punctuation  the closing mark, instead of the full stop (optional)
+
+Without `addDot` the text is unchanged.
+*/ -}}
+{{- $text := .text -}}
+{{- if site.Params.addDot -}}
+  {{- $mark := .punctuation | default "." -}}
+  {{- if and (not .punctuation) (strings.HasSuffix $text "?") -}}
+    {{- $text = strings.TrimSuffix "?" $text -}}
+    {{- $mark = "?" -}}
+  {{- end -}}
+  {{- $text }}<span class="dot{{ if eq $mark "?" }} dot--question{{ end }}">{{ $mark }}</span>
+{{- else -}}
+  {{- $text -}}
+{{- end -}}

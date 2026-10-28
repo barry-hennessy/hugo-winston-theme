@@ -176,8 +176,14 @@ ul {
   }
 }
 
+// A heading's closing mark, in the accent colour (partials/punctuated.html).
 .dot {
   color: var(--dot-color);
+}
+
+// A question mark set close to a word reads as part of it.
+.dot--question {
+  margin-left: 0.08em;
 }
 
 .footnotes {

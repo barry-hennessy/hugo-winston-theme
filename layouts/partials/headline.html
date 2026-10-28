@@ -1,1 +1,1 @@
-{{ .Title }}{{ if .Site.Params.addDot }}<span class="dot">{{ if .Params.punctuation }}{{ printf "%s" .Params.punctuation }}{{else}}.{{end}}</span>{{ end }}
+{{- partial "punctuated.html" (dict "text" .Title "punctuation" .Params.punctuation) -}}
