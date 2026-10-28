@@ -1,0 +1,69 @@
+{{- /*
+An action box: the one thing to do on a page, in a box edged in the
+accent. On the left a heading, a line, the call to action and a note
+under it; beside it, behind a quiet rule, an aside of text, such as who
+you will be dealing with; and on the box's right edge, behind a rule in
+the accent, an optional picture filling the box's height. With no
+picture the box closes up around the other two.
+
+From the small breakpoint (767px) up the three sit in a row, the picture
+slimmer below the medium one (992px). On phones the picture is a banner
+across the top, the call to action runs the full width, and the aside is
+under it behind a rule.
+
+Arguments (a dict):
+  heading    the heading
+  id         the heading's id, e.g. to label a section by it (optional;
+             made from the heading)
+  level      the heading's level (optional; 2)
+  text       a line under the heading, in Markdown (optional)
+  actions    calls to action: a list of dicts of label, url, style and
+             new_tab, as actions.html takes (optional)
+  note       a short line under them, in Markdown, e.g. where the call
+             to action leads (optional)
+  aside      text set beside, in Markdown: a paragraph or a few
+             (optional)
+  image      the picture on the edge (optional)
+  image_alt  what it shows; leave it out for decoration
+  image_width, image_height
+             its size, when it cannot be read from it (optional)
+  page       the page whose resources hold the picture (optional)
+  class      classes added to the box's (optional)
+
+  {{ partial "section.html" (dict "labelledby" "book-title"
+       "content" (partial "action-box.html" (dict "id" "book-title"
+         "heading" "Book a call" "actions" .Params.actions
+         "aside" .Params.about "image" .Params.photo "page" .))) }}
+*/ -}}
+{{- $level := .level | default 2 -}}
+{{- $id := .id | default (printf "%s-title" (anchorize .heading)) -}}
+<div class="action-box{{ if .image }} action-box--image{{ end }}{{ with .class }} {{ . }}{{ end }}">
+  <div class="action-box-main">
+    <h{{ $level }} class="action-box-title" id="{{ $id }}">{{ .heading }}</h{{ $level }}>
+    {{- with .text }}
+    <p class="action-box-text">{{ . | markdownify }}</p>
+    {{- end }}
+    {{ partial "actions.html" (dict "items" .actions "class" "action-box-actions") }}
+    {{- with .note }}
+    <p class="action-box-note">{{ . | markdownify }}</p>
+    {{- end }}
+  </div>
+  {{- with .aside }}
+  <div class="action-box-aside">
+    <div class="action-box-aside-text">{{ . | markdownify }}</div>
+  </div>
+  {{- end }}
+  {{- with .image }}
+  <div class="action-box-image">
+    {{- partial "picture.html" (dict
+      "src" .
+      "alt" $.image_alt
+      "page" $.page
+      "width" $.image_width
+      "height" $.image_height
+      "sizes" "(min-width: 992px) 220px, (min-width: 767px) 160px, 100vw"
+    ) }}
+  </div>
+  {{- end }}
+</div>
+{{- /* chomp trailing newline */ -}}

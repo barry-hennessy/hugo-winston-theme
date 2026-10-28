@@ -105,7 +105,8 @@
 // colour they take the text's colour (.scheme-highlight, above).
 :is(.section-lead, .hero-lead, .panel-list, .panel-text, .rule-list-text,
   .faq-answer, .facts-list-item dd, .story-card-text, .actions-note,
-  .subscribe-text, .cta-band-text) a {
+  .subscribe-text, .cta-band-text, .action-box-text, .action-box-note,
+  .action-box-aside) a {
   color: var(--highlight-color);
   text-decoration: underline;
 }

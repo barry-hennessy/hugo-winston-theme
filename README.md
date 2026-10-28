@@ -328,6 +328,27 @@ colour and buttons in the ground's colour (`on-pink`), side by side and
 wrapping. An `aside` (e.g. the subscribe box) takes the buttons' place
 beside the text, and the buttons go under the text.
 
+**Action box** (`action-box.html`): the one thing to do on a page, such
+as booking a call, in a box edged in the accent: a heading, a line, the
+calls to action (`actions`, as `actions.html` takes) and a `note` under
+them; an `aside` of text beside it, behind a quiet rule; and an optional
+`image` on the box's right edge, filling its height, behind a rule in
+the accent. With no image there is no panel, and the box closes up
+around the rest. The picture is slimmer from 767px to 991px; on phones
+it is a banner across the top, the button runs the full width and the
+aside is under it behind a rule. Pass its heading's `id` as the
+section's `labelledby`:
+
+```go-html-template
+{{ partial "section.html" (dict "labelledby" "book-title"
+     "content" (partial "action-box.html" (dict "id" "book-title"
+       "heading" "Book a call" "text" "Pick a time that suits you."
+       "actions" (slice (dict "label" "Choose a time ↗" "url" "https://calendar.example/me" "new_tab" true))
+       "note" "Opens the booking page in a new tab."
+       "aside" .Params.about "image" .Params.photo "image_alt" "Portrait of Jo Bloggs"
+       "page" .))) }}
+```
+
 **Feature** (`feature.html`): one story told short, such as a case
 study: a picture on the left of an eyebrow, the title with its closing
 mark, a few paragraphs, a `quote` (as `quote.html` takes) and a link to
