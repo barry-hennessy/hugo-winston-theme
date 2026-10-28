@@ -1,0 +1,55 @@
+{{- /*
+A rule list: items each under a rule along its top, with a small label (a
+number, a name), a title and a line. The highlighted item's rule is solid
+in the accent; the others' are quiet, solid or dashed. Method steps, what
+happens next, sizes, ways to go: set in a grid, or one under the other.
+
+Arguments (a dict):
+  items     a list of dicts, each:
+              title      the item's title (optional)
+              text       a line or two, in Markdown (optional)
+              label      a small label above the title (optional)
+              highlight  true for the highlighted item (optional)
+  numbered  true to number the items (1, 2, ...), or "padded" (01, 02,
+            ...), before any label; the list is then ordered (optional)
+  ordered   true for an ordered list without numbers shown (optional)
+  rule      "solid" or "dashed", for the items not highlighted (optional;
+            "solid")
+  grid      a grid class to lay it out with, e.g. "steps" or "trio"
+            (optional; one under the other)
+  level     the titles' heading level (optional; 3)
+  class     classes added to the list's (optional)
+
+Nothing is rendered without items.
+*/ -}}
+{{- with .items }}
+{{- $ordered := or $.numbered $.ordered -}}
+{{- $format := cond (eq $.numbered "padded") "%02d" "%d" -}}
+{{- $level := $.level | default 3 -}}
+{{- $class := slice "rule-list" -}}
+{{- if eq $.rule "dashed" }}{{ $class = $class | append "rule-list--dashed" }}{{ end -}}
+{{- with $.grid }}{{ $class = $class | append . }}{{ end -}}
+{{- with $.class }}{{ $class = $class | append . }}{{ end -}}
+{{- if $ordered }}
+<ol class="{{ delimit $class " " }}">
+{{- else }}
+<ul class="{{ delimit $class " " }}">
+{{- end }}
+  {{- range $i, $item := . }}
+  {{- $label := slice }}
+  {{- if $.numbered }}{{ $label = $label | append (printf $format (add $i 1)) }}{{ end }}
+  {{- with .label }}{{ $label = $label | append . }}{{ end }}
+  <li class="rule-list-item{{ if .highlight }} rule-list-item--highlight{{ end }}">
+    {{- with $label }}
+    <p class="rule-list-label">{{ delimit . " · " }}</p>
+    {{- end }}
+    {{- with .title }}
+    <h{{ $level }} class="rule-list-title">{{ . }}</h{{ $level }}>
+    {{- end }}
+    {{- with .text }}
+    <p class="rule-list-text">{{ . | markdownify }}</p>
+    {{- end }}
+  </li>
+  {{- end }}
+{{ if $ordered }}</ol>{{ else }}</ul>{{ end }}
+{{- end -}}

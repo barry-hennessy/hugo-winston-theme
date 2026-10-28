@@ -1,0 +1,54 @@
+// A rule list (partials/rule-list.html): items under a rule along the top,
+// solid in the accent for the highlighted one, quiet (solid or dashed) for
+// the rest. One under the other, or in a grid (_grid.scss).
+
+.rule-list {
+  display: grid;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rule-list-item {
+  padding-top: 16px;
+  border-top: 3px solid var(--rule-color);
+  list-style: none;
+}
+
+.rule-list--dashed .rule-list-item {
+  border-top-style: dashed;
+  border-top-color: var(--rule-strong-color);
+}
+
+.rule-list .rule-list-item--highlight {
+  border-top-style: solid;
+  border-top-color: var(--dot-color);
+}
+
+.rule-list-label {
+  margin: 0 0 6px;
+  font-family: var(--font-family-monospace);
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--muted-color);
+  .rule-list-item--highlight & {
+    color: var(--dot-color);
+  }
+}
+
+.rule-list-title {
+  margin: 0 0 8px;
+  font-family: var(--font-family-heading);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--emphasis-color);
+}
+
+.rule-list-text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-color);
+}

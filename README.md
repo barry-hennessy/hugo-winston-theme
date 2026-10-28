@@ -267,6 +267,13 @@ a `trio`. From 767px to 991px, where the trio is one column, the picture
 sits on the left of the text. With a `url` the whole card is a link
 through its title.
 
+**Rule list** (`rule-list.html`): items each under a rule along the top,
+with a small label, a title and a line: method steps, what happens next,
+sizes, ways to go. The `highlight`ed item's rule is solid in the accent;
+the others' are quiet, `rule` `solid` or `dashed`. `numbered` numbers
+them (`true`: 1, 2; `"padded"`: 01, 02); `grid` lays them out with a grid
+class (`steps`, `trio`, `quad`).
+
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:
 
