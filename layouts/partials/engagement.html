@@ -19,6 +19,8 @@ Arguments (a dict):
                (optional)
   highlight    true for the highlighted row (optional)
   level        the title's heading level (optional; 3)
+  id           the row's id, for a link to it; its title's is the id with
+               "-title" (optional)
   class        classes added to the row's (optional)
 
 Set the rows one after the other; the last closes the list with a rule.
@@ -27,12 +29,13 @@ Set the rows one after the other; the last closes the list with a rule.
 {{- $label := slice -}}
 {{- with .number }}{{ $label = $label | append (string .) }}{{ end -}}
 {{- with .label }}{{ $label = $label | append . }}{{ end -}}
-<article class="engagement{{ if .highlight }} engagement--highlight{{ end }}{{ with .class }} {{ . }}{{ end }}">
+<article class="engagement{{ if .highlight }} engagement--highlight{{ end }}{{ with .class }} {{ . }}{{ end }}"
+  {{- with .id }} id="{{ . }}" aria-labelledby="{{ . }}-title"{{ end }}>
   <div class="engagement-head">
     {{- with $label }}
     <p class="engagement-label">{{ delimit . " · " }}</p>
     {{- end }}
-    <h{{ $level }} class="engagement-title">{{ .title }}</h{{ $level }}>
+    <h{{ $level }} class="engagement-title"{{ with .id }} id="{{ . }}-title"{{ end }}>{{ .title }}</h{{ $level }}>
     {{- with .price }}
     <p class="engagement-price">{{ . }}{{ with $.price_terms }} · {{ . }}{{ end }}</p>
     {{- end }}
