@@ -293,6 +293,33 @@ The quotation marks are the text's own.
 **FAQ** (`faq.html`): questions and answers as `details` and `summary`,
 without JavaScript; `open_first` shows the first answer.
 
+### Subscribe
+
+`subscribe.html` is a box for signing up to new posts by email: a heading
+and a line beside a form of one labelled email field and a button. It is
+the same wherever it is used, and keeps the page's colours on a band of
+another. The form posts to the site's email provider, from the params;
+with no `action`, nothing is rendered:
+
+```toml
+# config.toml
+[params.subscribe]
+  action = "https://provider.example/subscribe"  # where the form posts
+  method = "post"                  # optional; "post"
+  field = "email"                  # the email field's name; "email"
+  heading = "New posts by email"   # optional; this
+  text = "A few a year."           # optional
+  label = "Email address"          # the field's label; this
+  button = "Subscribe"             # the button's text; this
+  placeholder = "you@example.com"  # optional
+  # Hidden fields the provider needs; a list, as Hugo lowercases the
+  # keys of a table.
+  hidden = [{ name = "listId", value = "1234" }]
+```
+
+`heading` and `text` can also be passed to the partial, with an `id` when
+the box is on a page more than once.
+
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:
 

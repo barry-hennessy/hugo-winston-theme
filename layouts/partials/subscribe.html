@@ -1,0 +1,55 @@
+{{- /*
+Signing up for new posts by email: a heading and a line beside a form of
+one email field and a button, which post to the site's email provider.
+The same everywhere it is used; the form wraps under the text in a narrow
+column.
+
+The form is the site's, from its params; with no action, nothing is
+rendered:
+
+  [params.subscribe]
+    action = "https://provider.example/subscribe"  # where the form posts
+    method = "post"                  # optional; "post"
+    field = "email"                  # the email field's name; "email"
+    heading = "New posts by email"   # optional; this
+    text = "A few a year."           # optional
+    label = "Email address"          # the field's label; this
+    button = "Subscribe"             # the button's text; this
+    placeholder = "you@example.com"  # optional
+    # Hidden fields the provider needs: a list, because Hugo lowercases
+    # the keys of a table, and a provider's names may not be.
+    hidden = [{ name = "listId", value = "1234" }]
+
+Arguments (a dict, all optional):
+  heading  the heading, instead of the params'
+  text     the line, instead of the params', in Markdown
+  id       an id for the box, unique on the page; "subscribe"
+  level    the heading's level; 2
+  class    classes added to the box's
+*/ -}}
+{{- with site.Params.subscribe -}}
+{{- with .action -}}
+{{- $p := site.Params.subscribe -}}
+{{- $id := $.id | default "subscribe" -}}
+{{- $level := $.level | default 2 -}}
+{{- $heading := or $.heading $p.heading "New posts by email" -}}
+{{- $text := or $.text $p.text -}}
+<section class="subscribe scheme-default{{ with $.class }} {{ . }}{{ end }}" id="{{ $id }}" aria-labelledby="{{ $id }}-title">
+  <div class="subscribe-copy">
+    <h{{ $level }} class="subscribe-title" id="{{ $id }}-title">{{ $heading }}</h{{ $level }}>
+    {{- with $text }}
+    <p class="subscribe-text">{{ . | markdownify }}</p>
+    {{- end }}
+  </div>
+  <form class="subscribe-form" action="{{ . }}" method="{{ $p.method | default "post" }}">
+    <label class="subscribe-label" for="{{ $id }}-email">{{ $p.label | default "Email address" }}</label>
+    <input class="subscribe-field" id="{{ $id }}-email" type="email" name="{{ $p.field | default "email" }}" autocomplete="email" required
+      {{- with $p.placeholder }} placeholder="{{ . }}"{{ end }}>
+    {{- range $p.hidden }}
+    <input type="hidden" name="{{ .name }}" value="{{ .value }}">
+    {{- end }}
+    <button class="button subscribe-button" type="submit">{{ $p.button | default "Subscribe" }}</button>
+  </form>
+</section>
+{{- end -}}
+{{- end -}}
