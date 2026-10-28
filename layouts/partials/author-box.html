@@ -1,0 +1,52 @@
+{{- /*
+An author box: who wrote the page and what to do next, in a box edged in
+the accent, as at the end of a post. A round portrait beside a line about
+the author, a heading, and the calls to action.
+
+Arguments (a dict):
+  name       the author's name, set in bold at the start of the line
+             (optional)
+  text       the rest of the line, in Markdown (optional)
+  heading    the heading: what to do next (optional)
+  id         the heading's id, e.g. to label a section by it (optional;
+             made from the heading)
+  level      the heading's level (optional; 2)
+  actions    calls to action: a list of dicts of label, url, style and
+             new_tab, as actions.html takes (optional)
+  image      the portrait (optional); with none an empty circle holds
+             its place
+  image_alt  what the portrait shows (optional; decoration without it,
+             as the name is beside it)
+  image_width, image_height
+             its size, when it cannot be read from it (optional)
+  page       the page whose resources hold the portrait (optional)
+  class      classes added to the box's (optional)
+*/ -}}
+{{- $level := .level | default 2 -}}
+<div class="author-box{{ with .class }} {{ . }}{{ end }}">
+  {{- if or .name .text }}
+  <div class="author-box-who">
+    <div class="author-box-portrait"{{ if not .image }} aria-hidden="true"{{ end }}>
+      {{- with .image }}
+      {{- partial "picture.html" (dict
+        "src" .
+        "alt" $.image_alt
+        "page" $.page
+        "width" $.image_width
+        "height" $.image_height
+        "sizes" "56px"
+      ) }}
+      {{- end }}
+    </div>
+    <p class="author-box-text">
+      {{- with .name }}<strong class="author-box-name">{{ . }}</strong>{{ if $.text }} {{ end }}{{ end -}}
+      {{- with .text }}{{ . | markdownify }}{{ end -}}
+    </p>
+  </div>
+  {{- end }}
+  {{- with .heading }}
+  <h{{ $level }} class="author-box-title" id="{{ $.id | default (printf "%s-title" (anchorize .)) }}">{{ . }}</h{{ $level }}>
+  {{- end }}
+  {{ partial "actions.html" (dict "items" .actions "class" "author-box-actions") }}
+</div>
+{{- /* chomp trailing newline */ -}}
