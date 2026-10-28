@@ -104,6 +104,7 @@ Now enter [`localhost:1313`](http://localhost:1313) in the address bar of your b
   emphasisColor = "#1c1b1d"    # text that must stand out; defaults to headingColor
   ruleColor = "#d9d9de"        # quiet rules and borders
   ruleStrongColor = "#b9bcc4"  # stronger rules and borders
+  readingColor = "#4e5157"     # the text of a post; defaults to textColor
 ```
 
 Every colour is a CSS custom property on `:root` (`--base-color`,
@@ -399,6 +400,75 @@ with no `action`, nothing is rendered:
 
 `heading` and `text` can also be passed to the partial, with an `id` when
 the box is on a page more than once.
+
+### Writing: the list of posts and a post
+
+Both are pages of bands.
+
+**The list** (`posts/list.html`): the section's headline and `lead`, chips
+for a few topics beside them, the latest post featured (larger, its image
+beside the text), the others as cards in a grid (one column on phones,
+two from 767px, three from 992px), the pages, and the subscribe box.
+Later pages have no featured post. From the section's front matter:
+
+```yaml
+# content/posts/_index.md
+lead: "What the posts are about."   # in Markdown; or the description
+topics:                             # optional
+  taxonomy: tags                    # whose terms they are; "tags"
+  all: "All"                        # the chip for the whole list
+  items:
+    - label: "Decision making"
+      term: "decision making"       # a term of the taxonomy, or a url
+featured:                           # optional
+  label: "Latest"
+  action: "Read it →"
+```
+
+**A post** (`posts/single.html`): a line of facts (a link to the section,
+the date, the reading time, the first tag), the headline with its closing
+mark, the description as a standfirst and the header image, 16:9; the
+text in the reading column (`--reading-width`, in `--reading-color`);
+then the site's `post-cta.html`, the subscribe box, and two posts to
+read next.
+
+A post's header image is its `image`, with `image_alt` (none for
+decoration) and, for an SVG or a file in `static/`, `image_width` and
+`image_height`. The cards show it too.
+
+The parts, each a partial with its arguments listed at its top:
+
+- **Post card** (`post-card.html`): the image, the date, the title and
+  the description, the whole card a link; `featured` for the larger one.
+  A post's summary (`.Render "summary"`, as on a tag's page) is its card;
+  set cards in a `post-grid`.
+- **Topic chips** (`topic-chips.html`): rounded links in a row, the
+  current one filled.
+- **Post header** (`post-header.html`).
+- **Author box** (`author-box.html`): a round portrait (an empty circle
+  without one), a line about the author, a heading and calls to action,
+  in a box edged in the accent.
+- **What follows a post** (`post-cta.html`): the theme's renders nothing.
+  A site puts its own in `layouts/partials/post-cta.html`, e.g. an author
+  box with its call to action; it is called with the post as `page`.
+- **Read next** (`read-next.html`): the posts Hugo finds related to the
+  page (`.Related`, configured by the site's `[related]`), or the latest
+  others when there are not enough of those. To relate posts by their
+  tags, whatever their case, and to count newer posts too:
+
+```toml
+# config.toml
+[related]
+  includeNewer = true
+  threshold = 50
+  toLower = true
+  [[related.indices]]
+    name = 'tags'
+    weight = 100
+  [[related.indices]]
+    name = 'date'
+    weight = 10
+```
 
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:
