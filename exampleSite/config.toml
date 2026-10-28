@@ -30,6 +30,10 @@ pygmentsUseClasses = true
   textColor = "#4e5157"
   dotColor = "#7b16ff"
 
+  [params.social]
+    github = "https://github.com/zerostaticthemes/hugo-winston-theme"
+    x = "https://x.com/zerostaticio"
+
 # markdown config settings https://gohugo.io/getting-started/configuration-markup/#goldmark
 [markup]
   [markup.goldmark]

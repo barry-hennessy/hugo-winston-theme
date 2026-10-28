@@ -1,18 +1,8 @@
-<div class="footer">
-  {{ if .Site.Data.social.links }}
-  <div class="footer-social grid grid-rows-1 grid-flow-col justify-center gap-4">
-    {{ range .Site.Data.social.links }}
-      <span class="social-icon social-icon-{{ .name | urlize }}">
-        <a href="{{ .url }}" title="{{ .name }}" target="_blank" rel="noopener">
-          <img src="{{ .image | relURL }}" width="24" height="24" alt="{{ .name }}"/>
-        </a>
-      </span>
-    {{ end }}
-  </div>
-  {{ end }}
-  <div class="footer-legal-row">
-    <nav class="footer-legal" aria-label="Legal">
-      <a href="{{ "impressum/" | relURL }}">Impressum</a>
-    </nav>
-  </div>
-</div>
+{{- /*
+The site's footer: whose site it is (footer-credit.html) on the left, and
+its links (footer-links.html) on the right.
+*/ -}}
+<footer class="footer">
+  {{ partial "footer-credit.html" . }}
+  {{ partial "footer-links.html" . }}
+</footer>

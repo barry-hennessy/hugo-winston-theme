@@ -1,0 +1,51 @@
+{{- /*
+The footer's links: the site's profiles elsewhere, from params.social, then
+the `footer` menu (legal pages, for example).
+
+  [params.social]
+    github = "https://github.com/jo"
+    linkedin = "https://www.linkedin.com/in/jo/"
+
+A profile that is not set is left out. The profiles are shown in the order
+below, by these names; for any other link, add an entry to the footer menu.
+A menu entry for a page that does not exist (its pageRef finds no page) is
+left out, so it can be configured before the page is written.
+*/ -}}
+{{- $page := . -}}
+{{- $profiles := slice
+  (dict "key" "github" "name" "GitHub")
+  (dict "key" "gitlab" "name" "GitLab")
+  (dict "key" "codeberg" "name" "Codeberg")
+  (dict "key" "linkedin" "name" "LinkedIn")
+  (dict "key" "mastodon" "name" "Mastodon")
+  (dict "key" "bluesky" "name" "Bluesky")
+  (dict "key" "x" "name" "X")
+  (dict "key" "youtube" "name" "YouTube")
+-}}
+{{- $social := site.Params.social | default dict -}}
+{{- $links := slice -}}
+{{- range $profile := $profiles -}}
+  {{- with index $social $profile.key -}}
+    {{- $links = $links | append (dict "name" $profile.name "url" .) -}}
+  {{- end -}}
+{{- end -}}
+{{- $entries := slice -}}
+{{- range site.Menus.footer -}}
+  {{- if or .Page (not .PageRef) -}}
+    {{- $entries = $entries | append . -}}
+  {{- end -}}
+{{- end -}}
+{{- if or $links $entries }}
+<nav class="footer-links" aria-label="Footer">
+  <ul>
+    {{- range $links }}
+    {{- /* rel="me": the profile is the site's owner's, which Mastodon,
+           for one, checks to verify the link back. */}}
+    <li><a href="{{ .url }}" rel="me">{{ .name }}</a></li>
+    {{- end }}
+    {{- range $entries }}
+    <li>{{ partial "menu-link.html" (dict "page" $page "entry" .) }}</li>
+    {{- end }}
+  </ul>
+</nav>
+{{- end -}}

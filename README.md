@@ -131,6 +131,36 @@ behind a hamburger that opens them over the whole screen.
 The link to the page being shown is marked `aria-current="page"`, and the
 link to the section it is in `aria-current="true"`; both are underlined.
 
+### Footer
+
+The footer says whose site it is, "© Name · Place", and links to the site's
+profiles elsewhere and to the pages of the `footer` menu.
+
+```toml
+# config.toml
+[params.footer]
+  name = "Jo Bloggs"   # defaults to the site's title
+  place = "Berlin"     # optional
+
+# Profiles: github, gitlab, codeberg, linkedin, mastodon, bluesky, x and
+# youtube, shown in that order. Leave out the ones you don't have.
+[params.social]
+  github = "https://github.com/jo"
+  mastodon = "https://mastodon.social/@jo"
+
+[[menus.footer]]
+  name = "Impressum"
+  pageRef = "/impressum"
+  weight = 10
+[[menus.footer]]
+  name = "Privacy"
+  pageRef = "/privacy"   # left out until the page exists
+  weight = 20
+```
+
+A footer menu entry whose `pageRef` finds no page is left out, so it can be
+set before the page is written.
+
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:
 

@@ -1,0 +1,9 @@
+{{- /*
+Whose site it is, and where: "© Name · Place", from the site's params.
+
+  [params.footer]
+    name = "Jo Bloggs"   # defaults to the site's title
+    place = "Berlin"     # optional
+*/ -}}
+{{- $footer := site.Params.footer | default dict -}}
+<p class="footer-credit">© {{ $footer.name | default site.Title }}{{ with $footer.place }} · {{ . }}{{ end }}</p>
