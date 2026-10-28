@@ -11,6 +11,12 @@
   padding-bottom: var(--hero-padding-bottom);
 }
 
+// Followed straight by what it introduces, in a section without its
+// padding above (section--flush-top).
+.hero--close {
+  padding-bottom: 40px;
+}
+
 .hero-body {
   display: flex;
   flex-direction: column;

@@ -260,6 +260,8 @@ picture takes about a third of the width beside the text, without
 wrapping; from 1200px the two share the width; below 767px the picture
 runs the full width under the text, as the phone image (`image_wide`)
 when there is one. `breadcrumb` shows where the page is above it.
+`close` leaves less space below it, for a hero followed straight by what
+it introduces, in a section with the class `section--flush-top`.
 
 ```go-html-template
 {{ partial "hero.html" (dict "page" . "title" .Title "lead" .Params.lead

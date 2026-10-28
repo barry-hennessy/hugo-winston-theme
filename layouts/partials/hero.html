@@ -29,6 +29,9 @@ Arguments (a dict):
                 as for an SVG or a file in static/ (optional)
   art_size      "small" to keep the picture at most 420px wide (optional)
   id            the hero's id (optional)
+  close         true when what the hero introduces follows straight
+                under it, as a box in a section--flush-top: less space
+                below it (optional)
 
 A page's front matter can hold them, e.g.:
 
@@ -36,7 +39,7 @@ A page's front matter can hold them, e.g.:
        "lead" .Params.lead "image" .Params.image
        "image_wide" .Params.image_wide "image_alt" .Params.image_alt) }}
 */ -}}
-<header class="hero page-width"{{ with .id }} id="{{ . }}"{{ end }}>
+<header class="hero page-width{{ if .close }} hero--close{{ end }}"{{ with .id }} id="{{ . }}"{{ end }}>
   {{- if and .breadcrumb .page }}
   {{ partial "breadcrumb.html" (dict "page" .page) }}
   {{- end }}
