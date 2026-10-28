@@ -86,8 +86,14 @@ body {
   font-family: var(--font-family-paragraph);
   color: var(--text-color);
   margin: 0;
-  padding: 20px;
   overflow-x: hidden;
+}
+
+// A page in a column, with the site's frame around it (addFrame): what a
+// layout gets unless it chooses bands (see baseof.html), and what a page
+// gets from a base layout that does not know about the choice.
+body:not(.layout-bands) {
+  padding: 20px;
   @include breakpoint('small') {
     padding: 50px;
   }
@@ -99,9 +105,13 @@ body {
         border: 18px solid var(--highlight-color);
     }
   }
+  .wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
 }
 
-.wrapper {
-  max-width: 1000px;
-  margin: 0 auto;
-}
+// A page of bands runs to the edges of the window, without the frame:
+// each section sets its own background and keeps its content at the
+// content's width (.page-width), and so do the header and the footer
+// (_header.scss, _footer.scss).

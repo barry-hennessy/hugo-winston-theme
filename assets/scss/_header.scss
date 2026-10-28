@@ -46,3 +46,11 @@
     display: inline-flex;
   }
 }
+
+// On a page of bands the header runs the full width, its rule from edge to
+// edge, with its content at the content's width.
+.layout-bands .header {
+  margin-bottom: 0;
+  padding-block: 20px;
+  @include page-width-padding;
+}

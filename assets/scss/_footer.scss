@@ -41,3 +41,12 @@
     }
   }
 }
+
+// On a page of bands the footer runs the full width, its rule from edge to
+// edge, with its content at the content's width. The last section's
+// padding sets it off.
+.layout-bands .footer {
+  margin-top: 0;
+  padding-block: 28px;
+  @include page-width-padding;
+}

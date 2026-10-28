@@ -27,3 +27,10 @@
 .measure-narrow {
   max-width: var(--measure-narrow);
 }
+
+// An element that runs the full width of the window but keeps its content
+// at the content's width, as .page-width does inside it: the header and
+// footer of a page of bands.
+@mixin page-width-padding {
+  padding-inline: #{'max(var(--gutter), calc((100% - var(--content-width)) / 2 + var(--gutter)))'};
+}

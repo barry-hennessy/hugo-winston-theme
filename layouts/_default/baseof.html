@@ -41,7 +41,11 @@
 {{ $themeStyle := slice "" }}
 {{ if eq .Site.Params.addFrame true }}{{ $themeStyle = $themeStyle | append "frame" }}{{ end }}
 
-<body class='page{{ delimit $themeStyle " " }} {{ block "body_classes" . }}{{ end }}'>
+{{- /* How the page is laid out: "framed", in a column with the site's
+       frame around it, or "bands", as full-width sections (partials/section.html)
+       with the header, footer and content at the content's width. A layout
+       chooses with {{ define "page_layout" }}bands{{ end }}. */}}
+<body class='page{{ delimit $themeStyle " " }} layout-{{ block "page_layout" . }}framed{{ end }} {{ block "body_classes" . }}{{ end }}'>
   <div id="wrapper" class="wrapper">
     {{ partial "header.html" . }}
     {{ block "main" . }}

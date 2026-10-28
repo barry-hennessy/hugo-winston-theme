@@ -161,6 +161,35 @@ profiles elsewhere and to the pages of the `footer` menu.
 A footer menu entry whose `pageRef` finds no page is left out, so it can be
 set before the page is written.
 
+### Framed pages and pages of bands
+
+A page is laid out in one of two ways, chosen by its layout:
+
+- **framed** (the default): the page sits in a 1000px column, with the
+  site's frame around the window when `addFrame` is set.
+- **bands**: the page runs to the edges of the window, as a stack of
+  sections (see "Sections" below), each with its own background and its
+  content at the content's width (`--content-width`). The header and
+  footer run the full width too, their content at the same width. There is
+  no frame.
+
+A layout chooses bands by defining the `page_layout` block:
+
+```go-html-template
+{{ define "page_layout" }}bands{{ end }}
+
+{{ define "main" }}
+<main id="main">
+  {{ partial "hero.html" (dict "page" . "title" .Title) }}
+  ...
+</main>
+{{ end }}
+```
+
+`baseof.html` sets `layout-framed` or `layout-bands` on the `body`. A site
+with its own `baseof.html` adds the block to its `body` the same way; until
+it does, every page stays framed.
+
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:
 
