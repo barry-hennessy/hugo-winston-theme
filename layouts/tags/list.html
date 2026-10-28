@@ -1,17 +1,27 @@
 {{ define "body_classes" }}page-default-list{{ end }}
 
 {{ define "main" }}
+<main id="main">
   <div class="intro">
     <h1>{{ partial "headline.html" . }}</h1>
     {{ if .Params.description }}<p>{{ .Params.description }}</p>{{ end }}
   </div>
   {{ .Content }}
-  {{ range.Pages }}
+  {{- /* A tag's page lists its pages as summaries, posts as their cards;
+         the page of all the tags lists them by name. */}}
+  {{ if eq .Kind "term" }}
+  <div class="post-grid term-posts">
+    {{- range .Pages }}
+    {{ .Render "summary" }}
+    {{- end }}
+  </div>
+  {{ else }}
+  {{ range .Pages }}
     <div class="summary">
-        <h2 class="summary-title font-bold"><a href="{{ .RelPermalink }}">
-            {{ partial "headline.html" . }}
-        </h2>
+      <h2 class="summary-title font-bold"><a href="{{ .RelPermalink }}">{{ partial "headline.html" . }}</a></h2>
       <p class="summary-description">{{ .Params.description }}</p>
     </div>
   {{ end }}
+  {{ end }}
+</main>
 {{ end }}

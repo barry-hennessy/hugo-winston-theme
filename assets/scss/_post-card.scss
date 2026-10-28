@@ -1,0 +1,132 @@
+// A post card (partials/post-card.html): the header image (16:9), the
+// date, the title and the description, the whole card a link through its
+// title; one of a post-grid. The featured card, which a list leads with,
+// is larger, on the surface colour, its image beside the text from the
+// medium breakpoint up.
+
+.post-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.post-card-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-image);
+  background: var(--surface-color);
+}
+
+.post-card-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.post-card-date {
+  font-size: 14px;
+}
+
+.post-card-title {
+  margin: 0;
+  font-family: var(--font-family-heading);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--emphasis-color);
+  overflow-wrap: break-word;
+  a {
+    color: inherit;
+    text-decoration: none;
+    // The title's link covers the whole card.
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}
+
+.post-card:hover .post-card-title a {
+  text-decoration: underline;
+}
+
+// The focus is drawn round the card the link covers.
+.post-card:has(.post-card-title a:focus-visible) {
+  outline: 3px solid var(--emphasis-color);
+  outline-offset: 6px;
+  border-radius: var(--radius-image);
+}
+
+.post-card-text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+.post-card-action {
+  margin: 0;
+  font-family: var(--font-family-heading);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--highlight-color);
+}
+
+.post-card--featured {
+  gap: 24px;
+  padding: clamp(16px, 2.4vw, 28px);
+  border-radius: var(--radius-box);
+  background: var(--surface-color);
+  .post-card-image img {
+    background: var(--base-color);
+  }
+  .post-card-copy {
+    gap: 12px;
+  }
+  .post-card-title {
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+  .post-card-text {
+    font-size: 19px;
+  }
+  &:has(.post-card-title a:focus-visible) {
+    outline-offset: 3px;
+    border-radius: var(--radius-box);
+  }
+  @include breakpoint('medium') {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 3fr);
+    gap: 48px;
+    align-items: center;
+  }
+}
+
+// Post cards in equal columns: one on phones, two from the small
+// breakpoint, three from the medium one.
+.post-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px 28px;
+  @include breakpoint('small') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @include breakpoint('medium') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+// The posts of a term (tags/list.html), under its text.
+.term-posts {
+  margin-top: 40px;
+}

@@ -1,0 +1,4 @@
+{{- /* A post's summary, where a list renders it (.Render "summary"): its
+       card, one of a grid (post-grid). The summaries of other pages are
+       _default/summary.html. */ -}}
+{{ partial "post-card.html" (dict "page" .) }}

@@ -1,0 +1,62 @@
+{{- /*
+A post card: the post's header image (16:9), its date, its title (with its
+`punctuation`, when it has one) and its description, the whole card a link to the post through its title. One of
+a grid (post-grid), or, `featured`, the one post a list leads with:
+larger, on the surface colour, with the image beside the text from the
+medium breakpoint (992px) up.
+
+The image is the post's `image`, with `image_alt`, `image_width` and
+`image_height` (as picture.html takes them); with none the card has no
+picture. The date is shown when the post's `showPostedDate`, or the
+site's, says so.
+
+Arguments (a dict):
+  page    the post
+  level   the title's heading level (optional; 2)
+  date    false to leave the date out (optional; shown)
+  label   a word before the date, as "Latest" (optional)
+  action  a line at the foot of a featured card, as "Read it →"
+          (optional); the title's link already leads to the post, so it
+          is only shown
+  featured  true for the larger card a list leads with (optional)
+  eager   true to load the image at once, for a card at the top of the
+          page (optional)
+  sizes   how wide the image is shown, for its srcset (optional)
+  class   classes added to the card's (optional)
+*/ -}}
+{{- $page := .page -}}
+{{- $level := .level | default 2 -}}
+{{- $showDate := and (ne .date false) (not $page.Date.IsZero)
+      (cond (isset $page.Params "showposteddate") $page.Params.showPostedDate site.Params.showPostedDate) -}}
+{{- $sizes := .sizes | default (cond .featured "(min-width: 1240px) 600px, (min-width: 992px) 50vw, 100vw" "(min-width: 1240px) 380px, (min-width: 992px) 30vw, (min-width: 767px) 45vw, 100vw") -}}
+<article class="post-card{{ if .featured }} post-card--featured{{ end }}{{ with .class }} {{ . }}{{ end }}">
+  {{- with $page.Params.image }}
+  <div class="post-card-image">
+    {{- partial "picture.html" (dict
+      "src" .
+      "alt" $page.Params.image_alt
+      "page" $page
+      "width" $page.Params.image_width
+      "height" $page.Params.image_height
+      "sizes" $sizes
+      "eager" $.eager
+    ) }}
+  </div>
+  {{- end }}
+  <div class="post-card-copy">
+    {{- if or $showDate .label }}
+    <p class="post-card-date mono-label{{ if .label }} mono-label--accent{{ end }}">
+      {{- with .label }}{{ . }}{{ if $showDate }} · {{ end }}{{ end -}}
+      {{- if $showDate }}<time datetime="{{ $page.Date.Format "2006-01-02" }}">{{ $page.Date | time.Format ":date_long" }}</time>{{ end -}}
+    </p>
+    {{- end }}
+    <h{{ $level }} class="post-card-title"><a href="{{ $page.RelPermalink }}">{{ $page.LinkTitle }}{{ $page.Params.punctuation }}</a></h{{ $level }}>
+    {{- with $page.Description }}
+    <p class="post-card-text">{{ . }}</p>
+    {{- end }}
+    {{- with .action }}
+    <p class="post-card-action" aria-hidden="true">{{ . }}</p>
+    {{- end }}
+  </div>
+</article>
+{{- /* chomp trailing newline */ -}}
