@@ -26,8 +26,12 @@
     <meta property="og:title" content="{{ .Title }}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="{{ .Permalink }}"/>
-    {{ if .Params.image }}<meta property="og:image" content="{{ .Params.image | absURL }}"/>
-    {{ else if .Site.Params.og_image }}<meta property="og:image" content="{{ .Site.Params.og_image | absURL }}"/>{{ end }}
+    {{- /* An SVG is no picture to share: sites that show one take only
+           PNG, JPEG, GIF or WebP. */}}
+    {{ $image := .Params.image }}
+    {{ if and $image (strings.HasSuffix (lower $image) ".svg") }}{{ $image = "" }}{{ end }}
+    {{ with $image }}<meta property="og:image" content="{{ . | absURL }}"/>
+    {{ else with .Site.Params.og_image }}<meta property="og:image" content="{{ . | absURL }}"/>{{ end }}
     {{ if .Params.description }}<meta property="og:description" content="{{ .Params.description }}"/>{{ end }}
     <meta name="twitter:card" content="summary"/>
     {{ if .Site.Params.twitter_handle }}<meta name="twitter:site" content="{{ .Site.Params.twitter_handle }}"/>{{ end }}
