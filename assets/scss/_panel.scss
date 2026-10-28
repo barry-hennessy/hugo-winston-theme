@@ -1,0 +1,76 @@
+// A two-cell panel (partials/panel.html): two cells on the surface colour,
+// ruled apart, side by side from the small breakpoint up. The highlighted
+// cell has a rule in the accent along its top and its points stand out;
+// the other's rule is quiet.
+
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--rule-color);
+  border-radius: var(--radius-card);
+  // The rule between the cells: the ground showing through the gap.
+  background: var(--rule-color);
+  @include breakpoint('small') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.panel-cell {
+  padding: 24px;
+  border-top: 4px solid var(--rule-color);
+  background: var(--surface-color);
+  color: var(--text-color);
+  @include breakpoint('small') {
+    padding: 32px;
+  }
+}
+
+.panel-cell--highlight {
+  border-top-color: var(--dot-color);
+}
+
+.panel-label {
+  margin: 0 0 10px;
+  font-family: var(--font-family-monospace);
+  font-size: var(--font-size-label);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--muted-color);
+  .panel-cell--highlight & {
+    color: var(--dot-color);
+  }
+}
+
+.panel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+  font-size: 19px;
+  line-height: 1.5;
+  li {
+    list-style: disc;
+  }
+  .panel-cell--highlight & {
+    color: var(--emphasis-color);
+  }
+}
+
+.panel-list li,
+.panel-text p {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+.panel-text {
+  font-size: 18px;
+  line-height: 1.6;
+  p + p {
+    margin-top: 12px;
+  }
+}

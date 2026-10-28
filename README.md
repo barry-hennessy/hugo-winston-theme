@@ -274,6 +274,12 @@ the others' are quiet, `rule` `solid` or `dashed`. `numbered` numbers
 them (`true`: 1, 2; `"padded"`: 01, 02); `grid` lays them out with a grid
 class (`steps`, `trio`, `quad`).
 
+**Panel** (`panel.html`): two cells side by side from 767px, such as
+goals and non-goals, or a good fit and not a fit. Each has a label (a
+heading) over a list of `items` or a `text`; the `highlight`ed cell (the
+first, unless one is marked) has a rule in the accent along its top, the
+other a quiet one.
+
 A page's `showPostedDate` overrides the site's for that page's summary.
 To hide the dates of all the pages of a section, set it in the section's `cascade`:
 

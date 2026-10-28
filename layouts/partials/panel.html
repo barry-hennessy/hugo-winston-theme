@@ -1,0 +1,43 @@
+{{- /*
+A two-cell panel: two things set side by side from the small breakpoint
+up, one under the other below it, such as goals and non-goals, or a good
+fit and not a fit. Each cell has a label over a list or a text; the
+highlighted one has a rule in the accent along its top, the other a quiet
+one.
+
+Arguments (a dict):
+  cells  a list of two dicts, each:
+           label      the cell's label, a heading
+           items      a list of points, each in Markdown (optional)
+           text       a text, in Markdown, instead of points (optional)
+           highlight  true for the highlighted cell (optional; the first
+                      cell, when no cell sets it)
+  level  the labels' heading level (optional; 3)
+  class  classes added to the panel's (optional)
+
+Nothing is rendered without cells.
+*/ -}}
+{{- with .cells }}
+{{- $level := $.level | default 3 -}}
+{{- $chosen := where . "highlight" true -}}
+<div class="panel{{ with $.class }} {{ . }}{{ end }}">
+  {{- range $i, $cell := . }}
+  {{- $highlight := cond (gt (len $chosen) 0) (eq .highlight true) (eq $i 0) }}
+  <div class="panel-cell{{ if $highlight }} panel-cell--highlight{{ end }}">
+    {{- with .label }}
+    <h{{ $level }} class="panel-label">{{ . }}</h{{ $level }}>
+    {{- end }}
+    {{- with .items }}
+    <ul class="panel-list">
+      {{- range . }}
+      <li>{{ . | markdownify }}</li>
+      {{- end }}
+    </ul>
+    {{- end }}
+    {{- with .text }}
+    <div class="panel-text">{{ . | markdownify }}</div>
+    {{- end }}
+  </div>
+  {{- end }}
+</div>
+{{- end -}}
