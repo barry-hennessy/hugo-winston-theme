@@ -1,0 +1,88 @@
+// Grids: classes for a list or a div whose children are laid out in equal
+// columns, one column on phones.
+//
+//   trio     3 across from the medium breakpoint, one column below
+//   quartet  4 across from the medium breakpoint, one column below
+//   quad     4 across from the medium breakpoint, 2 × 2 from the small one
+//   steps    5 across from the medium breakpoint, a list below
+//   duo      2 across from the small breakpoint
+//   facts    3 across from the medium breakpoint, 2 from the small one
+//
+// A group of three never wraps to two and one: in a quad or facts grid,
+// exactly three children go from three across to one column.
+
+.trio,
+.quartet,
+.quad,
+.steps,
+.duo,
+.facts {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  > li {
+    list-style: none;
+  }
+}
+
+.trio {
+  @include breakpoint('medium') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+}
+
+.quartet {
+  @include breakpoint('medium') {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+.quad {
+  gap: 20px;
+  @include breakpoint('small') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @include breakpoint('medium') {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.steps {
+  gap: 20px;
+  @include breakpoint('medium') {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.duo {
+  @include breakpoint('small') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 48px;
+  }
+}
+
+.facts {
+  gap: 20px;
+  @include breakpoint('small') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @include breakpoint('medium') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+// Exactly three children: three across, or one column.
+.quad:has(> :nth-child(3):last-child),
+.facts:has(> :nth-child(3):last-child) {
+  @include breakpoint-between('small', 'medium') {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  @include breakpoint('medium') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

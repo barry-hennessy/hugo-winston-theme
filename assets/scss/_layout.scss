@@ -39,3 +39,12 @@
 @mixin page-width-padding {
   padding-inline: #{'max(var(--gutter), calc((100% - var(--content-width)) / 2 + var(--gutter)))'};
 }
+
+// From one breakpoint up to, not including, the next: e.g. a tablet's
+// layout, between 'small' and 'medium'. (Here rather than in
+// _breakpoints.scss, which a site may replace with its own.)
+@mixin breakpoint-between($from, $to) {
+  @media (min-width: map-get($breakpoints, $from)) and (max-width: map-get($breakpoints, $to) - 0.02px) {
+    @content;
+  }
+}
