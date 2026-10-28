@@ -17,11 +17,27 @@
   @include breakpoint-between('small', 'medium') {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
-    grid-template-rows: auto auto auto;
-    grid-auto-flow: column;
-    column-gap: 32px;
-    row-gap: 6px;
+    gap: 32px;
     align-items: start;
+  }
+}
+
+// The head (label, title, price) and the body (line, call to action) are
+// one column of the card, except from the small breakpoint to the medium
+// one, where they sit side by side.
+.offer-card-head,
+.offer-card-body {
+  display: contents;
+  @include breakpoint-between('small', 'medium') {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+.offer-card-body {
+  @include breakpoint-between('small', 'medium') {
+    gap: 10px;
   }
 }
 
@@ -62,9 +78,11 @@
   }
 }
 
+// The terms wrap as one, after the price.
 .offer-card-terms {
   font-size: 18px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .offer-card-text {

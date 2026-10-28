@@ -32,27 +32,31 @@ Arguments (a dict):
 {{- with .number }}{{ $label = $label | append (string .) }}{{ end -}}
 {{- with .label }}{{ $label = $label | append . }}{{ end -}}
 <article class="offer-card{{ if .highlight }} offer-card--highlight{{ end }}{{ with .class }} {{ . }}{{ end }}">
-  {{- with $label }}
-  <p class="offer-card-label">{{ delimit . " · " }}</p>
-  {{- end }}
-  <h{{ $level }} class="offer-card-title">{{ .title }}</h{{ $level }}>
-  {{- with .price }}
-  <p class="offer-card-price">{{ . }}{{ with $.price_terms }} <span class="offer-card-terms">· {{ . }}</span>{{ end }}</p>
-  {{- end }}
-  {{- with .text }}
-  <p class="offer-card-text">{{ . | markdownify }}</p>
-  {{- end }}
-  {{- with .action }}
-    {{- if and .label .url }}
-      {{- $style := .style | default (cond (eq $.highlight true) "primary" "link") }}
-      {{- $url := .url }}
-      {{- if not (strings.HasPrefix $url "#") }}{{ $url = $url | relLangURL }}{{ end }}
-      {{- if eq $style "link" }}
-  <a class="offer-card-link" href="{{ $url }}">{{ .label }}</a>
-      {{- else }}
-  <a class="button button--small offer-card-button{{ if ne $style "primary" }} button--{{ $style }}{{ end }}" href="{{ $url }}">{{ .label }}</a>
+  <div class="offer-card-head">
+    {{- with $label }}
+    <p class="offer-card-label">{{ delimit . " · " }}</p>
+    {{- end }}
+    <h{{ $level }} class="offer-card-title">{{ .title }}</h{{ $level }}>
+    {{- with .price }}
+    <p class="offer-card-price">{{ . }}{{ with $.price_terms }} <span class="offer-card-terms">· {{ . }}</span>{{ end }}</p>
+    {{- end }}
+  </div>
+  <div class="offer-card-body">
+    {{- with .text }}
+    <p class="offer-card-text">{{ . | markdownify }}</p>
+    {{- end }}
+    {{- with .action }}
+      {{- if and .label .url }}
+        {{- $style := .style | default (cond (eq $.highlight true) "primary" "link") }}
+        {{- $url := .url }}
+        {{- if not (strings.HasPrefix $url "#") }}{{ $url = $url | relLangURL }}{{ end }}
+        {{- if eq $style "link" }}
+    <a class="offer-card-link" href="{{ $url }}">{{ .label }}</a>
+        {{- else }}
+    <a class="button button--small offer-card-button{{ if ne $style "primary" }} button--{{ $style }}{{ end }}" href="{{ $url }}">{{ .label }}</a>
+        {{- end }}
       {{- end }}
     {{- end }}
-  {{- end }}
+  </div>
 </article>
 {{- /* chomp trailing newline */ -}}
