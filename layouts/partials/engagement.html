@@ -1,0 +1,63 @@
+{{- /*
+An engagement row: one way to work together, in detail, one of a list of
+them under a rule each. On the left its name, price and what to do next;
+on the right what it is, in a few labelled parts ("What you get", "How it
+runs", "Good for"), three across from the medium breakpoint and one under
+the other below it. The highlighted row's rule is in the accent, as are
+its label and price, and its call to action is a button.
+
+Arguments (a dict):
+  title        the engagement's name
+  number       its number in the list, before the label (optional)
+  label        a short label, e.g. "Start here" (optional)
+  price        the price (optional)
+  price_terms  what the price is for, after it (optional)
+  action       what to do next: a dict of label, url and style ("primary",
+               "outline" for a button, "link" for a text link; a button
+               on the highlighted row, a link on the others) (optional)
+  details      the parts: a list of dicts of label and text (Markdown)
+               (optional)
+  highlight    true for the highlighted row (optional)
+  level        the title's heading level (optional; 3)
+  class        classes added to the row's (optional)
+
+Set the rows one after the other; the last closes the list with a rule.
+*/ -}}
+{{- $level := .level | default 3 -}}
+{{- $label := slice -}}
+{{- with .number }}{{ $label = $label | append (string .) }}{{ end -}}
+{{- with .label }}{{ $label = $label | append . }}{{ end -}}
+<article class="engagement{{ if .highlight }} engagement--highlight{{ end }}{{ with .class }} {{ . }}{{ end }}">
+  <div class="engagement-head">
+    {{- with $label }}
+    <p class="engagement-label">{{ delimit . " · " }}</p>
+    {{- end }}
+    <h{{ $level }} class="engagement-title">{{ .title }}</h{{ $level }}>
+    {{- with .price }}
+    <p class="engagement-price">{{ . }}{{ with $.price_terms }} · {{ . }}{{ end }}</p>
+    {{- end }}
+    {{- with .action }}
+      {{- if and .label .url }}
+        {{- $style := .style | default (cond (eq $.highlight true) "primary" "link") }}
+        {{- $url := .url }}
+        {{- if not (strings.HasPrefix $url "#") }}{{ $url = $url | relLangURL }}{{ end }}
+        {{- if eq $style "link" }}
+    <a class="engagement-link" href="{{ $url }}">{{ .label }}</a>
+        {{- else }}
+    <a class="button button--small engagement-button{{ if ne $style "primary" }} button--{{ $style }}{{ end }}" href="{{ $url }}">{{ .label }}</a>
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  </div>
+  {{- with .details }}
+  <dl class="engagement-details">
+    {{- range . }}
+    <div class="engagement-detail">
+      <dt>{{ .label }}</dt>
+      <dd>{{ .text | markdownify }}</dd>
+    </div>
+    {{- end }}
+  </dl>
+  {{- end }}
+</article>
+{{- /* chomp trailing newline */ -}}

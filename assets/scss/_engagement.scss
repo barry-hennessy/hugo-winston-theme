@@ -1,0 +1,116 @@
+// An engagement row (partials/engagement.html): a head (label, name, price,
+// call to action) beside its details, under a quiet rule; the highlighted
+// row's rule is in the accent. The details sit beside the head when there
+// is room, three across from the medium breakpoint; the last row closes the
+// list with a rule along its bottom.
+
+.engagement {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 56px;
+  padding: 32px 0;
+  border-top: 1px solid var(--rule-color);
+  &:last-child {
+    border-bottom: 1px solid var(--rule-color);
+  }
+}
+
+.engagement--highlight {
+  border-top: 3px solid var(--dot-color);
+}
+
+.engagement-head {
+  display: flex;
+  flex: 1 1 260px;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.engagement-label {
+  margin: 0;
+  font-family: var(--font-family-monospace);
+  font-size: var(--font-size-label);
+  line-height: 1.4;
+  color: var(--muted-color);
+  .engagement--highlight & {
+    color: var(--dot-color);
+  }
+}
+
+.engagement-title {
+  margin: 0;
+  font-family: var(--font-family-heading);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--emphasis-color);
+}
+
+.engagement-price {
+  margin: 0;
+  font-family: var(--font-family-heading);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--highlight-color);
+  .engagement--highlight & {
+    color: var(--dot-color);
+  }
+}
+
+.engagement-button,
+.engagement-link {
+  align-self: flex-start;
+  margin-top: 8px;
+}
+
+.engagement-link {
+  display: inline-block;
+  // A 44px target, though the text is smaller.
+  padding-block: 11px;
+  margin-top: 0;
+  font-family: var(--font-family-heading);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  color: var(--highlight-color);
+}
+
+.engagement-details {
+  display: grid;
+  flex: 3 1 560px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  min-width: 0;
+  margin: 0;
+  @include breakpoint('medium') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+}
+
+.engagement-detail {
+  dt {
+    margin: 0 0 6px;
+    font-family: var(--font-family-monospace);
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--muted-color);
+  }
+  dd {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-color);
+    p {
+      margin: 0;
+      font-size: inherit;
+      line-height: inherit;
+    }
+    a {
+      color: var(--highlight-color);
+      text-decoration: underline;
+    }
+  }
+}

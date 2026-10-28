@@ -279,6 +279,13 @@ text link. The calls to action of a row line up along the bottom. From
 767px to 991px, where the trio is one column, the label, title and price
 sit on the left of the line.
 
+**Engagement row** (`engagement.html`): one way to work together, in
+detail, one of a list of rows under a rule each: on the left its label,
+name, price and call to action, on the right its `details`, labelled
+parts ("What you get", "How it runs", "Good for") as a `dl`, three
+across from 992px. The `highlight`ed row's rule is in the accent; the
+last row closes the list with a rule.
+
 **Rule list** (`rule-list.html`): items each under a rule along the top,
 with a small label, a title and a line: method steps, what happens next,
 sizes, ways to go. The `highlight`ed item's rule is solid in the accent;
