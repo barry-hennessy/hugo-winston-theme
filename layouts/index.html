@@ -1,6 +1,7 @@
 {{ define "body_classes" }}page-home{{ end }}
 
 {{ define "main" }}
+<main id="main">
 
   {{ if .Site.Params.showAuthorOnHomepage }}
     {{ partial "author-large.html" . }}
@@ -18,7 +19,7 @@
     {{ end }}
     {{ partial "paginator" . }}
   {{ end }}
-
+</main>
 {{ end }}
 
 {{ define "footer_js" }}
