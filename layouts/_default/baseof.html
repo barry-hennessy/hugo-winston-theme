@@ -57,16 +57,6 @@
     {{ partial "footer.html" . }}
   </div>
 
-  {{ $scripts := resources.Get "js/scripts.js" }}
-
-  {{ $js := slice $scripts | resources.Concat "js/bundle.js" }}
-
-  {{ if hugo.IsServer }}
-  <script type="text/javascript" src="{{ $js.RelPermalink }}"></script>
-  {{ else }}
-  <script type="text/javascript" src="{{ ($js | minify | fingerprint).RelPermalink }}"></script>
-  {{ end }}
-
   {{ block "footer_js" . }}
   {{ end }}
 
