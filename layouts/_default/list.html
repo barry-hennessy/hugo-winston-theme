@@ -1,60 +1,103 @@
+{{- /*
+A list page, a page of bands laid out as the list of posts is: the
+headline, its `lead` (optional), its text and badges, then the pages it
+lists, as cards in a grid.
+
+A page with sections lists its own pages in sections too, as
+pages_sections says, in its order: each takes the pages that have its
+param, one without a param all the others, and one with docs: true is
+the documentation (first, when none is):
+[{title: Writing}, {docs: true}, {title: Releases, param: release}].
+A section with highlight lists only its pages where that param is true,
+and one with more ends in a link to this term in that taxonomy, which
+should list all of them (more: tags). Each section is a band of its own,
+its pages as cards.
+
+A page with neither sections nor documentation lists its pages as cards
+under its text.
+*/ -}}
+{{ define "page_layout" }}bands{{ end }}
 {{ define "body_classes" }}page-default-list{{ end }}
 
 {{ define "main" }}
 <main id="main">
-  <div class="intro">
-    <h1>{{ .Title }}{{ if .Site.Params.addDot }}<span class="dot">.</span>{{ end }}</h1>
-	<div class="content prose prose-invert">
-      {{ .Content }}
+  <div class="section post-list page-list">
+    <div class="page-width">
+      <header class="post-list-head">
+        <div class="post-list-intro">
+          <h1 class="heading-headline post-list-title">{{ partial "headline.html" . }}</h1>
+          {{- with .Params.lead }}
+          <p class="post-list-lead">{{ . | markdownify }}</p>
+          {{- end }}
+        </div>
+      </header>
+      {{- with .Content }}
+      <div class="content prose prose-invert post-list-content">{{ . }}</div>
+      {{- end }}
+      {{- with partial "page-badges" . | strings.TrimSpace }}
+      <div class="post-list-content">{{ . | safeHTML }}</div>
+      {{- end }}
+
+  {{- $docs := partial "docs/listing.html" . | strings.TrimSpace }}
+  {{- $sections := .Params.pages_sections | default (slice (dict "title" "Writing")) }}
+  {{- if or $docs .Params.pages_sections }}
     </div>
-    {{ partial "page-badges" . }}
   </div>
-  {{ $docs := partial "docs/listing.html" . | strings.TrimSpace }}
-  {{/* A page with sections lists its own pages in sections too, as
-       pages_sections says, in its order: each takes the pages that have
-       its param, one without a param all the others, and one with
-       docs: true is the documentation (first, when none is):
-       [{title: Writing}, {docs: true}, {title: Releases, param: release}].
-       A section with highlight lists only its pages where that param is
-       true, and one with more ends in a link to this term in that
-       taxonomy, which should list all of them (more: tags).
-       The others list their pages as summaries. */}}
-  {{ $sections := .Params.pages_sections | default (slice (dict "title" "Writing")) }}
-  {{ if or $docs .Params.pages_sections }}
-    {{ $taken := slice }}
-    {{ range $sections }}
-      {{ with .param }}{{ $taken = $taken | append (where $.Pages (printf "Params.%s" .) "!=" nil) }}{{ end }}
-    {{ end }}
-    {{ $rest := complement $taken .Pages }}
-    {{ if not (where $sections "docs" true) }}{{ $docs | safeHTML }}{{ end }}
-    {{ range $sections }}
-      {{ if .docs }}
-        {{ $docs | safeHTML }}
-      {{ else }}
-        {{ $members := $rest }}
-        {{ with .param }}{{ $members = where $.Pages (printf "Params.%s" .) "!=" nil }}{{ end }}
-        {{ $pages := $members }}
-        {{ with .highlight }}{{ $pages = where $members (printf "Params.%s" .) true }}{{ end }}
-        {{ $more := false }}
-        {{ if and .more $members }}
-          {{ $taxonomy := .more }}
-          {{ with site.GetPage (printf "/%s/%s" $taxonomy $.Data.Term) }}
-            {{ $all := . }}
-            {{ $more = dict "url" .RelPermalink "text" (printf "All posts about %s" $.Title) }}
-            {{ range $members }}
-              {{ if not (in $all.Pages .) }}{{ warnf "%s names %s in %s but not in %s, so %s does not list it" .File.Path $.Data.Term $.Data.Plural $taxonomy $all.RelPermalink }}{{ end }}
-            {{ end }}
-          {{ else }}
-            {{ warnf "%s: no %s page for %s, so its %s section links to no list of all of them" $.File.Path $taxonomy $.Data.Term .title }}
-          {{ end }}
-        {{ end }}
-        {{ partial "listing.html" (dict "title" .title "pages" $pages "more" $more) }}
-      {{ end }}
-    {{ end }}
-  {{ else }}
-    {{ range .Pages }}
-      {{ .Render "summary" }}
-    {{ end }}
-  {{ end }}
+    {{- $taken := slice }}
+    {{- range $sections }}
+      {{- with .param }}{{ $taken = $taken | append (where $.Pages (printf "Params.%s" .) "!=" nil) }}{{ end }}
+    {{- end }}
+    {{- $rest := complement $taken .Pages }}
+    {{- $docsBand := "" }}
+    {{- with $docs }}{{ $docsBand = printf "<div class=\"section section--flush-top page-list-docs\"><div class=\"page-width\">%s</div></div>" . }}{{ end }}
+    {{- if not (where $sections "docs" true) }}{{ $docsBand | safeHTML }}{{ end }}
+    {{- range $sections }}
+      {{- if .docs }}
+        {{ $docsBand | safeHTML }}
+      {{- else }}
+        {{- $members := $rest }}
+        {{- with .param }}{{ $members = where $.Pages (printf "Params.%s" .) "!=" nil }}{{ end }}
+        {{- $pages := $members }}
+        {{- with .highlight }}{{ $pages = where $members (printf "Params.%s" .) true }}{{ end }}
+        {{- $more := "" }}
+        {{- if and .more $members }}
+          {{- $taxonomy := .more }}
+          {{- with site.GetPage (printf "/%s/%s" $taxonomy $.Data.Term) }}
+            {{- $all := . }}
+            {{- $more = printf "<a class=\"cta-link page-list-more\" href=\"%s\">All posts about %s →</a>" .RelPermalink $.Title }}
+            {{- range $members }}
+              {{- if not (in $all.Pages .) }}{{ warnf "%s names %s in %s but not in %s, so %s does not list it" .File.Path $.Data.Term $.Data.Plural $taxonomy $all.RelPermalink }}{{ end }}
+            {{- end }}
+          {{- else }}
+            {{- warnf "%s: no %s page for %s, so its %s section links to no list of all of them" $.File.Path $taxonomy $.Data.Term .title }}
+          {{- end }}
+        {{- end }}
+        {{- if or $pages $more }}
+          {{- $cards := slice }}
+          {{- range $pages }}
+            {{- $cards = $cards | append (partial "post-card.html" (dict "page" . "level" 3)) }}
+          {{- end }}
+          {{- $grid := "" }}
+          {{- with $cards }}{{ $grid = printf "<div class=\"post-grid\">%s</div>" (delimit . "\n") }}{{ end }}
+        {{ partial "section.html" (dict
+          "heading" .title
+          "size" "small"
+          "class" "section--flush-top page-list-section"
+          "content" (printf "%s%s" $grid $more | safeHTML)
+        ) }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  {{- else }}
+      {{- with .Pages }}
+      <div class="post-grid">
+        {{- range . }}
+        {{ partial "post-card.html" (dict "page" . "level" 2) }}
+        {{- end }}
+      </div>
+      {{- end }}
+    </div>
+  </div>
+  {{- end }}
 </main>
 {{ end }}

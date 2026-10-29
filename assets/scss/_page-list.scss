@@ -1,0 +1,22 @@
+// A list page of bands (_default/list.html): its sections follow its text
+// as bands of their own, the documentation's listing among them.
+
+.page-list .post-list-content:last-child {
+  margin-bottom: 0;
+}
+
+.page-list-section .post-grid + .page-list-more {
+  display: inline-block;
+  margin-top: 32px;
+}
+
+// The documentation's listing (listing.html) takes the sections' heading.
+.page-list-docs .listing {
+  margin-bottom: 0;
+  .listing-title {
+    margin: 0 0 32px;
+    font-size: var(--font-size-subsection);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+}
