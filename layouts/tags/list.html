@@ -1,27 +1,64 @@
-{{ define "body_classes" }}page-default-list{{ end }}
+{{- /*
+A taxonomy's pages, pages of bands laid out as the list of posts is: the
+headline and lead, chips, then the pages as cards in a grid.
+
+A term's page (e.g. /tags/decision-making/): its title, its description as
+the lead and its text under the head. Its chips are those of the list
+whose `topics` name this taxonomy (list-topics.html), such as the list of
+posts, with this term's chip the current one; without such a list, none.
+Its pages are cards (their summary), the newest first.
+
+The taxonomy's page (e.g. /tags/): its title and description, then every
+term as a chip, the most used first.
+*/ -}}
+{{ define "page_layout" }}bands{{ end }}
+{{ define "body_classes" }}page-blog-list page-taxonomy{{ end }}
 
 {{ define "main" }}
+{{- $paginator := "" }}
+{{- if eq .Kind "term" }}{{ $paginator = .Paginate .Pages }}{{ end }}
 <main id="main">
-  <div class="intro">
-    <h1>{{ partial "headline.html" . }}</h1>
-    {{ if .Params.description }}<p>{{ .Params.description }}</p>{{ end }}
-  </div>
-  {{ .Content }}
-  {{- /* A tag's page lists its pages as summaries, posts as their cards;
-         the page of all the tags lists them by name. */}}
-  {{ if eq .Kind "term" }}
-  <div class="post-grid term-posts">
-    {{- range .Pages }}
-    {{ .Render "summary" }}
-    {{- end }}
-  </div>
-  {{ else }}
-  {{ range .Pages }}
-    <div class="summary">
-      <h2 class="summary-title font-bold"><a href="{{ .RelPermalink }}">{{ partial "headline.html" . }}</a></h2>
-      <p class="summary-description">{{ .Params.description }}</p>
+  <div class="section post-list">
+    <div class="page-width">
+      <header class="post-list-head">
+        <div class="post-list-intro">
+          <h1 class="heading-headline post-list-title">{{ partial "headline.html" . }}</h1>
+          {{- with .Params.lead | default .Description }}
+          <p class="post-list-lead">{{ . | markdownify }}</p>
+          {{- end }}
+        </div>
+        {{- if eq .Kind "term" }}
+          {{- $list := "" }}
+          {{- range site.Sections }}
+            {{- if and (not $list) .Params.topics (eq (.Params.topics.taxonomy | default "tags") $.Data.Plural) }}{{ $list = . }}{{ end }}
+          {{- end }}
+          {{- with $list }}
+        {{ partial "list-topics.html" (dict "list" . "page" $ "paged" (gt $paginator.PageNumber 1) "class" "post-list-topics") }}
+          {{- end }}
+        {{- else }}
+          {{- $items := slice }}
+          {{- range .Data.Terms.ByCount }}
+            {{- $items = $items | append (dict "label" .Page.LinkTitle "url" .Page.RelPermalink) }}
+          {{- end }}
+        {{ partial "topic-chips.html" (dict "items" $items "label" .Title "class" "post-list-topics") }}
+        {{- end }}
+      </header>
+
+      {{- with .Content }}
+      <div class="content post-list-content">{{ . }}</div>
+      {{- end }}
+
+      {{- if eq .Kind "term" }}
+      {{- with $paginator.Pages }}
+      <div class="post-grid">
+        {{- range . }}
+        {{ .Render "summary" }}
+        {{- end }}
+      </div>
+      {{- end }}
+      {{ partial "paginator.html" . }}
+      {{- end }}
     </div>
-  {{ end }}
-  {{ end }}
+  </div>
 </main>
 {{ end }}

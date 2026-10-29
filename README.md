@@ -425,6 +425,12 @@ featured:                           # optional
   action: "Read it →"
 ```
 
+**A tag's page** (`tags/list.html`) is laid out as the list: the term's
+title, its description as the lead, its text, then its posts as cards.
+Its chips are those of the list whose `topics` name the taxonomy (built
+by `list-topics.html`), this term's filled. The page of all the tags
+shows every term as a chip, the most used first.
+
 **A post** (`posts/single.html`): a line of facts (a link to the section,
 the date, the reading time, the first tag), the headline with its closing
 mark, the description as a standfirst and the header image, 16:9; the

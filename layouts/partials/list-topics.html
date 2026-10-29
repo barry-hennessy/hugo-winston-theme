@@ -1,0 +1,51 @@
+{{- /*
+The topic chips of a list of pages (topic-chips.html), as its front matter's
+`topics` names them: a chip for the whole list, then one per topic. The
+chip of the page being shown is the current one: the list's own, or a
+topic's on that topic's page, so a term's page can show the chips of the
+list that links to it.
+
+Arguments (a dict):
+  list   the list page whose `topics` they are
+  page   the page being shown (optional; the list)
+  paged  true on a later page of the list: its chip is then marked as
+         the page's list, not as the page (optional)
+  class  classes added to the row's (optional)
+
+The list's front matter:
+
+  topics:
+    taxonomy: tags          # whose terms they are; "tags"
+    all: "All"              # the chip for the whole list; this
+    items:
+      - label: "Decision making"
+        term: "decision making"   # a term of the taxonomy, or
+      - label: "Elsewhere"
+        url: "/somewhere/"        # any page
+
+Nothing is rendered when the list names no topics.
+*/ -}}
+{{- $list := .list -}}
+{{- $page := .page | default $list -}}
+{{- with $list.Params.topics -}}
+  {{- $taxonomy := .taxonomy | default "tags" -}}
+  {{- $items := slice (dict "label" (.all | default "All") "url" $list.RelPermalink) -}}
+  {{- range .items -}}
+    {{- $url := .url -}}
+    {{- with .term -}}
+      {{- with site.GetPage (printf "/%s/%s" $taxonomy (urlize .)) -}}
+        {{- $url = .RelPermalink -}}
+      {{- else -}}
+        {{- warnf "%s: topic %q has no %s page, so it is left out" $list.File.Path . $taxonomy -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $items = $items | append (dict "label" .label "url" $url) -}}
+  {{- end -}}
+  {{- $chips := slice -}}
+  {{- range $items -}}
+    {{- $current := "" -}}
+    {{- if eq .url $page.RelPermalink }}{{ $current = cond $.paged "true" "page" }}{{ end -}}
+    {{- $chips = $chips | append (merge . (dict "current" $current)) -}}
+  {{- end -}}
+  {{- partial "topic-chips.html" (dict "items" $chips "class" $.class) -}}
+{{- end -}}

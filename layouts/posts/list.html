@@ -6,14 +6,10 @@ then the subscribe box. Later pages of the list have no featured post.
 From the section's front matter (content/<section>/_index.md):
 
   lead: "What the posts are about."   # in Markdown; or the description
-  topics:                             # optional
-    taxonomy: tags                    # whose terms they are; "tags"
-    all: "All"                        # the chip for the whole list; this
-    items:
-      - label: "Decision making"
-        term: "decision-making"       # a term of the taxonomy, or
-      - label: "Elsewhere"
-        url: "/somewhere/"            # any page
+  topics:                             # optional, as list-topics.html
+    items:                            # takes them; the term pages show
+      - label: "Decision making"      # them too
+        term: "decision making"
   featured:                           # optional
     label: "Latest"                   # before the featured post's date
     action: "Read it →"               # at its foot
@@ -34,22 +30,7 @@ From the section's front matter (content/<section>/_index.md):
           <p class="post-list-lead">{{ . | markdownify }}</p>
           {{- end }}
         </div>
-        {{- with .Params.topics }}
-        {{- $taxonomy := .taxonomy | default "tags" }}
-        {{- $items := slice (dict "label" (.all | default "All") "url" $.RelPermalink "current" (cond $first "page" "true")) }}
-        {{- range .items }}
-          {{- $url := .url }}
-          {{- with .term }}
-            {{- with site.GetPage (printf "/%s/%s" $taxonomy (urlize .)) }}
-              {{- $url = .RelPermalink }}
-            {{- else }}
-              {{- warnf "%s: topic %q has no %s page, so it is left out" $.File.Path . $taxonomy }}
-            {{- end }}
-          {{- end }}
-          {{- $items = $items | append (dict "label" .label "url" $url) }}
-        {{- end }}
-        {{ partial "topic-chips.html" (dict "items" $items "class" "post-list-topics") }}
-        {{- end }}
+        {{ partial "list-topics.html" (dict "list" . "paged" (not $first) "class" "post-list-topics") }}
       </header>
 
       {{- with .Content }}
