@@ -1,0 +1,94 @@
+{{- /*
+A case study, a page of bands: where it is (the breadcrumb) and a hero
+with its facts and picture; the problem and what changed, side by side; the
+story, the page's text, in the reading column, with a quote under it; then
+a call to action. Each part is in the page's front matter, and a part it
+leaves out is not shown:
+
+  eyebrow: "Client · industry"
+  heading: "The headline"         # the h1; or the title
+  lead: "A paragraph under it."   # in Markdown
+  facts:                          # as fact-strip.html takes
+    - label: "Length"
+      value: "Six weeks"
+  image: "/images/case.svg"       # the hero's picture, with image_alt,
+                                  # image_width, image_height, image_wide…
+                                  # as hero.html takes them
+  image_size: small               # the hero's art_size
+  panel:                          # two cells, as panel.html takes; their
+    - label: "The problem"        # labels are h2s
+      text: "…"
+    - label: "What changed"
+      items: ["…"]
+  story:
+    heading: "How it went"        # over the page's text
+  quote:                          # as quote.html takes
+    text: "“…”"
+    name: "…"
+    role: "…"
+  cta:                            # as cta-band.html takes
+    heading: "…"
+    text: "…"
+    actions: [{label: "…", url: "…"}]
+*/ -}}
+{{ define "page_layout" }}bands{{ end }}
+{{ define "body_classes" }}page-case-study{{ end }}
+
+{{ define "main" }}
+{{- $p := .Params }}
+<main id="main">
+  {{ partial "hero.html" (dict
+    "page" .
+    "breadcrumb" true
+    "eyebrow" $p.eyebrow
+    "title" ($p.heading | default .Title)
+    "lead" $p.lead
+    "facts" $p.facts
+    "image" $p.image
+    "image_width" $p.image_width
+    "image_height" $p.image_height
+    "image_wide" $p.image_wide
+    "image_wide_width" $p.image_wide_width
+    "image_wide_height" $p.image_wide_height
+    "image_alt" $p.image_alt
+    "art_size" $p.image_size
+  ) }}
+
+  {{- with $p.panel }}
+  {{ partial "section.html" (dict
+    "id" "summary"
+    "background" "deep"
+    "content" (partial "panel.html" (dict "cells" . "level" 2))
+  ) }}
+  {{- end }}
+
+  {{- if or .Content $p.quote }}
+  {{- $heading := index ($p.story | default dict) "heading" }}
+  {{- /* Literal tags: html/template escapes a tag name made by an action. */}}
+  {{ if $heading }}<section{{ else }}<div{{ end }} class="section case-study-story" id="story"
+    {{- if $heading }} aria-labelledby="story-title"{{ end }}>
+    {{- with $heading }}
+    <div class="case-study-column">
+      <h2 class="heading-subsection section-title" id="story-title">
+        {{- partial "punctuated.html" (dict "text" .) -}}
+      </h2>
+    </div>
+    {{- end }}
+    {{- with .Content }}
+    <div class="post-body content case-study-body">
+      {{ . }}
+    </div>
+    {{- end }}
+    {{- with $p.quote }}
+    <div class="case-study-column case-study-quote">
+      {{ partial "quote.html" (dict "text" .text "name" .name "role" .role "cite" .cite) }}
+    </div>
+    {{- end }}
+  {{ if $heading }}</section>{{ else }}</div>{{ end }}
+  {{- end }}
+
+  {{- with $p.cta }}
+  {{ partial "cta-band.html" (dict "id" "call" "heading" .heading "text" .text "actions" .actions) }}
+  {{- end }}
+</main>
+{{ end }}

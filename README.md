@@ -479,6 +479,52 @@ cascade:
   showPostedDate: false
 ```
 
+### Case studies
+
+Both are pages of bands, in a section `case-studies`.
+
+**A case study** (`case-studies/single.html`): the breadcrumb, a hero
+with an eyebrow, the headline, a fact strip and a picture; the problem
+and what changed in a panel; the page's text, the story, in the reading
+column under its own heading, with a quote under it; then a
+call-to-action band. Each part is in the page's front matter, and a part
+it leaves out is not shown:
+
+```yaml
+# content/case-studies/<case>.md
+linkTitle: "Client"                 # its name in the breadcrumb
+eyebrow: "Client · industry"
+heading: "The headline"             # or the title
+facts:                              # as fact-strip.html takes
+  - label: "Length"
+    value: "Six weeks"
+image: "/images/case.svg"           # with image_alt, image_width,
+image_width: 1250                   # image_height, as the hero takes
+image_height: 1000
+panel:                              # as panel.html takes
+  - label: "The problem"
+    text: "…"
+  - label: "What changed"
+    highlight: true
+    items: ["…"]
+story:
+  heading: "How it went"            # over the page's text
+quote:                              # as quote.html takes
+  text: "“…”"
+  name: "…"
+  role: "…"
+cta:                                # as cta-band.html takes
+  heading: "…"
+  text: "…"
+  actions:
+    - label: "Book a call"
+      url: "/call-me/"
+```
+
+**The list** (`case-studies/list.html`): the section's headline (its
+`heading`, or the title) and `lead` (or the description), then each case
+study as a story card, its picture, title and description, newest first.
+
 ### Google Analytics
 
 Add your google analytics ID to the `config.toml`

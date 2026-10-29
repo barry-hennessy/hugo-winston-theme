@@ -1,0 +1,40 @@
+{{- /*
+The list of case studies, a page of bands: the section's headline and
+lead, then each case study as a story card, its picture, title and
+description, a link to it. The newest first.
+
+From the section's front matter (content/<section>/_index.md):
+
+  heading: "The headline"   # the h1; or the title
+  lead: "What they are."    # in Markdown; or the description
+
+A case study's card takes its `image`, `image_alt`, `image_width` and
+`image_height`, as its hero does.
+*/ -}}
+{{ define "page_layout" }}bands{{ end }}
+{{ define "body_classes" }}page-case-study-list{{ end }}
+
+{{ define "main" }}
+<main id="main">
+  {{ partial "hero.html" (dict
+    "page" .
+    "title" (.Params.heading | default .Title)
+    "lead" (.Params.lead | default .Description)
+  ) }}
+
+  {{- $cards := slice }}
+  {{- range .Pages.ByDate.Reverse }}
+    {{- $cards = $cards | append (partial "story-card.html" (dict
+      "title" (.Params.heading | default .Title) "text" .Description "url" .RelPermalink
+      "image" .Params.image "image_alt" .Params.image_alt
+      "image_width" .Params.image_width "image_height" .Params.image_height
+      "page" . "level" 2)) }}
+  {{- end }}
+  {{- with $cards }}
+  {{ partial "section.html" (dict
+    "class" "section--flush-top"
+    "content" (printf "<div class=\"trio\">%s</div>" (delimit . "\n") | safeHTML)
+  ) }}
+  {{- end }}
+</main>
+{{ end }}
