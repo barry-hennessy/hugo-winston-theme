@@ -1,0 +1,26 @@
+{{- /*
+A page's image, as a dict of src, alt, width and height for picture.html:
+its own `image` (with `image_alt`, `image_width` and `image_height`) or,
+when it has none, the site's placeholder, so a card or a header never goes
+without one:
+
+  # config.toml
+  [params.image_fallback]
+    src = "/images/placeholder.svg"
+    width = 1600     # for an SVG or a file in static/
+    height = 900
+
+The placeholder is decoration: its alt is empty. Returns an empty dict when
+the page has no image and the site no placeholder.
+
+Arguments: the page.
+*/ -}}
+{{- $image := dict -}}
+{{- with .Params.image -}}
+  {{- $image = dict "src" . "alt" $.Params.image_alt "width" $.Params.image_width "height" $.Params.image_height -}}
+{{- else -}}
+  {{- with site.Params.image_fallback -}}
+    {{- $image = dict "src" .src "alt" "" "width" .width "height" .height -}}
+  {{- end -}}
+{{- end -}}
+{{- return $image -}}

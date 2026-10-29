@@ -440,7 +440,16 @@ read next.
 
 A post's header image is its `image`, with `image_alt` (none for
 decoration) and, for an SVG or a file in `static/`, `image_width` and
-`image_height`. The cards show it too.
+`image_height`. The cards show it too. A post without one shows the
+site's placeholder, when it sets one (`page-image.html`):
+
+```toml
+# config.toml
+[params.image_fallback]
+  src = "/images/placeholder.svg"
+  width = 1600
+  height = 900
+```
 
 The parts, each a partial with its arguments listed at its top:
 

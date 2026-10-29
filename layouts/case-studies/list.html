@@ -9,7 +9,8 @@ From the section's front matter (content/<section>/_index.md):
   lead: "What they are."    # in Markdown; or the description
 
 A case study's card takes its `image`, `image_alt`, `image_width` and
-`image_height`, as its hero does.
+`image_height`, as its hero does, or the site's placeholder
+(page-image.html).
 */ -}}
 {{ define "page_layout" }}bands{{ end }}
 {{ define "body_classes" }}page-case-study-list{{ end }}
@@ -24,10 +25,11 @@ A case study's card takes its `image`, `image_alt`, `image_width` and
 
   {{- $cards := slice }}
   {{- range .Pages.ByDate.Reverse }}
+    {{- $image := partial "page-image.html" . }}
     {{- $cards = $cards | append (partial "story-card.html" (dict
       "title" (.Params.heading | default .Title) "text" .Description "url" .RelPermalink
-      "image" .Params.image "image_alt" .Params.image_alt
-      "image_width" .Params.image_width "image_height" .Params.image_height
+      "image" $image.src "image_alt" $image.alt
+      "image_width" $image.width "image_height" $image.height
       "page" . "level" 2)) }}
   {{- end }}
   {{- with $cards }}

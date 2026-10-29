@@ -13,7 +13,7 @@ Arguments (a dict):
             once)
 
 The image is the post's `image`, with `image_alt`, `image_width` and
-`image_height`; the date is shown when the post's `showPostedDate`, or
+`image_height`, or the site's placeholder (page-image.html); the date is shown when the post's `showPostedDate`, or
 the site's, says so.
 */ -}}
 {{- $page := .page -}}
@@ -43,14 +43,14 @@ the site's, says so.
     <p class="post-standfirst">{{ . }}</p>
     {{- end }}
   </div>
-  {{- with $page.Params.image }}
+  {{- with partial "page-image.html" $page }}
   <div class="post-image">
     {{- partial "picture.html" (dict
-      "src" .
-      "alt" $page.Params.image_alt
+      "src" .src
+      "alt" .alt
       "page" $page
-      "width" $page.Params.image_width
-      "height" $page.Params.image_height
+      "width" .width
+      "height" .height
       "sizes" "(min-width: 1040px) 992px, 100vw"
       "eager" (ne $.eager false)
     ) }}

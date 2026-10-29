@@ -6,8 +6,8 @@ larger, on the surface colour, with the image beside the text from the
 medium breakpoint (992px) up.
 
 The image is the post's `image`, with `image_alt`, `image_width` and
-`image_height` (as picture.html takes them); with none the card has no
-picture. The date is shown when the post's `showPostedDate`, or the
+`image_height` (as picture.html takes them); with none, the site's
+placeholder (page-image.html), and without that no picture. The date is shown when the post's `showPostedDate`, or the
 site's, says so.
 
 Arguments (a dict):
@@ -30,14 +30,14 @@ Arguments (a dict):
       (cond (isset $page.Params "showposteddate") $page.Params.showPostedDate site.Params.showPostedDate) -}}
 {{- $sizes := .sizes | default (cond .featured "(min-width: 1240px) 600px, (min-width: 992px) 50vw, 100vw" "(min-width: 1240px) 380px, (min-width: 992px) 30vw, (min-width: 767px) 45vw, 100vw") -}}
 <article class="post-card{{ if .featured }} post-card--featured{{ end }}{{ with .class }} {{ . }}{{ end }}">
-  {{- with $page.Params.image }}
+  {{- with partial "page-image.html" $page }}
   <div class="post-card-image">
     {{- partial "picture.html" (dict
-      "src" .
-      "alt" $page.Params.image_alt
+      "src" .src
+      "alt" .alt
       "page" $page
-      "width" $page.Params.image_width
-      "height" $page.Params.image_height
+      "width" .width
+      "height" .height
       "sizes" $sizes
       "eager" $.eager
     ) }}
