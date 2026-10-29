@@ -1,7 +1,12 @@
+{{ define "page_layout" }}bands{{ end }}
 {{ define "body_classes" }}page-docs{{ end }}
 
 {{ define "main" }}
 <main id="main">
-  {{ partial "docs/page.html" . }}
+  <div class="section post-list">
+    <div class="page-width">
+      {{ partial "docs/page.html" . }}
+    </div>
+  </div>
 </main>
 {{ end }}

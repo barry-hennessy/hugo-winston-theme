@@ -191,7 +191,8 @@ Every list page is a page of bands: the list of posts, a tag's page,
 case studies and `_default/list.html`, which a project's page and the
 list of projects use. That one lists a page's own pages, and with
 `pages_sections` its sections and its documentation, as bands of cards
-under its text. Single pages, the documentation and 404 are framed.
+under its text. Documentation is one too: its page at the reading width,
+its rail at the content's right edge. Single pages and 404 are framed.
 
 `baseof.html` sets `layout-framed` or `layout-bands` on the `body`. A site
 with its own `baseof.html` adds the block to its `body` the same way; until

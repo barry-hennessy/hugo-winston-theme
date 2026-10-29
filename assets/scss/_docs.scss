@@ -4,15 +4,18 @@
 }
 
 .docs {
-  margin-bottom: 60px;
-
-  // The page keeps the place and width of every other page's body; the
-  // rail sits in the space to its right.
+  // The page sits where every other page's text does, at the reading
+  // width; the rail at the content's right edge.
   @include breakpoint('medium') {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 240px;
+    grid-template-columns: minmax(0, var(--reading-width)) 240px;
+    justify-content: space-between;
     gap: 60px;
     align-items: start;
+  }
+
+  .docs-title {
+    margin-bottom: 32px;
   }
 
   .docs-rail {
