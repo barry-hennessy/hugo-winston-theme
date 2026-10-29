@@ -46,6 +46,9 @@ ul {
 
 .content {
   font-size: 18px;
+  // A word longer than the line, such as a long compound in German or a
+  // URL, breaks rather than pushing the page wider than a phone.
+  overflow-wrap: break-word;
   p {
     font-size: 18px;
     line-height: 1.6;
